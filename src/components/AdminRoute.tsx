@@ -5,7 +5,7 @@ interface AdminRouteProps {
   children: React.ReactNode;
 }
 
-const ADMIN_EMAIL = "juninho.caxto@gmail.com";
+const ADMIN_EMAIL = "gueduardo30@hotmail.com";
 
 export function AdminRoute({ children }: AdminRouteProps) {
   const { user, loading } = useAuth();
