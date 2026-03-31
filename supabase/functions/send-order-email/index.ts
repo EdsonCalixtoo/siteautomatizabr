@@ -19,145 +19,106 @@ serve(async (req: Request) => {
     try {
         // @ts-ignore: Deno global
         const resendApiKey = Deno.env.get('RESEND_API_KEY')
-        if (!resendApiKey) {
-            console.error('RESEND_API_KEY is missing')
-            return json({ error: 'Configuração inválida do servidor' }, 500)
-        }
-
         const resend = new Resend(resendApiKey)
         const { order, type } = await req.json()
 
-        if (!order || !type) {
-            return json({ error: 'Dados insuficientes' }, 400)
-        }
-
-        console.log(`Enviando e-mail do tipo "${type}" para ${order.cliente_email}...`)
-
-        // Fallback para nome caso esteja vazio
-        const primeironome = order.cliente_nome ? order.cliente_nome.split(' ')[0] : 'Cliente';
-        const logoUrl = "https://grupoautomatiza.com.br/logo.jpg";
+        const siteUrl = "https://grupoautomatiza.com.br";
+        const logoUrl = `${siteUrl}/logo.jpg`;
         const primaryColor = "#0891b2"; 
+        const primeironome = order.cliente_nome ? order.cliente_nome.split(' ')[0] : 'Cliente';
 
         const itemsHtml = (order.itens || []).map((item: any) => `
             <tr>
-                <td style="padding: 12px 0; border-bottom: 1px solid #f1f5f9; color: #1e293b; font-size: 14px;">${item.name || 'Produto'}</td>
-                <td style="padding: 12px 10px; border-bottom: 1px solid #f1f5f9; text-align: center; color: #64748b; font-size: 14px;">${item.quantity || 1}x</td>
-                <td style="padding: 12px 0; border-bottom: 1px solid #f1f5f9; text-align: right; font-weight: 600; color: #1e293b; font-size: 14px;">R$ ${(item.price || 0).toFixed(2)}</td>
+                <td style="padding: 15px 0; border-bottom: 1px solid #f1f5f9;">
+                    <div style="font-weight: 600; color: #1e293b; font-size: 15px;">${item.name}</div>
+                    <div style="font-size: 13px; color: #64748b;">Quantidade: ${item.quantity}</div>
+                </td>
+                <td style="padding: 15px 0; border-bottom: 1px solid #f1f5f9; text-align: right; font-weight: 700; color: #1e293b; font-size: 15px;">
+                    R$ ${(item.price || 0).toFixed(2)}
+                </td>
             </tr>
         `).join('')
 
-        const baseStyles = `
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #334155;
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        `;
-
-        const headerHtml = `
-            <div style="background: linear-gradient(135deg, ${primaryColor} 0%, #0e7490 100%); padding: 40px 20px; text-align: center;">
-                <img src="${logoUrl}" alt="Automatiza" style="height: 60px; margin-bottom: 20px;" />
-            </div>
-        `;
-
         const footerHtml = `
-            <div style="background-color: #f8fafc; padding: 40px 20px; text-align: center; border-top: 1px solid #f1f5f9;">
-                <p style="margin: 0 0 10px; font-weight: 700; color: #1e293b; font-size: 14px;">Automatiza Kits e Acessórios</p>
-                <p style="margin: 0 0 20px; color: #64748b; font-size: 12px;">R. Dr. Élton César, 910 - Campinas, SP</p>
-                <div style="margin-bottom: 25px;">
-                    <a href="https://wa.me/5519989429872" style="background-color: #22c55e; color: white; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-block;">Falar no WhatsApp</a>
+            <div style="padding: 40px 20px; text-align: center; background: #ffffff;">
+                <div style="margin-bottom: 20px;">
+                    <a href="https://wa.me/5519989429872" style="display: inline-block; padding: 12px 24px; background: #22c55e; color: white; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 14px;">Chamar no WhatsApp</a>
                 </div>
-                <p style="margin: 0; color: #94a3b8; font-size: 11px;">© 2026 Automatiza. Todos os direitos reservados.</p>
+                <p style="margin: 0; color: #94a3b8; font-size: 12px;">© 2026 Automatiza Kits e Acessórios</p>
+                <p style="margin: 5px 0 0; color: #cbd5e1; font-size: 11px;">R. Dr. Élton César, 910 - Campinas, SP</p>
             </div>
         `;
 
         let subject = "";
         let contentHtml = "";
 
-        // Usando onboarding@resend.dev para garantir a entrega durante os testes
-        const fromEmail = "Automatiza <onboarding@resend.dev>";
-
         switch (type) {
             case 'novo_pedido':
-                await resend.emails.send({
-                    from: fromEmail,
-                    to: ['juninho.caxto@gmail.com'],
-                    subject: `🔔 NOVO PEDIDO: #${order.id.slice(0, 8)}`,
-                    html: `
-                        <div style="${baseStyles}">
-                            ${headerHtml}
-                            <div style="padding: 40px;">
-                                <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 22px;">Novo Pedido Recebido! 🛍️</h1>
-                                <p style="margin-bottom: 24px;">Um novo pedido acaba de entrar no sistema.</p>
-                                <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #e2e8f0;">
-                                    <p style="margin: 0 0 8px;"><strong>Cliente:</strong> ${order.cliente_nome}</p>
-                                    <p style="margin: 0 0 8px;"><strong>Total:</strong> R$ ${(order.total || 0).toFixed(2)}</p>
-                                </div>
-                                <table style="width: 100%; border-collapse: collapse;">${itemsHtml}</table>
-                                <div style="margin-top: 30px; text-align: center;">
-                                    <a href="https://automatiza1.vercel.app/admin/pedidos" style="background: ${primaryColor}; color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; display: inline-block;">Ver Painel Admin</a>
-                                </div>
-                            </div>
-                            ${footerHtml}
-                        </div>
-                    `
-                });
-
-                subject = `Seu pedido #${order.id.slice(0, 8)} foi recebido! 🙌`;
+                subject = `Seu pedido #${order.id.slice(0, 8)} está sendo processado!`;
                 contentHtml = `
-                    <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; text-align: center;">Pedido Recebido!</h1>
-                    <p style="margin-bottom: 30px; text-align: center; color: #64748b;">Olá, ${primeironome}! Recebemos seu pedido de <strong>${order.id.slice(0, 8)}</strong>.</p>
-                    <div style="background: #fdfaf3; border: 1px solid #fef3c7; border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 32px;">
-                        <span style="font-size: 14px; color: #92400e; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">Aguardando Pagamento</span>
+                    <div style="text-align: center; padding-bottom: 30px;">
+                        <h1 style="margin: 0; font-size: 28px; color: #1e293b; letter-spacing: -0.02em;">Pedido Recebido</h1>
+                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">Olá, ${primeironome}. Recebemos sua solicitação!</p>
                     </div>
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">${itemsHtml}</table>
+                    
+                    <div style="background: #f8fafc; border-radius: 20px; padding: 30px; margin-bottom: 30px; border: 1px solid #f1f5f9;">
+                        <div style="text-align: center; margin-bottom: 25px;">
+                            <span style="background: #fef3c7; color: #92400e; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Aguardando Pagamento</span>
+                        </div>
+                        <table style="width: 100%; border-collapse: collapse;">${itemsHtml}</table>
+                        <div style="margin-top: 25px; padding-top: 25px; border-top: 2px solid #ffffff; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 600; color: #64748b;">Total do Pedido</span>
+                            <span style="font-weight: 800; color: #1e293b; font-size: 22px;">R$ ${order.total.toFixed(2)}</span>
+                        </div>
+                    </div>
+
                     <div style="text-align: center;">
-                        <a href="https://automatiza1.vercel.app/finalizar-pagamento?orderId=${order.id}" style="background: linear-gradient(135deg, ${primaryColor} 0%, #0e7490 100%); color: white; padding: 18px 40px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 16px; display: inline-block;">Pagar Agora</a>
+                        <a href="${siteUrl}/finalizar-pagamento?orderId=${order.id}" style="display: inline-block; background: #0891b2; color: white; padding: 20px 45px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 10px 20px rgba(8, 145, 178, 0.2);">Pagar Agora</a>
+                        <p style="margin-top: 20px; font-size: 13px; color: #94a3b8;">Clique acima para escolher a forma de pagamento.</p>
                     </div>
                 `;
                 break;
 
             case 'pagamento_aprovado':
-                subject = `Pagamento Confirmado! Pedido #${order.id.slice(0, 8)} 💳`;
+                subject = `Pagamento Confirmado! Pedido #${order.id.slice(0, 8)}`;
                 contentHtml = `
-                    <h1 style="margin: 0 0 16px; color: #059669; font-size: 24px; text-align: center;">Pagamento Aprovado!</h1>
-                    <p style="margin-bottom: 30px; text-align: center; color: #64748b;">Tudo certo, ${primeironome}! Seu pagamento foi confirmado e seu pedido já está na fila.</p>
+                    <div style="text-align: center; padding-bottom: 30px;">
+                        <div style="margin-bottom: 20px; display: inline-block; background: #f0fdf4; padding: 15px; border-radius: 50%;">✅</div>
+                        <h1 style="margin: 0; font-size: 28px; color: #1e293b;">Pagamento Aprovado</h1>
+                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">${primeironome}, seu pagamento foi confirmado com sucesso!</p>
+                    </div>
+                    <div style="background: #f0fdf4; border-radius: 20px; padding: 30px; margin-bottom: 30px; border: 1px solid #bbf7d0; text-align: center;">
+                        <p style="margin: 0; color: #166534; font-weight: 600;">Seu pedido já entrou na fila de preparação e em breve estará em suas mãos.</p>
+                    </div>
                     <div style="text-align: center;">
-                        <a href="https://automatiza1.vercel.app/rastrear-pedido?id=${order.id}" style="background: #059669; color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; display: inline-block;">Acompanhar Pedido</a>
+                        <a href="${siteUrl}/rastrear-pedido?id=${order.id}" style="display: inline-block; background: #166534; color: white; padding: 18px 40px; border-radius: 15px; text-decoration: none; font-weight: 700;">Acompanhar Pedido</a>
                     </div>
                 `;
                 break;
-            
-            case 'producao':
-                subject = `Pedido #${order.id.slice(0, 8)} entrou em produção! 🛠️`;
-                contentHtml = `
-                    <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; text-align: center;">Em Produção</h1>
-                    <p style="margin-bottom: 30px; text-align: center; color: #64748b;">Olá, ${primeironome}! Seus kits estão sendo preparados agora mesmo.</p>
-                `;
-                break;
 
-            case 'retirado':
-                subject = `Pedido #${order.id.slice(0, 8)} está a caminho! 🚚`;
+            case 'producao':
+                subject = `Seu pedido #${order.id.slice(0, 8)} está em produção!`;
                 contentHtml = `
-                    <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; text-align: center;">Pedido Enviado!</h1>
-                    <p style="margin-bottom: 30px; text-align: center; color: #64748b;">Seu pedido foi coletado e já está a caminho!</p>
+                    <div style="text-align: center; padding-bottom: 30px;">
+                        <div style="margin-bottom: 20px; display: inline-block; background: #eff6ff; padding: 15px; border-radius: 50%;">🛠️</div>
+                        <h1 style="margin: 0; font-size: 28px; color: #1e293b;">Em Produção</h1>
+                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">Estamos preparando seus produtos com todo cuidado.</p>
+                    </div>
                 `;
                 break;
         }
 
         if (contentHtml) {
             await resend.emails.send({
-                from: fromEmail,
+                from: 'Automatiza <onboarding@resend.dev>',
                 to: [order.cliente_email],
                 subject: subject,
                 html: `
-                    <div style="background-color: #f1f5f9; padding: 40px 20px;">
-                        <div style="${baseStyles}">
-                            ${headerHtml}
+                    <div style="background-color: #f1f5f9; padding: 60px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                        <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);">
+                            <div style="padding: 40px 20px; text-align: center; background: white; border-bottom: 1px solid #f8fafc;">
+                                <img src="${logoUrl}" alt="Automatiza" style="height: 60px;" />
+                            </div>
                             <div style="padding: 40px;">
                                 ${contentHtml}
                             </div>
