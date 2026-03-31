@@ -52,8 +52,37 @@ serve(async (req: Request) => {
         let subject = "";
         let contentHtml = "";
 
+        // Usar onboarding durante testes para garantir entrega
+        const fromEmail = "Automatiza <onboarding@resend.dev>";
+
         switch (type) {
             case 'novo_pedido':
+                // Notificação para os ADMINS
+                await resend.emails.send({
+                    from: fromEmail,
+                    to: ['juninho.caxto@gmail.com', 'gueduardo30@hotmail.com'],
+                    subject: `🔔 NOVO PEDIDO: #${order.id.slice(0, 8)}`,
+                    html: `
+                        <div style="font-family: sans-serif; background: #f1f5f9; padding: 40px 20px;">
+                            <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                                <div style="padding: 32px; text-align: center;">
+                                    <img src="${logoUrl}" alt="Logo" style="height: 50px;" />
+                                </div>
+                                <div style="padding: 32px;">
+                                    <h2 style="color: #1e293b; margin-top: 0;">Novo Pedido Recebido!</h2>
+                                    <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin: 20px 0;">
+                                        <p style="margin: 0 0 8px;"><strong>Cliente:</strong> ${order.cliente_nome}</p>
+                                        <p style="margin: 0 0 8px;"><strong>E-mail:</strong> ${order.cliente_email}</p>
+                                        <p style="margin: 0;"><strong>Total:</strong> R$ ${order.total.toFixed(2)}</p>
+                                    </div>
+                                    <a href="${siteUrl}/admin/pedidos" style="display: block; text-align: center; background: #0891b2; color: white; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: bold;">Ver no Painel Admin</a>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                });
+
+                // E-mail para o Cliente
                 subject = `Seu pedido #${order.id.slice(0, 8)} está sendo processado!`;
                 contentHtml = `
                     <div style="text-align: center; padding-bottom: 30px;">
@@ -66,7 +95,7 @@ serve(async (req: Request) => {
                             <span style="background: #fef3c7; color: #92400e; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Aguardando Pagamento</span>
                         </div>
                         <table style="width: 100%; border-collapse: collapse;">${itemsHtml}</table>
-                        <div style="margin-top: 25px; padding-top: 25px; border-top: 2px solid #ffffff; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="margin-top: 25px; border-top: 2px solid #ffffff; display: flex; justify-content: space-between; align-items: center; padding-top: 20px;">
                             <span style="font-weight: 600; color: #64748b;">Total do Pedido</span>
                             <span style="font-weight: 800; color: #1e293b; font-size: 22px;">R$ ${order.total.toFixed(2)}</span>
                         </div>
@@ -74,7 +103,6 @@ serve(async (req: Request) => {
 
                     <div style="text-align: center;">
                         <a href="${siteUrl}/finalizar-pagamento?orderId=${order.id}" style="display: inline-block; background: #0891b2; color: white; padding: 20px 45px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 10px 20px rgba(8, 145, 178, 0.2);">Pagar Agora</a>
-                        <p style="margin-top: 20px; font-size: 13px; color: #94a3b8;">Clique acima para escolher a forma de pagamento.</p>
                     </div>
                 `;
                 break;
@@ -85,24 +113,10 @@ serve(async (req: Request) => {
                     <div style="text-align: center; padding-bottom: 30px;">
                         <div style="margin-bottom: 20px; display: inline-block; background: #f0fdf4; padding: 15px; border-radius: 50%;">✅</div>
                         <h1 style="margin: 0; font-size: 28px; color: #1e293b;">Pagamento Aprovado</h1>
-                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">${primeironome}, seu pagamento foi confirmado com sucesso!</p>
-                    </div>
-                    <div style="background: #f0fdf4; border-radius: 20px; padding: 30px; margin-bottom: 30px; border: 1px solid #bbf7d0; text-align: center;">
-                        <p style="margin: 0; color: #166534; font-weight: 600;">Seu pedido já entrou na fila de preparação e em breve estará em suas mãos.</p>
+                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">${primeironome}, seu pagamento foi confirmado!</p>
                     </div>
                     <div style="text-align: center;">
                         <a href="${siteUrl}/rastrear-pedido?id=${order.id}" style="display: inline-block; background: #166534; color: white; padding: 18px 40px; border-radius: 15px; text-decoration: none; font-weight: 700;">Acompanhar Pedido</a>
-                    </div>
-                `;
-                break;
-
-            case 'producao':
-                subject = `Seu pedido #${order.id.slice(0, 8)} está em produção!`;
-                contentHtml = `
-                    <div style="text-align: center; padding-bottom: 30px;">
-                        <div style="margin-bottom: 20px; display: inline-block; background: #eff6ff; padding: 15px; border-radius: 50%;">🛠️</div>
-                        <h1 style="margin: 0; font-size: 28px; color: #1e293b;">Em Produção</h1>
-                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">Estamos preparando seus produtos com todo cuidado.</p>
                     </div>
                 `;
                 break;
@@ -110,7 +124,7 @@ serve(async (req: Request) => {
 
         if (contentHtml) {
             await resend.emails.send({
-                from: 'Automatiza <onboarding@resend.dev>',
+                from: fromEmail,
                 to: [order.cliente_email],
                 subject: subject,
                 html: `
