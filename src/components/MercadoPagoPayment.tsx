@@ -133,6 +133,13 @@ export function MercadoPagoPayment({
                     ? Number((document.getElementById("mp-card-installments") as HTMLSelectElement)?.value || 1)
                     : 1;
 
+            // 1. Atualizar o método de pagamento no banco antes de processar
+            await supabase
+                .from("pedidos")
+                .update({ metodo_pagamento: type === "pix" ? "pix" : "cartao" })
+                .eq("id", externalReference);
+
+            // 2. Chamar a função de pagamento
             const { data, error } = await supabase.functions.invoke("mercadopago-payment", {
                 body: {
                     payment_type: type,

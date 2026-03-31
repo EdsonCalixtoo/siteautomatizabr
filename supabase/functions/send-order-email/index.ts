@@ -33,134 +33,162 @@ serve(async (req: Request) => {
 
         console.log(`Enviando e-mail do tipo "${type}" para ${order.cliente_email}...`)
 
-        let subject = ""
-        let html = ""
+        const logoUrl = "https://grupoautomatiza.com.br/logo.jpg";
+        const primaryColor = "#0891b2"; // Ciano escuro elegante
 
         const itemsHtml = order.itens.map((item: any) => `
             <tr>
-                <td style="padding: 12px 0; border-bottom: 1px solid #f1f5f9; color: #1e293b;">${item.name}</td>
-                <td style="padding: 12px 10px; border-bottom: 1px solid #f1f5f9; text-align: center; color: #64748b;">${item.quantity}x</td>
-                <td style="padding: 12px 0; border-bottom: 1px solid #f1f5f9; text-align: right; font-weight: 600; color: #1e293b;">R$ ${item.price.toFixed(2)}</td>
+                <td style="padding: 12px 0; border-bottom: 1px solid #f1f5f9; color: #1e293b; font-size: 14px;">${item.name}</td>
+                <td style="padding: 12px 10px; border-bottom: 1px solid #f1f5f9; text-align: center; color: #64748b; font-size: 14px;">${item.quantity}x</td>
+                <td style="padding: 12px 0; border-bottom: 1px solid #f1f5f9; text-align: right; font-weight: 600; color: #1e293b; font-size: 14px;">R$ ${item.price.toFixed(2)}</td>
             </tr>
         `).join('')
 
-        const footer = `
-            <div style="background-color: #f8fafc; padding: 32px; text-align: center; color: #94a3b8; font-size: 12px; border-top: 1px solid #f1f5f9;">
-                <p style="margin: 0 0 8px; font-weight: bold; color: #64748b;">Automatiza Kits e Acessórios</p>
-                <p style="margin: 0 0 16px;">R. Dr. Élton César, 910 - Campinas, SP</p>
-                <div style="margin-bottom: 16px;">
-                  <a href="https://automatiza1.vercel.app" style="color: #0891b2; text-decoration: none; margin: 0 10px;">Site</a>
-                  <a href="https://wa.me/5519989429872" style="color: #0891b2; text-decoration: none; margin: 0 10px;">WhatsApp</a>
-                </div>
-                <p style="margin: 0; opacity: 0.6;">© 2026 Automatiza. Todos os direitos reservados.</p>
+        const baseStyles = `
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        `;
+
+        const headerHtml = `
+            <div style="background: linear-gradient(135deg, ${primaryColor} 0%, #0e7490 100%); padding: 40px 20px; text-align: center;">
+                <img src="${logoUrl}" alt="Automatiza" style="height: 60px; margin-bottom: 20px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));" />
             </div>
-        `
+        `;
 
-        const logoUrl = "https://grupoautomatiza.com.br/logo.jpg";
+        const footerHtml = `
+            <div style="background-color: #f8fafc; padding: 40px 20px; text-align: center; border-top: 1px solid #f1f5f9;">
+                <p style="margin: 0 0 10px; font-weight: 700; color: #1e293b; font-size: 14px;">Automatiza Kits e Acessórios</p>
+                <p style="margin: 0 0 20px; color: #64748b; font-size: 12px;">R. Dr. Élton César, 910 - Campinas, SP</p>
+                <div style="margin-bottom: 25px;">
+                    <a href="https://wa.me/5519989429872" style="background-color: #22c55e; color: white; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-block;">Falar no WhatsApp</a>
+                </div>
+                <p style="margin: 0; color: #94a3b8; font-size: 11px;">© 2026 Automatiza. Todos os direitos reservados.</p>
+            </div>
+        `;
 
-        if (type === 'novo_pedido') {
-          // E-mail para o ADMIN
-          await resend.emails.send({
-            from: 'Automatiza <vendas@grupoautomatiza.com.br>',
-            to: ['juninho.caxto@gmail.com'],
-            subject: `🔔 NOVO PEDIDO: #${order.id.slice(0, 8)}`,
-            html: `
-              <div style="font-family: sans-serif; background: #f1f5f9; padding: 40px 20px;">
-                <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                  <div style="padding: 32px; text-align: center; border-bottom: 1px solid #f1f5f9;">
-                    <img src="${logoUrl}" alt="Logo" style="height: 50px;" />
-                  </div>
-                  <div style="padding: 32px;">
-                    <h2 style="color: #1e293b; margin-top: 0;">Novo Pedido Recebido! 🛍️</h2>
-                    <p style="color: #64748b;">Um novo pedido acaba de ser realizado no site.</p>
-                    <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin: 24px 0;">
-                      <p style="margin: 0 0 8px;"><strong>Cliente:</strong> ${order.cliente_nome}</p>
-                      <p style="margin: 0 0 8px;"><strong>E-mail:</strong> ${order.cliente_email}</p>
-                      <p style="margin: 0 0 8px;"><strong>Valor:</strong> R$ ${order.total.toFixed(2)}</p>
-                      <p style="margin: 0;"><strong>Status:</strong> ${order.status}</p>
+        let subject = "";
+        let contentHtml = "";
+
+        switch (type) {
+            case 'novo_pedido':
+                // Notificação para o Administrador
+                await resend.emails.send({
+                    from: 'Automatiza <vendas@grupoautomatiza.com.br>',
+                    to: ['juninho.caxto@gmail.com'],
+                    subject: `🔔 NOVO PEDIDO: #${order.id.slice(0, 8)}`,
+                    html: `
+                        <div style="${baseStyles}">
+                            ${headerHtml}
+                            <div style="padding: 40px;">
+                                <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 22px;">Novo Pedido Recebido! 🛍️</h1>
+                                <p style="margin-bottom: 24px;">Um novo pedido acaba de entrar no sistema. Confira os detalhes abaixo:</p>
+                                <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #e2e8f0;">
+                                    <p style="margin: 0 0 8px;"><strong>Cliente:</strong> ${order.cliente_nome}</p>
+                                    <p style="margin: 0 0 8px;"><strong>E-mail:</strong> ${order.cliente_email}</p>
+                                    <p style="margin: 0 0 8px;"><strong>Total:</strong> R$ ${order.total.toFixed(2)}</p>
+                                    <p style="margin: 0;"><strong>Método:</strong> ${order.metodo_pagamento.toUpperCase()}</p>
+                                </div>
+                                <table style="width: 100%; border-collapse: collapse;">${itemsHtml}</table>
+                                <div style="margin-top: 30px; text-align: center;">
+                                    <a href="https://automatiza1.vercel.app/admin/pedidos" style="background: ${primaryColor}; color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; display: inline-block;">Ver no Painel Admin</a>
+                                </div>
+                            </div>
+                            ${footerHtml}
+                        </div>
+                    `
+                });
+
+                // E-mail para o Cliente (Aguardando Pagamento)
+                subject = `Seu pedido #${order.id.slice(0, 8)} foi recebido! 🙌`;
+                contentHtml = `
+                    <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; text-align: center;">Pedido Recebido!</h1>
+                    <p style="margin-bottom: 30px; text-align: center; color: #64748b;">Olá, ${order.cliente_nome.split(' ')[0]}! Estamos processando seu pedido de <strong>${order.id.slice(0, 8)}</strong>.</p>
+                    <div style="background: #fdfaf3; border: 1px solid #fef3c7; border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 32px;">
+                        <span style="font-size: 14px; color: #92400e; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">Aguardando Pagamento</span>
+                        <p style="margin: 0; color: #b45309; font-size: 15px;">Assim que o pagamento for confirmado, iniciaremos a preparação dos seus kits.</p>
                     </div>
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
-                      ${itemsHtml}
-                    </table>
-                    <a href="https://automatiza1.vercel.app/admin/pedidos" style="display: block; text-align: center; background: #0891b2; color: white; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: bold;">Ver no Painel Admin</a>
-                  </div>
-                </div>
-              </div>
-            `,
-          })
-
-          // E-mail para o CLIENTE (Aguardando Pagamento)
-          subject = `Aguardando Pagamento: Pedido #${order.id.slice(0, 8)}`
-          html = `
-            <div style="font-family: sans-serif; background: #f1f5f9; padding: 40px 20px;">
-              <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
-                  <div style="padding: 32px; text-align: center; border-bottom: 1px solid #f1f5f9;">
-                      <img src="${logoUrl}" alt="Logo" style="height: 60px;" />
-                  </div>
-                  <div style="padding: 32px;">
-                      <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; text-align: center;">Pedido Recebido! 🎉</h1>
-                      <p style="color: #64748b; line-height: 1.6; text-align: center;">Olá, ${order.cliente_nome.split(' ')[0]}! Recebemos seu pedido <strong>#${order.id.slice(0, 8)}</strong> com sucesso.</p>
-                      
-                      <div style="margin: 32px 0; padding: 24px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0;">
-                        <h3 style="margin-top: 0; color: #0891b2; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Resumo da Compra</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                          ${itemsHtml}
-                        </table>
-                        <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid #e2e8f0; display: flex; justify-content: space-between;">
-                          <span style="font-weight: bold; color: #1e293b;">Total:</span>
-                          <span style="font-weight: 800; color: #0891b2; font-size: 20px;">R$ ${order.total.toFixed(2)}</span>
+                    <h3 style="color: #1e293b; font-size: 16px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 15px;">Resumo dos Itens</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">${itemsHtml}</table>
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 32px;">
+                        <div style="display: flex; justify-content: space-between; font-weight: 800; color: ${primaryColor}; font-size: 18px;">
+                            <span>Total a Pagar:</span>
+                            <span>R$ ${order.total.toFixed(2)}</span>
                         </div>
-                      </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <a href="https://automatiza1.vercel.app/finalizar-pagamento?orderId=${order.id}" style="background: linear-gradient(135deg, ${primaryColor} 0%, #0e7490 100%); color: white; padding: 18px 40px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 16px; display: inline-block; box-shadow: 0 10px 15px -3px rgba(8, 145, 178, 0.3);">Pagar Agora</a>
+                    </div>
+                `;
+                break;
 
-                      <div style="text-align: center;">
-                          <p style="color: #64748b; font-size: 14px; margin-bottom: 24px;">Estamos aguardando a confirmação do pagamento para iniciar o seu envio.</p>
-                          <a href="https://automatiza1.vercel.app/finalizar-pagamento?orderId=${order.id}" style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color: white; padding: 18px 32px; border-radius: 12px; text-decoration: none; font-weight: bold; display: inline-block; box-shadow: 0 4px 6px rgba(8, 145, 178, 0.2);">Finalizar Pagamento Agora</a>
-                      </div>
-                  </div>
-                  ${footer}
-              </div>
-            </div>
-          `
-        } else if (type === 'pagamento_aprovado') {
-          subject = `Pagamento Aprovado! Pedido #${order.id.slice(0, 8)}`
-          html = `
-            <div style="font-family: sans-serif; background: #f1f5f9; padding: 40px 20px;">
-              <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
-                  <div style="padding: 32px; text-align: center; border-bottom: 1px solid #f1f5f9;">
-                      <img src="${logoUrl}" alt="Logo" style="height: 60px;" />
-                  </div>
-                  <div style="padding: 32px;">
-                      <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; text-align: center;">Tudo certo! 🚀</h1>
-                      <p style="color: #64748b; line-height: 1.6; text-align: center;">Olá, ${order.cliente_nome.split(' ')[0]}! Seu pagamento foi <strong>aprovado</strong> e seu pedido já está sendo preparado.</p>
-                      
-                      <div style="margin: 32px 0; padding: 24px; background: #f0fdf4; border-radius: 16px; border: 1px solid #bbf7d0;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                          ${itemsHtml}
-                        </table>
-                        <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid #bbf7d0; display: flex; justify-content: space-between;">
-                          <span style="font-weight: bold; color: #1e293b;">Total Pago:</span>
-                          <span style="font-weight: 800; color: #15803d; font-size: 20px;">R$ ${order.total.toFixed(2)}</span>
+            case 'pagamento_aprovado':
+                subject = `Pagamento Confirmado! Pedido #${order.id.slice(0, 8)} 💳`;
+                contentHtml = `
+                    <h1 style="margin: 0 0 16px; color: #059669; font-size: 24px; text-align: center;">Pagamento Aprovado!</h1>
+                    <p style="margin-bottom: 30px; text-align: center; color: #64748b;">Tudo certo, ${order.cliente_nome.split(' ')[0]}! Seu pagamento foi confirmado e seu pedido já está na fila de processamento.</p>
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 32px;">
+                        <p style="margin: 0; color: #15803d; font-weight: 600;">O próximo passo é a **produção**. Você receberá um novo e-mail assim que seus kits forem preparados.</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <a href="https://automatiza1.vercel.app/rastrear-pedido?id=${order.id}" style="background: #059669; color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; display: inline-block;">Acompanhar Pedido</a>
+                    </div>
+                `;
+                break;
+
+            case 'producao':
+                subject = `Pedido #${order.id.slice(0, 8)} entrou em produção! 🛠️`;
+                contentHtml = `
+                    <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; text-align: center;">Em Produção</h1>
+                    <p style="margin-bottom: 30px; text-align: center; color: #64748b;">Boas notícias! Seus kits estão sendo preparados e testados pela nossa equipe agora mesmo.</p>
+                    <div style="text-align: center; margin: 40px 0;">
+                        <div style="display: inline-block; background: #e0f2fe; padding: 20px; border-radius: 50%; margin-bottom: 15px;">
+                            <span style="font-size: 40px;">🛠️</span>
                         </div>
-                      </div>
+                    </div>
+                    <p style="text-align: center; color: #64748b;">Garantimos o máximo de qualidade em cada detalhe. Assim que estiver pronto para envio, te avisaremos!</p>
+                `;
+                break;
 
-                      <div style="text-align: center;">
-                          <p style="color: #64748b; font-size: 14px; margin-bottom: 24px;">Em breve enviaremos o código de rastreio para você acompanhar a entrega.</p>
-                          <a href="https://automatiza1.vercel.app/rastrear-pedido?id=${order.id}" style="background: #15803d; color: white; padding: 18px 32px; border-radius: 12px; text-decoration: none; font-weight: bold; display: inline-block;">Acompanhar Meu Pedido</a>
-                      </div>
-                  </div>
-                  ${footer}
-              </div>
-            </div>
-          `
+            case 'retirado':
+                subject = `Pedido #${order.id.slice(0, 8)} está a caminho! 🚚`;
+                contentHtml = `
+                    <h1 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; text-align: center;">Pedido Enviado!</h1>
+                    <p style="margin-bottom: 30px; text-align: center; color: #64748b;">Seu pedido foi retirado pela transportadora e já está a caminho do seu endereço.</p>
+                    <div style="background: #f8fafc; border-radius: 16px; padding: 30px; text-align: center; margin-bottom: 32px; border: 2px dashed #cbd5e1;">
+                        <span style="font-size: 40px; display: block; margin-bottom: 10px;">🚚</span>
+                        <p style="margin: 0; color: #1e293b; font-weight: 700;">Em breve você poderá rastrear o trajeto exato.</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <a href="https://automatiza1.vercel.app/rastrear-pedido?id=${order.id}" style="background: ${primaryColor}; color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; display: inline-block;">Rastrear nos Correios/Transportadora</a>
+                    </div>
+                `;
+                break;
         }
 
-        if (html) {
-          await resend.emails.send({
-            from: 'Automatiza <vendas@grupoautomatiza.com.br>',
-            to: [order.cliente_email],
-            subject: subject,
-            html: html,
-          })
+        if (contentHtml) {
+            await resend.emails.send({
+                from: 'Automatiza <vendas@grupoautomatiza.com.br>',
+                to: [order.cliente_email],
+                subject: subject,
+                html: `
+                    <div style="background-color: #f1f5f9; padding: 40px 20px;">
+                        <div style="${baseStyles}">
+                            ${headerHtml}
+                            <div style="padding: 40px;">
+                                ${contentHtml}
+                            </div>
+                            ${footerHtml}
+                        </div>
+                    </div>
+                `
+            });
         }
 
         return json({ success: true })
