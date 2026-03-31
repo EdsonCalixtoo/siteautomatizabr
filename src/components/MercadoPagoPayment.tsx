@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { initMercadoPago } from "@mercadopago/sdk-react";
 import { supabase } from "@/lib/supabase";
 import { CreditCard, Loader, AlertCircle } from "lucide-react";
 
@@ -17,6 +18,7 @@ declare global {
     }
 }
 
+// Incrementei a inicialização usando a lib oficial para evitar erros de SSL manual
 export function MercadoPagoPayment({
     amount,
     description,
@@ -25,7 +27,7 @@ export function MercadoPagoPayment({
     onPaymentSuccess,
     onPaymentError,
 }: MercadoPagoPaymentProps) {
-    const [tab, setTab] = useState<"credit_card" | "pix">("pix"); // default PIX
+    const [tab, setTab] = useState<"credit_card" | "pix">("pix");
     const [mpReady, setMpReady] = useState(false);
     const [loading, setLoading] = useState(false);
     const [cardError, setCardError] = useState<string | null>(null);
@@ -34,7 +36,6 @@ export function MercadoPagoPayment({
     const cardFormRef = useRef<any>(null);
     const cardFormMountedRef = useRef(false);
 
-    // ── Load MP SDK once ────────────────────────────────────────
     useEffect(() => {
         const publicKey = import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY;
         if (!publicKey) {
@@ -42,25 +43,24 @@ export function MercadoPagoPayment({
             return;
         }
 
-        const initMP = () => {
-            if (!mpRef.current) {
-                mpRef.current = new window.MercadoPago(publicKey, { locale: "pt-BR" });
-            }
-            setMpReady(true);
-        };
-
-        if (window.MercadoPago) { initMP(); return; }
-
-        if (document.getElementById("mp-sdk-script")) {
-            const iv = setInterval(() => { if (window.MercadoPago) { clearInterval(iv); initMP(); } }, 200);
+        try {
+            // Usa o método oficial da biblioteca instalada
+            initMercadoPago(publicKey, { locale: "pt-BR" });
+            
+            // Em vez de injetar o script, usamos a referência global que a lib cria
+            const iv = setInterval(() => {
+                if (window.MercadoPago) {
+                    clearInterval(iv);
+                    if (!mpRef.current) {
+                        mpRef.current = new window.MercadoPago(publicKey, { locale: "pt-BR" });
+                    }
+                    setMpReady(true);
+                }
+            }, 200);
             return () => clearInterval(iv);
+        } catch (err) {
+            console.error("Erro ao inicializar MP SDK:", err);
         }
-
-        const s = document.createElement("script");
-        s.id = "mp-sdk-script";
-        s.src = "https://sdk.mercadopago.com/js/v2";
-        s.onload = initMP;
-        document.head.appendChild(s);
     }, []);
 
     // ── Mount CardForm only when Credit Card tab is active ──────

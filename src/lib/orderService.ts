@@ -44,6 +44,19 @@ export async function createOrder(payload: {
         .single();
 
     if (error) throw new Error(`Erro ao criar pedido: ${error.message}`);
+    
+    // Tentar enviar e-mail de "Novo Pedido" e "Aguardando Pagamento"
+    try {
+        await supabase.functions.invoke('send-order-email', {
+            body: { 
+                order: data, 
+                type: 'novo_pedido' 
+            }
+        });
+    } catch (e) {
+        console.warn('Erro ao disparar e-mail:', e);
+    }
+
     return data;
 }
 
@@ -76,7 +89,7 @@ export async function updateOrderStatus(
     if (extra?.cartao_final) updateData.cartao_final = extra.cartao_final;
     if (status === "pago") updateData.data_pagamento = new Date().toISOString();
 
-    const { data, error } = await supabase
+    const { data: order, error } = await supabase
         .from("pedidos")
         .update(updateData)
         .eq("id", orderId)
@@ -84,7 +97,22 @@ export async function updateOrderStatus(
         .single();
 
     if (error) throw new Error(`Erro ao atualizar pedido: ${error.message}`);
-    return data;
+
+    // Se o status mudou para pago, disparar e-mail de confirmação
+    if (status === "pago") {
+        try {
+            await supabase.functions.invoke('send-order-email', {
+                body: { 
+                    order: order, 
+                    type: 'pagamento_aprovado' 
+                }
+            });
+        } catch (e) {
+            console.warn('Erro ao disparar e-mail de pagamento:', e);
+        }
+    }
+
+    return order;
 }
 
 /**
