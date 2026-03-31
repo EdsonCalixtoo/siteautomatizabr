@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { User, LogOut, Home } from "lucide-react";
 
-const ADMIN_EMAIL = "juninho.caxto@gmail.com";
+const ADMIN_EMAIL = "gueduardo30@hotmail.com";
 
 export function AuthButton() {
   const navigate = useNavigate();
