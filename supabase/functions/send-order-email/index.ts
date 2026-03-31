@@ -22,7 +22,9 @@ serve(async (req: Request) => {
         const resend = new Resend(resendApiKey)
         const { order, type } = await req.json()
 
+        // Configuração OFICIAL de domínios
         const siteUrl = "https://grupoautomatiza.com.br";
+        const adminUrl = "https://grupoautomatiza.com.br/admin/dashboard";
         const logoUrl = `${siteUrl}/logo.jpg`;
         const primaryColor = "#0891b2"; 
         const primeironome = order.cliente_nome ? order.cliente_nome.split(' ')[0] : 'Cliente';
@@ -52,7 +54,6 @@ serve(async (req: Request) => {
         let subject = "";
         let contentHtml = "";
 
-        // Usar onboarding durante testes para garantir entrega
         const fromEmail = "Automatiza <onboarding@resend.dev>";
 
         switch (type) {
@@ -72,31 +73,30 @@ serve(async (req: Request) => {
                                     <h2 style="color: #1e293b; margin-top: 0;">Novo Pedido Recebido!</h2>
                                     <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin: 20px 0;">
                                         <p style="margin: 0 0 8px;"><strong>Cliente:</strong> ${order.cliente_nome}</p>
-                                        <p style="margin: 0 0 8px;"><strong>E-mail:</strong> ${order.cliente_email}</p>
-                                        <p style="margin: 0;"><strong>Total:</strong> R$ ${order.total.toFixed(2)}</p>
+                                        <p style="margin: 0 0 8px;"><strong>Valor:</strong> R$ ${order.total.toFixed(2)}</p>
                                     </div>
-                                    <a href="${siteUrl}/admin/pedidos" style="display: block; text-align: center; background: #0891b2; color: white; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: bold;">Ver no Painel Admin</a>
+                                    <a href="${adminUrl}" style="display: block; text-align: center; background: #0891b2; color: white; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: bold;">Ver Painel Dashboard</a>
                                 </div>
                             </div>
                         </div>
                     `,
                 });
 
-                // E-mail para o Cliente
-                subject = `Seu pedido #${order.id.slice(0, 8)} está sendo processado!`;
+                // E-mail para o Cliente (Checkout)
+                subject = `Recebemos seu pedido #${order.id.slice(0, 8)}! 🛍️`;
                 contentHtml = `
                     <div style="text-align: center; padding-bottom: 30px;">
                         <h1 style="margin: 0; font-size: 28px; color: #1e293b; letter-spacing: -0.02em;">Pedido Recebido</h1>
-                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">Olá, ${primeironome}. Recebemos sua solicitação!</p>
+                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">Olá, ${primeironome}. Tudo pronto para finalizar sua compra?</p>
                     </div>
                     
                     <div style="background: #f8fafc; border-radius: 20px; padding: 30px; margin-bottom: 30px; border: 1px solid #f1f5f9;">
                         <div style="text-align: center; margin-bottom: 25px;">
-                            <span style="background: #fef3c7; color: #92400e; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Aguardando Pagamento</span>
+                            <span style="background: #fef3c7; color: #92400e; padding: 6px 16px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase;">Aguardando Pagamento</span>
                         </div>
                         <table style="width: 100%; border-collapse: collapse;">${itemsHtml}</table>
                         <div style="margin-top: 25px; border-top: 2px solid #ffffff; display: flex; justify-content: space-between; align-items: center; padding-top: 20px;">
-                            <span style="font-weight: 600; color: #64748b;">Total do Pedido</span>
+                            <span style="color: #64748b; font-weight: 600;">Total</span>
                             <span style="font-weight: 800; color: #1e293b; font-size: 22px;">R$ ${order.total.toFixed(2)}</span>
                         </div>
                     </div>
@@ -108,15 +108,18 @@ serve(async (req: Request) => {
                 break;
 
             case 'pagamento_aprovado':
-                subject = `Pagamento Confirmado! Pedido #${order.id.slice(0, 8)}`;
+                subject = `Seu pagamento foi confirmado! Pedido #${order.id.slice(0, 8)} 💳`;
                 contentHtml = `
                     <div style="text-align: center; padding-bottom: 30px;">
                         <div style="margin-bottom: 20px; display: inline-block; background: #f0fdf4; padding: 15px; border-radius: 50%;">✅</div>
-                        <h1 style="margin: 0; font-size: 28px; color: #1e293b;">Pagamento Aprovado</h1>
-                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">${primeironome}, seu pagamento foi confirmado!</p>
+                        <h1 style="margin: 0; font-size: 28px; color: #1e293b;">Pagamento Confirmado</h1>
+                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">${primeironome}, seu pedido já entrou para preparação!</p>
+                    </div>
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 20px; padding: 30px; margin-bottom: 30px; text-align: center;">
+                        <p style="margin: 0; color: #166534; font-weight: 600; font-size: 15px;">Para sua segurança, você já pode acompanhar o status completo do seu pedido abaixo.</p>
                     </div>
                     <div style="text-align: center;">
-                        <a href="${siteUrl}/rastrear-pedido?id=${order.id}" style="display: inline-block; background: #166534; color: white; padding: 18px 40px; border-radius: 15px; text-decoration: none; font-weight: 700;">Acompanhar Pedido</a>
+                        <a href="${siteUrl}/rastrear-pedido?id=${order.id}" style="display: inline-block; background: #166534; color: white; padding: 18px 45px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 16px;">Acompanhar Meu Pedido</a>
                     </div>
                 `;
                 break;
