@@ -87,7 +87,7 @@ serve(async (req: Request) => {
                 contentHtml = `
                     <div style="text-align: center; padding-bottom: 30px;">
                         <h1 style="margin: 0; font-size: 28px; color: #1e293b; letter-spacing: -0.02em;">Pedido Recebido</h1>
-                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">Olá, ${primeironome}. Tudo pronto para finalizar sua compra?</p>
+                        <p style="margin: 10px 0 0; color: #64748b; font-size: 16px;">Olá, ${primeironome}. Seu pedido já foi recebido e está em processamento!</p>
                     </div>
                     
                     <div style="background: #f8fafc; border-radius: 20px; padding: 30px; margin-bottom: 30px; border: 1px solid #f1f5f9;">
@@ -95,14 +95,14 @@ serve(async (req: Request) => {
                             <span style="background: #fef3c7; color: #92400e; padding: 6px 16px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase;">Aguardando Pagamento</span>
                         </div>
                         <table style="width: 100%; border-collapse: collapse;">${itemsHtml}</table>
-                        <div style="margin-top: 25px; border-top: 2px solid #ffffff; display: flex; justify-content: space-between; align-items: center; padding-top: 20px;">
-                            <span style="color: #64748b; font-weight: 600;">Total</span>
+                        <div style="margin-top: 25px; border-top: 2px solid #ffffff; padding-top: 20px; text-align: right;">
+                            <span style="color: #64748b; font-weight: 600; margin-right: 15px;">Total</span>
                             <span style="font-weight: 800; color: #1e293b; font-size: 22px;">R$ ${order.total.toFixed(2)}</span>
                         </div>
                     </div>
 
                     <div style="text-align: center;">
-                        <a href="${siteUrl}/finalizar-pagamento?orderId=${order.id}" style="display: inline-block; background: #0891b2; color: white; padding: 20px 45px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 10px 20px rgba(8, 145, 178, 0.2);">Pagar Agora</a>
+                        <a href="${siteUrl}/rastreio?id=${order.id}" style="display: inline-block; background: #0891b2; color: white; padding: 20px 45px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 10px 20px rgba(8, 145, 178, 0.2);">Acompanhar Pedido</a>
                     </div>
                 `;
                 break;
@@ -119,7 +119,7 @@ serve(async (req: Request) => {
                         <p style="margin: 0; color: #166534; font-weight: 600; font-size: 15px;">Para sua segurança, você já pode acompanhar o status completo do seu pedido abaixo.</p>
                     </div>
                     <div style="text-align: center;">
-                        <a href="${siteUrl}/rastrear-pedido?id=${order.id}" style="display: inline-block; background: #166534; color: white; padding: 18px 45px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 16px;">Acompanhar Meu Pedido</a>
+                        <a href="${siteUrl}/rastreio?id=${order.id}" style="display: inline-block; background: #166534; color: white; padding: 18px 45px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 16px;">Acompanhar Meu Pedido</a>
                     </div>
                 `;
                 break;
