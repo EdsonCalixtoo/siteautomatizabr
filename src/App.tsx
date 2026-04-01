@@ -51,6 +51,7 @@ const App = () => (
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/pix-payment/:orderId" element={<PixPayment />} />
                   <Route path="/rastrear-pedido" element={<TrackOrder />} />
+                  <Route path="/rastreio" element={<TrackOrder />} />
                   <Route
                     path="/minha-conta"
                     element={
