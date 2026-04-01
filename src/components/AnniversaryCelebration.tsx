@@ -39,14 +39,14 @@ export function AnniversaryCelebration() {
     <>
       {/* Banner de Topo */}
       <div 
-        className={`fixed left-0 right-0 z-[60] bg-gradient-to-r from-amber-600 via-yellow-400 to-amber-600 py-1.5 md:py-2.5 overflow-hidden shadow-md transition-all duration-500 ease-in-out ${
+        className={`fixed left-0 right-0 z-[60] bg-gradient-to-r from-amber-600 via-yellow-400 to-amber-600 overflow-hidden shadow-md transition-all duration-500 ease-in-out ${
           isVisible ? "top-0" : "-top-20"
         }`}
       >
         <motion.div 
           animate={{ x: [0, 5, 0, -5, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="container mx-auto px-2 md:px-4 flex items-center justify-center gap-2 md:gap-8"
+          className="container mx-auto px-2 md:px-4 flex items-center justify-center gap-2 md:gap-8 h-10 md:h-12"
         >
           <div className="hidden lg:flex items-center gap-2 text-amber-950 font-black text-sm uppercase tracking-widest animate-pulse">
             <PartyPopper className="w-5 h-5" />

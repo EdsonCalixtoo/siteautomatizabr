@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  @apply bg-slate-950;
+  margin: 0;
+  padding: 0;
+}
+
 @layer utilities {
   .gradient-green {
     @apply bg-gradient-to-br from-cyan-600 to-cyan-700;

@@ -61,11 +61,11 @@ export function Header() {
     <header 
       className={cn(
         "fixed left-0 right-0 z-50 pointer-events-none transition-all duration-500 ease-in-out",
-        isVisible ? "top-12 md:top-11" : "-top-32"
+        isVisible ? "top-10 md:top-12" : "-top-32"
       )}
     >
-      <div className="pt-3 px-4 flex justify-center pointer-events-auto">
-        <div className="bg-white/85 backdrop-blur-2xl border border-cyan-100/30 shadow-lg rounded-2xl w-fit">
+      <div className="px-4 flex justify-center pointer-events-auto">
+        <div className="bg-white/95 backdrop-blur-3xl border border-cyan-100/30 rounded-2xl w-fit">
           <div className="px-4">
             <div className="flex items-center justify-between h-20 gap-8">
             {/* Logo */}
