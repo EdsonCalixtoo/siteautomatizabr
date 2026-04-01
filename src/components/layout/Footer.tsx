@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Instagram, Facebook, Youtube } from "lucide-react";
-import logoAutomatiza from "@/assets/Automatiza-logo-rgb-01.jpg";
 
 export function Footer() {
   return (
@@ -16,7 +15,7 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <img 
-              src={logoAutomatiza} 
+              src="/logonovo.jpeg" 
               alt="Automatiza VANS" 
               className="h-16 w-auto opacity-90 rounded-xl"
             />

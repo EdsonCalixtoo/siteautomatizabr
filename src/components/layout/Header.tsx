@@ -6,7 +6,6 @@ import { CartIcon } from "@/components/CartIcon";
 import { AuthButton } from "@/components/AuthButton";
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
-import logoAutomatiza from "@/assets/Automatiza-logo-rgb-01.jpg";
 
 const ADMIN_EMAIL = "gugaeduardo30@gmail.com";
 
@@ -72,7 +71,7 @@ export function Header() {
             <Link to="/" className="flex items-center hover:opacity-80 transition-opacity group">
               <div className="relative">
                 <img 
-                  src={logoAutomatiza} 
+                  src="/logonovo.jpeg" 
                   alt="Automatiza - Automação de Vans" 
                   className="h-14 w-auto rounded-xl shadow-sm"
                 />
