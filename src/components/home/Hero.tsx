@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Zap, Award, Star, ChevronRight } from "lucide-react";
+import { ArrowRight, Shield, Zap, Award, Star, ChevronRight, Sparkles } from "lucide-react";
 import { BrandSelector } from "./BrandSelector";
 
 const stats = [
@@ -58,28 +58,52 @@ export function Hero() {
             </div>
 
             {/* Title */}
-            <div className="space-y-4">
-              <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] text-white">
-                Abra Caminhos com
+            <div className="space-y-6">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="h-px bg-amber-500/50 flex-1 max-w-[80px]" />
+                <span className="text-amber-500 font-black tracking-widest text-lg uppercase flex items-center gap-2">
+                  <Star className="w-5 h-5 fill-amber-500" />
+                  Especial de Aniversário
+                  <Star className="w-5 h-5 fill-amber-500" />
+                </span>
+                <div className="h-px bg-amber-500/50 flex-1 max-w-[80px]" />
+              </div>
+
+              <h1 className="font-heading text-6xl md:text-8xl lg:text-9xl font-black leading-[0.9] text-white">
+                <span className="text-transparent bg-clip-text bg-gradient-to-br from-amber-200 via-yellow-400 to-amber-500 uppercase tracking-tighter">
+                  10 ANOS
+                </span>
                 <br />
                 <span className="relative inline-block mt-2">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-blue-400 uppercase tracking-tighter">
-                    Automatiza
+                  <span className="text-white uppercase tracking-tight">
+                    AUTOMATIZA
                   </span>
-                  <svg className="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 300 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 4C50 1.5 100 1 150 2C200 3 250 4 298 2" stroke="url(#paint0)" strokeWidth="3" strokeLinecap="round" />
-                    <defs>
-                      <linearGradient id="paint0" x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="#06b6d4" />
-                        <stop offset="1" stopColor="#3b82f6" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
                 </span>
               </h1>
-              <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                Transforme sua van com o sistema de automação mais confiável do Brasil. 
-                Praticidade para você, conforto para seus passageiros.
+
+              <div className="flex flex-col items-center gap-4 mt-8">
+                <div className="bg-white/5 backdrop-blur-md border-2 border-amber-500/30 rounded-3xl p-6 shadow-2xl relative group overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent" />
+                  <div className="bg-amber-500/20 border-2 border-amber-500 rounded-2xl py-3 px-6 mb-4 animate-[pulse_2s_ease-in-out_infinite]">
+                    <p className="text-amber-400 font-black text-sm md:text-base uppercase tracking-widest flex items-center justify-center gap-3">
+                      <Sparkles className="w-5 h-5 flex-shrink-0" /> 
+                      USE O CUPOM: 10ANOSAUTOMATIZA
+                      <Sparkles className="w-5 h-5 flex-shrink-0" />
+                    </p>
+                  </div>
+                  <p className="text-4xl md:text-5xl font-black text-white flex items-center justify-center gap-4">
+                    De <span className="line-through text-slate-500 text-2xl">R$ 1.680</span> 
+                    <span className="text-amber-400">R$ 1.450</span>
+                  </p>
+                  <p className="text-slate-300 font-bold mt-2 flex items-center justify-center gap-2">
+                    <span className="bg-green-500 text-white rounded-full px-3 py-0.5 text-[10px]">FRETE GRÁTIS</span>
+                    em <span className="text-white text-xl">10x SEM JUROS</span> de R$ 145,00
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed pt-4 font-medium italic">
+                "Há uma década abrindo caminhos e transformando o transporte alternativo no Brasil com tecnologia premium."
               </p>
             </div>
 

@@ -101,8 +101,12 @@ export function MercadoPagoPayment({
                             setLoading(false);
                             return;
                         }
-                        const { paymentMethodId } = cardFormRef.current.getCardFormData();
-                        await submitPayment("credit_card", token, paymentMethodId);
+                        const formData = cardFormRef.current.getCardFormData();
+                        await submitPayment("credit_card", token, formData.paymentMethodId);
+                    },
+                    onInstallmentsReceived: (err: any, installments: any) => {
+                        if (err) console.error("Installments error:", err);
+                        else console.log("Installments loaded:", installments);
                     },
                     onError: (err: any) => console.error("CardForm error:", err),
                 },
@@ -117,7 +121,7 @@ export function MercadoPagoPayment({
                 cardFormRef.current = null;
             }
         };
-    }, [mpReady, tab]);
+    }, [mpReady, tab, amount]);
 
     // ── Payment submission ──────────────────────────────────────
     const submitPayment = async (

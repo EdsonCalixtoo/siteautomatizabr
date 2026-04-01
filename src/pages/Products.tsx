@@ -4,7 +4,7 @@ import { CartNotification } from "@/components/cart/CartNotification";
 import { Button } from "@/components/ui/button";
 import { useProducts } from "@/contexts/ProductContext";
 import { CATEGORY_LOGOS } from "@/data/brandLogos";
-import { Package, Zap, ShoppingCart, ChevronDown, Filter, X } from "lucide-react";
+import { Package, Zap, ShoppingCart, ChevronDown, Filter, X, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
@@ -310,13 +310,14 @@ const Products = () => {
                   <div key={product.id} className="group relative bg-white rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 flex flex-col">
                     {/* Image Area */}
                     <Link to={`/produto/${product.id}`} className="relative h-60 overflow-hidden bg-gray-50 flex items-center justify-center border-b border-gray-100">
-                      {product.badge && (
-                        <div className="absolute top-4 left-4 z-20">
-                          <span className="bg-cyan-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
-                            {product.badge}
-                          </span>
-                        </div>
-                      )}
+                      <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
+                        <span className="bg-cyan-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
+                          {product.badge || 'Aniversário'}
+                        </span>
+                        <span className="bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 px-3 py-1 rounded-lg text-center text-[9px] font-black uppercase tracking-tighter shadow-lg flex items-center gap-1 border border-amber-400/50">
+                          <Star className="w-3 h-3 fill-amber-950" /> 10 ANOS
+                        </span>
+                      </div>
                       <img 
                         src={product.image}
                         alt={product.name}
@@ -345,9 +346,12 @@ const Products = () => {
                               {formatCurrency(product.originalPrice!)}
                             </span>
                           )}
-                           <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-cyan-400">
-                            {formatCurrency(product.price)}
-                          </span>
+                            <div className="flex flex-col">
+                             <span className="text-[9px] text-amber-600 font-black uppercase tracking-widest mb-0.5 animate-pulse">✨ Aniversário Automatiza</span>
+                             <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-cyan-400">
+                               {formatCurrency(product.price)}
+                             </span>
+                           </div>
                         </div>
                         {(product.originalPrice ?? 0) > 0 && (
                           <span className="text-[10px] text-green-600 font-bold mt-1">

@@ -10,6 +10,7 @@ import { SellerProvider } from "@/contexts/SellerContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AdminRoute } from "@/components/AdminRoute";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { AnniversaryCelebration } from "@/components/AnniversaryCelebration";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -41,6 +42,7 @@ const App = () => (
             <CartProvider>
               <Toaster />
               <Sonner />
+              <AnniversaryCelebration />
               <BrowserRouter>
                 <ScrollToTop />
                 <Routes>

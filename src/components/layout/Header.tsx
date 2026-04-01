@@ -33,7 +33,7 @@ export function Header() {
   const { user } = useAuth();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+    <header className="fixed top-12 md:top-11 left-0 right-0 z-50 pointer-events-none transition-all duration-300">
       <div className="pt-3 px-4 flex justify-center pointer-events-auto">
         <div className="bg-white/85 backdrop-blur-2xl border border-cyan-100/30 shadow-lg rounded-2xl w-fit">
           <div className="px-4">

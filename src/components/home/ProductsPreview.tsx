@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Sparkles, Zap, Shield, ShoppingCart } from "lucide-react";
+import { ArrowRight, Check, Sparkles, Zap, Shield, ShoppingCart, Star } from "lucide-react";
 import { useProducts } from "@/contexts/ProductContext";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
@@ -62,13 +62,14 @@ export function ProductsPreview() {
               >
                 {/* Image area */}
                 <div className="relative h-60 flex items-center justify-center overflow-hidden bg-gray-50 border-b border-gray-100">
-                  {product.badge && (
-                    <div className="absolute top-4 left-4 z-20">
-                      <span className="bg-cyan-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
-                        {product.badge}
-                      </span>
-                    </div>
-                  )}
+                  <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
+                    <span className="bg-cyan-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
+                      {product.badge || 'Destaque'}
+                    </span>
+                    <span className="bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg flex items-center gap-1 border border-amber-400/50">
+                      <Star className="w-3 h-3 fill-amber-950" /> 10 ANOS
+                    </span>
+                  </div>
                   <img 
                     src={product.image} 
                     alt={product.name}
@@ -95,6 +96,7 @@ export function ProductsPreview() {
                       </span>
                     )}
                     <div className="flex flex-col">
+                      <span className="text-[10px] text-amber-600 font-black uppercase tracking-widest mb-1 animate-pulse">✨ Oferta de Aniversário</span>
                       <span className="font-heading text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-cyan-500">
                         {formatCurrency(product.price)}
                       </span>

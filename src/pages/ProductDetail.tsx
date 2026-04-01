@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useProducts } from "@/contexts/ProductContext";
-import { ArrowLeft, Check, Shield, Truck, MessageCircle, Phone, Sparkles, Star, Zap, Award, Users, Video, Lightbulb, Clock, ChevronDown, ShoppingCart, Music, PlayCircle } from "lucide-react";
+import { ArrowLeft, Check, Shield, Truck, MessageCircle, Phone, Sparkles, Star, Zap, Award, Users, Video, Lightbulb, Clock, ChevronDown, ShoppingCart, Music, PlayCircle, PartyPopper } from "lucide-react";
 import { useState, useRef } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { formatCurrency } from "@/lib/utils";
@@ -103,14 +103,17 @@ const ProductDetail = () => {
             <div className="space-y-4 md:space-y-6 md:sticky md:top-32">
               {/* Main Image */}
               <div className="relative bg-gradient-to-br from-slate-50 to-white rounded-2xl md:rounded-3xl overflow-hidden border-2 border-cyan-100 shadow-lg md:shadow-2xl group">
-                {product.badge && (
-                  <div className="absolute top-3 md:top-6 left-3 md:left-6 z-20 flex gap-2">
+                <div className="absolute top-3 md:top-6 left-3 md:left-6 z-20 flex flex-col gap-2">
+                  {product.badge && (
                     <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-cyan-600 to-cyan-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl text-xs md:text-sm font-bold shadow-lg animate-pulse">
                       <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
                       {product.badge}
                     </span>
-                  </div>
-                )}
+                  )}
+                  <span className="bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 px-3 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-xl text-xs md:text-sm font-black uppercase tracking-tighter shadow-xl flex items-center gap-1.5 border-2 border-amber-400/50">
+                    <Star className="w-4 h-4 md:w-5 md:h-5 fill-amber-950" /> 10 ANOS DE TRADIÇÃO
+                  </span>
+                </div>
                 
                 <div className="aspect-square flex items-center justify-center py-12 md:py-20 px-4 md:px-8 bg-gradient-to-b from-cyan-50 to-white relative overflow-hidden">
                   {product.images && product.images.length > 0 && product.images[selectedImage] ? (
@@ -223,21 +226,52 @@ const ProductDetail = () => {
               </div>
 
               {/* Price Section */}
-              <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl md:rounded-2xl p-4 md:p-8 border-2 border-cyan-200 shadow-lg">
-                <div className="space-y-3 md:space-y-4">
-                  <div className="flex items-end gap-2 md:gap-3">
-                    {(product.originalPrice ?? 0) > 0 && (
-                      <span className="text-gray-500 line-through text-lg">
-                      {formatCurrency(product.originalPrice!)}
+              <div className="bg-gradient-to-br from-slate-900 to-slate-950 rounded-xl md:rounded-3xl p-6 md:p-8 border-2 border-amber-500/30 shadow-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl group-hover:bg-amber-500/20 transition-all" />
+                
+                <div className="relative space-y-5">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-amber-500 font-black text-[10px] md:text-xs uppercase tracking-[0.3em] flex items-center gap-2">
+                      <PartyPopper className="w-4 h-4" /> 
+                      Oferta Festiva de 10 Anos
                     </span>
-                  )}
-                  <span className="text-2xl md:text-3xl lg:text-4xl font-bold text-cyan-600">
-                    {formatCurrency(product.price)}
-                  </span>
-                </div>
-                <p className="text-gray-700 font-semibold text-sm md:text-base">
-                  ou em até <span className="text-cyan-600 md:text-lg">12x de {formatCurrency(product.price / 12)}</span>
-                  </p>
+                    <div className="flex items-end gap-3">
+                      {(product.originalPrice ?? 0) > 0 && (
+                        <span className="text-slate-500 line-through text-lg md:text-xl">
+                          {formatCurrency(product.originalPrice!)}
+                        </span>
+                      )}
+                      <span className="text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500">
+                        {formatCurrency(product.price)}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 transition-all hover:bg-white/10">
+                      <p className="text-slate-400 text-[10px] font-bold uppercase mb-1">Pagamento Parcelado</p>
+                      <p className="text-white font-bold text-sm md:text-base">
+                        Até <span className="text-amber-400 text-lg md:text-xl">10x Sem Juros</span>
+                      </p>
+                      <p className="text-slate-500 text-[10px]">de {formatCurrency(product.price / 10)} / mês</p>
+                    </div>
+
+                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 transition-all hover:bg-amber-500/20">
+                      <p className="text-amber-500 text-[10px] font-bold uppercase mb-1">Cupom Especial</p>
+                      <p className="text-white font-black text-sm md:text-lg tracking-tighter">10ANOSAUTOMATIZA</p>
+                      <p className="text-amber-500/80 text-[10px]">Aplique no checkout</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 pt-2">
+                    <div className="flex items-center gap-2 text-green-400 font-bold text-xs">
+                      <Truck className="w-4 h-4" /> FRETE GRÁTIS BRASIL
+                    </div>
+                    <div className="h-4 w-px bg-white/10" />
+                    <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs">
+                      <Zap className="w-4 h-4" /> ENVIO EM 24H
+                    </div>
+                  </div>
                 </div>
               </div>
 
