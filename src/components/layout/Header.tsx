@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Zap, ChevronDown, Shield, Truck, Award, RefreshCw, Play, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,9 +31,39 @@ export function Header() {
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const location = useLocation();
   const { user } = useAuth();
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Sempre mostra no topo absoluto
+      if (currentScrollY < 10) {
+        setIsVisible(true);
+        setLastScrollY(currentScrollY);
+        return;
+      }
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false); // Rolando para baixo
+      } else if (currentScrollY < lastScrollY) {
+        setIsVisible(true); // Rolando para cima
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", controlNavbar, { passive: true });
+    return () => window.removeEventListener("scroll", controlNavbar);
+  }, [lastScrollY]);
 
   return (
-    <header className="fixed top-12 md:top-11 left-0 right-0 z-50 pointer-events-none transition-all duration-300">
+    <header 
+      className={cn(
+        "fixed left-0 right-0 z-50 pointer-events-none transition-all duration-500 ease-in-out",
+        isVisible ? "top-12 md:top-11" : "-top-32"
+      )}
+    >
       <div className="pt-3 px-4 flex justify-center pointer-events-auto">
         <div className="bg-white/85 backdrop-blur-2xl border border-cyan-100/30 shadow-lg rounded-2xl w-fit">
           <div className="px-4">
