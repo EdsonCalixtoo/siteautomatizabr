@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 html, body {
-  @apply bg-slate-950;
+  @apply bg-slate-50;
   margin: 0;
   padding: 0;
 }
@@ -124,25 +124,25 @@ html, body {
     transform: translateY(-10px);
   }
 }
-/* Estilizar select elements */
+/* Estilizar select elements - VERSÃO LIGHT */
 select {
-  color-scheme: dark;
-  background-color: rgba(15, 23, 42, 0.8);
+  color-scheme: light;
+  background-color: #ffffff;
+  color: #0f172a;
 }
 
 select option {
-  background-color: #1e293b;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #0f172a;
   padding: 10px;
 }
 
 select option:hover {
-  background-color: #0ea5e9;
-  color: #ffffff;
+  background-color: #f1f5f9;
+  color: #0ea5e9;
 }
 
 select option:checked {
-  background: linear-gradient(#0ea5e9, #0ea5e9);
   background-color: #0ea5e9 !important;
   color: #ffffff;
 }

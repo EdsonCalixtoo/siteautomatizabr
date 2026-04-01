@@ -155,22 +155,22 @@ export function Header() {
 
       {/* Mobile Menu Overlay - Full Screen independent of nav bar container */}
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[100] bg-slate-950 flex flex-col animate-in fade-in duration-300 pointer-events-auto">
+        <div className="lg:hidden fixed inset-0 z-[100] bg-white flex flex-col animate-in fade-in duration-300 pointer-events-auto">
           {/* Decorative background elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-600/10 rounded-full blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-600/10 rounded-full blur-[100px]" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-600/5 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-600/5 rounded-full blur-[100px]" />
           
           <div className="relative z-10 flex flex-col h-full pt-24 px-8 pb-10">
             <button 
               onClick={() => setIsMenuOpen(false)}
-              className="absolute top-6 right-6 p-4 rounded-2xl bg-white/5 text-white hover:bg-white/10 transition-all border border-white/10 active:scale-95 shadow-2xl"
+              className="absolute top-6 right-6 p-4 rounded-2xl bg-cyan-50 text-cyan-600 hover:bg-cyan-100 transition-all border border-cyan-100 active:scale-95 shadow-lg"
             >
               <X className="w-8 h-8" />
             </button>
 
             <div className="flex flex-col h-full overflow-y-auto custom-scrollbar">
               <nav className="flex flex-col gap-3">
-                <p className="text-cyan-500 text-[11px] font-black uppercase tracking-[0.4em] mb-6 px-4 opacity-70">
+                <p className="text-cyan-600 text-[11px] font-black uppercase tracking-[0.4em] mb-6 px-4 opacity-70">
                   Menu Principal
                 </p>
                 {navLinks.map((link) => (
@@ -180,8 +180,8 @@ export function Header() {
                     className={cn(
                       "px-5 py-5 rounded-[2rem] font-black text-2xl transition-all duration-300 flex items-center justify-between group",
                       location.pathname === link.href
-                        ? "bg-gradient-to-r from-cyan-600/20 to-transparent text-cyan-400 border-l-4 border-cyan-500"
-                        : "text-white/70 hover:text-white hover:translate-x-2"
+                        ? "bg-gradient-to-r from-cyan-600/10 to-transparent text-cyan-600 border-l-4 border-cyan-500"
+                        : "text-slate-600 hover:text-cyan-600 hover:translate-x-2"
                     )}
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -191,13 +191,13 @@ export function Header() {
                 ))}
                 
                 {/* Mobile Info Section */}
-                <div className="mt-8 border-t border-white/5 pt-8">
+                <div className="mt-8 border-t border-gray-100 pt-8">
                   <button
                     onClick={() => setIsInfoOpen(!isInfoOpen)}
-                    className="w-full px-5 py-4 rounded-2xl font-bold text-xl text-white/90 flex items-center justify-between transition-all bg-white/5"
+                    className="w-full px-5 py-4 rounded-2xl font-bold text-xl text-slate-700 flex items-center justify-between transition-all bg-slate-50"
                   >
                     <span className="flex items-center gap-3">
-                      <Shield className="w-5 h-5 text-cyan-500" />
+                      <Shield className="w-5 h-5 text-cyan-600" />
                       Informações
                     </span>
                     <ChevronDown className={cn("w-6 h-6 transition-transform duration-500", isInfoOpen && "rotate-180")} />
@@ -211,11 +211,11 @@ export function Header() {
                           <Link
                             key={link.href}
                             to={link.href}
-                            className="flex items-center gap-5 px-6 py-5 text-white/60 hover:text-cyan-400 hover:bg-white/5 rounded-3xl transition-all font-bold text-base"
+                            className="flex items-center gap-5 px-6 py-5 text-slate-600 hover:text-cyan-600 hover:bg-cyan-50 rounded-3xl transition-all font-bold text-base"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <div className="w-12 h-12 rounded-2xl bg-cyan-600/10 flex items-center justify-center border border-cyan-500/20">
-                              <Icon className="w-6 h-6 text-cyan-400" />
+                            <div className="w-12 h-12 rounded-2xl bg-cyan-50 flex items-center justify-center border border-cyan-100">
+                              <Icon className="w-6 h-6 text-cyan-600" />
                             </div>
                             {link.label}
                           </Link>
@@ -236,7 +236,7 @@ export function Header() {
                 >
                   <Button 
                     size="lg" 
-                    className="w-full h-20 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white gap-4 font-black rounded-3xl shadow-[0_20px_50px_rgba(8,_145,_178,_0.3)] text-xl uppercase tracking-widest transition-all active:scale-[0.98]"
+                    className="w-full h-20 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white gap-4 font-black rounded-3xl shadow-xl text-xl uppercase tracking-widest transition-all active:scale-[0.98]"
                   >
                     <Zap className="w-6 h-6 animate-pulse" />
                     ATENDIMENTO VIP
@@ -251,7 +251,7 @@ export function Header() {
                   <Button 
                     size="lg" 
                     variant="outline"
-                    className="w-full h-18 border-white/10 bg-white/5 text-white hover:bg-white/10 font-black rounded-3xl text-lg backdrop-blur-xl uppercase tracking-tighter"
+                    className="w-full h-18 border-cyan-100 bg-white text-slate-700 hover:bg-slate-50 font-black rounded-3xl text-lg uppercase tracking-tighter"
                   >
                     👤 Minha Conta
                   </Button>
@@ -260,10 +260,10 @@ export function Header() {
                 {user && user.email === ADMIN_EMAIL && (
                   <Link
                     to="/admin/dashboard"
-                    className="block opacity-40 hover:opacity-100 transition-opacity"
+                    className="block opacity-60 hover:opacity-100 transition-opacity"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <div className="text-center py-2 text-xs font-bold text-white/50 tracking-[0.2em] uppercase">
+                    <div className="text-center py-2 text-xs font-bold text-slate-400 tracking-[0.2em] uppercase">
                       Painel Administrador
                     </div>
                   </Link>

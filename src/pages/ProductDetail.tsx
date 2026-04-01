@@ -96,7 +96,7 @@ const ProductDetail = () => {
       </div>
 
       {/* Product Details */}
-      <section className="py-8 md:py-16 relative">
+      <section className="py-8 md:py-16 relative bg-white">
         <div className="container mx-auto px-3 md:px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-start">
             {/* Image Section with Gallery */}
@@ -225,50 +225,50 @@ const ProductDetail = () => {
                 <p className="text-gray-600 text-sm md:text-base lg:text-lg">{product.description}</p>
               </div>
 
-              {/* Price Section */}
-              <div className="bg-gradient-to-br from-slate-900 to-slate-950 rounded-xl md:rounded-3xl p-6 md:p-8 border-2 border-amber-500/30 shadow-2xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl group-hover:bg-amber-500/20 transition-all" />
+              {/* Price Section - PREMIUM LIGHT VERSION */}
+              <div className="bg-gradient-to-br from-white via-amber-50/10 to-cyan-50/10 rounded-xl md:rounded-3xl p-6 md:p-8 border-2 border-cyan-100 shadow-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-3xl group-hover:bg-cyan-500/10 transition-all" />
                 
                 <div className="relative space-y-5">
                   <div className="flex flex-col gap-1">
-                    <span className="text-amber-500 font-black text-[10px] md:text-xs uppercase tracking-[0.3em] flex items-center gap-2">
+                    <span className="text-cyan-600 font-black text-[10px] md:text-xs uppercase tracking-[0.3em] flex items-center gap-2">
                       <PartyPopper className="w-4 h-4" /> 
                       Oferta Festiva de 10 Anos
                     </span>
                     <div className="flex items-end gap-3">
                       {(product.originalPrice ?? 0) > 0 && (
-                        <span className="text-slate-500 line-through text-lg md:text-xl">
+                        <span className="text-slate-400 line-through text-lg md:text-xl">
                           {formatCurrency(product.originalPrice!)}
                         </span>
                       )}
-                      <span className="text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500">
+                      <span className="text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-700">
                         {formatCurrency(product.price)}
                       </span>
                     </div>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 transition-all hover:bg-white/10">
-                      <p className="text-slate-400 text-[10px] font-bold uppercase mb-1">Pagamento Parcelado</p>
-                      <p className="text-white font-bold text-sm md:text-base">
-                        Até <span className="text-amber-400 text-lg md:text-xl">10x Sem Juros</span>
+                    <div className="bg-cyan-50/50 border border-cyan-100 rounded-2xl p-4 transition-all hover:bg-cyan-100/50">
+                      <p className="text-cyan-700 text-[10px] font-bold uppercase mb-1">Pagamento Parcelado</p>
+                      <p className="text-gray-900 font-bold text-sm md:text-base">
+                        Até <span className="text-cyan-600 text-lg md:text-xl">10x Sem Juros</span>
                       </p>
                       <p className="text-slate-500 text-[10px]">de {formatCurrency(product.price / 10)} / mês</p>
                     </div>
 
-                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 transition-all hover:bg-amber-500/20">
-                      <p className="text-amber-500 text-[10px] font-bold uppercase mb-1">Cupom Especial</p>
-                      <p className="text-white font-black text-sm md:text-lg tracking-tighter">10ANOSAUTOMATIZA</p>
-                      <p className="text-amber-500/80 text-[10px]">Aplique no checkout</p>
+                    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 transition-all hover:bg-amber-100/50">
+                      <p className="text-amber-600 text-[10px] font-bold uppercase mb-1">Cupom Especial</p>
+                      <p className="text-amber-900 font-black text-sm md:text-lg tracking-tighter">10ANOSAUTOMATIZA</p>
+                      <p className="text-amber-700/80 text-[10px]">Aplique no checkout</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-4 pt-2">
-                    <div className="flex items-center gap-2 text-green-400 font-bold text-xs">
+                    <div className="flex items-center gap-2 text-green-600 font-bold text-xs">
                       <Truck className="w-4 h-4" /> FRETE GRÁTIS BRASIL
                     </div>
-                    <div className="h-4 w-px bg-white/10" />
-                    <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs">
+                    <div className="h-4 w-px bg-gray-200" />
+                    <div className="flex items-center gap-2 text-cyan-600 font-bold text-xs">
                       <Zap className="w-4 h-4" /> ENVIO EM 24H
                     </div>
                   </div>
@@ -377,8 +377,8 @@ const ProductDetail = () => {
 
       {/* Video & Audio Section */}
       {(product.videoUrl || product.audioUrl) && (
-        <section ref={videoSectionRef} className="py-12 md:py-20 bg-slate-900 text-white relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-500 via-transparent to-transparent pointer-events-none" />
+        <section ref={videoSectionRef} className="py-12 md:py-20 bg-slate-50 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-500 via-transparent to-transparent pointer-events-none" />
           
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto space-y-12">
@@ -386,13 +386,13 @@ const ProductDetail = () => {
               {product.videoUrl && (
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 justify-center mb-8">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg">
                       <PlayCircle className="w-7 h-7 text-white" />
                     </div>
-                    <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight">Demonstração em Vídeo</h2>
+                    <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-slate-900">Demonstração em Vídeo</h2>
                   </div>
 
-                  <div className="rounded-2xl md:rounded-3xl overflow-hidden border-4 border-white/10 shadow-2xl bg-black aspect-video relative group">
+                  <div className="rounded-2xl md:rounded-3xl overflow-hidden border-4 border-white shadow-2xl bg-black aspect-video relative group">
                     {getYouTubeId(product.videoUrl) ? (
                       <iframe
                         className="w-full h-full"
@@ -418,17 +418,17 @@ const ProductDetail = () => {
 
               {/* Audio */}
               {product.audioUrl && (
-                <div className="bg-white/5 backdrop-blur-md rounded-2xl md:rounded-3xl p-6 md:p-10 border border-white/10 shadow-xl">
+                <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-10 border border-cyan-100 shadow-xl">
                   <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
                     <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg transform rotate-3 flex-shrink-0">
                       <Music className="w-8 md:w-10 h-8 md:h-10 text-white" />
                     </div>
                     <div className="flex-1 text-center md:text-left">
-                      <h3 className="text-xl md:text-2xl font-bold mb-2">Apresentação em Áudio</h3>
-                      <p className="text-gray-400 text-sm md:text-base mb-6">Ouça os detalhes técnicos e benefícios deste produto</p>
+                      <h3 className="text-xl md:text-2xl font-bold mb-2 text-slate-900">Apresentação em Áudio</h3>
+                      <p className="text-gray-500 text-sm md:text-base mb-6">Ouça os detalhes técnicos e benefícios deste produto</p>
                       <audio 
                         controls 
-                        className="w-full custom-audio-player h-12 filter invert opacity-80 hover:opacity-100 transition-opacity"
+                        className="w-full custom-audio-player h-12 filter opacity-80 hover:opacity-100 transition-opacity"
                       >
                         <source src={product.audioUrl} type="audio/mpeg" />
                         Seu navegador não suporta áudio.
