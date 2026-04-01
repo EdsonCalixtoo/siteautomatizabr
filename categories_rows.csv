@@ -1,0 +1,17 @@
+id,name,key,user_id,created_at
+012f0c40-3d8f-4bb6-8fb6-0cb28f56b215,🚐 Peugeot Boxer,peugeot-boxer,,2026-03-23 14:55:21.779126+00
+193aad8f-7c69-4b75-889d-32d698798d0f,🚐 Citroen Jumper,citroen-jumper,,2026-03-23 14:55:21.779126+00
+1ff7ae49-cd87-49d9-9e19-37f861227ab9,🚐 Peugeot Expert,peugeot-expert,,2026-03-23 14:55:21.779126+00
+2899eee9-54e7-4237-9638-f5b146cafa13,🚐 Iveco Daily,iveco-daily,,2026-03-23 14:55:21.779126+00
+308ce963-d28c-4ca7-b220-c6ab98c5ecca,🚐 Citroen Jumpy,citroen-jumpy,,2026-03-23 14:55:21.779126+00
+363e8042-e7b7-4319-aeb4-eca11f9619f1,⚡ Kit Simples,simples,89da5a46-9d55-4213-9656-054ecf38a73d,2026-03-19 12:07:45.706372+00
+37ada893-a2c0-4553-8aa6-f3dd195ecc37,🚐 Mercedes Sprinter,mercedes-sprinter,89da5a46-9d55-4213-9656-054ecf38a73d,2026-03-19 12:07:45.706372+00
+51fa374c-bd7b-478f-b6f1-0dd1d4fa8b72,📦 Peças & Consumíveis,consumivel,89da5a46-9d55-4213-9656-054ecf38a73d,2026-03-19 12:07:45.706372+00
+72b75ec1-b0c1-47dc-b14a-5a4812f53870,🚐 Fiat Ducato,fiat-ducato,89da5a46-9d55-4213-9656-054ecf38a73d,2026-03-19 12:07:45.706372+00
+7801847f-d889-43e2-94d9-82e0ce6ad038,🚐 Kia Besta,kia-besta,,2026-03-23 14:55:21.779126+00
+8c7d43bf-3974-4075-81a5-d36378c6b78a,🚐 Ford Transit,ford-transit,,2026-03-23 14:55:21.779126+00
+95268148-861e-496b-bbdf-2c59083d3602,🚐 Volkswagen Kombi,vw-kombi,,2026-03-23 14:55:21.779126+00
+a8482662-77c1-4f63-9bae-1cd2701ddc38,🔧 Acessório,acessorio,89da5a46-9d55-4213-9656-054ecf38a73d,2026-03-19 12:07:45.706372+00
+c51b5486-6893-4ddc-860f-da2de7a8e71f,🏆 Kit Completo,completo,89da5a46-9d55-4213-9656-054ecf38a73d,2026-03-19 12:07:45.706372+00
+d38a4bed-78cc-46fe-8854-ef7d748e0c92,🚐 Renault Master,renault-master,,2026-03-23 14:55:21.779126+00
+e26ac1cd-61df-4fae-84d8-a693ba4eefc7,🚐 Fiat Scudo,fiat-scudo,,2026-03-23 14:55:21.779126+00

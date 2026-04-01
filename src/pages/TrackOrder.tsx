@@ -3,8 +3,9 @@ import { useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Package, Clock, CheckCircle2, Truck, AlertCircle, ArrowLeft, Search, Mail, Receipt, Calendar } from "lucide-react";
+import { Package, Clock, CheckCircle2, Factory, Truck, AlertCircle, ArrowLeft, Search, Mail, Receipt, Calendar, CreditCard } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Order {
     id: string;
@@ -26,20 +27,21 @@ export default function TrackOrder() {
     const [error, setError] = useState<string | null>(null);
 
     const fetchOrder = async (id: string, emailStr: string) => {
-        if (!id || !emailStr) return;
+        if (!id) return;
         
         setLoading(true);
         setError(null);
         try {
-            const { data, error } = await supabase
-                .from("pedidos")
-                .select("*")
-                .eq("id", id)
-                .ilike("cliente_email", emailStr.trim())
-                .single();
+            let query = supabase.from("pedidos").select("*").eq("id", id);
+            
+            if (emailStr) {
+                query = query.ilike("cliente_email", emailStr.trim());
+            }
+
+            const { data, error } = await query.single();
 
             if (error || !data) {
-                setError("Pedido não encontrado ou e-mail incorreto.");
+                setError("Pedido não encontrado. Verifique os dados informados.");
                 setOrder(null);
             } else {
                 setOrder(data);
@@ -52,7 +54,8 @@ export default function TrackOrder() {
     };
 
     useEffect(() => {
-        if (orderId && email) {
+        // Auto-fetch se o ID vier na URL
+        if (orderId) {
             fetchOrder(orderId, email);
         }
     }, []);
@@ -66,218 +69,257 @@ export default function TrackOrder() {
         switch (status) {
             case "aguardando_pagamento":
             case "pendente":
-                return { label: "Aguardando Pagamento", icon: Clock, color: "text-amber-500", bg: "bg-amber-100", step: 1 };
+                return { 
+                    label: "Aguardando Pagamento", 
+                    icon: CreditCard, 
+                    color: "text-amber-500", 
+                    bg: "bg-amber-50", 
+                    border: "border-amber-200",
+                    step: 1,
+                    desc: "Recebemos seu pedido e estamos aguardando a confirmação do pagamento."
+                };
+            case "pagamento_aprovado":
             case "pago":
-                return { label: "Pagamento Aprovado", icon: CheckCircle2, color: "text-emerald-500", bg: "bg-emerald-100", step: 2 };
+                return { 
+                    label: "Pagamento Aprovado", 
+                    icon: CheckCircle2, 
+                    color: "text-emerald-500", 
+                    bg: "bg-emerald-50", 
+                    border: "border-emerald-200",
+                    step: 2,
+                    desc: "Tudo certo! Seu pagamento foi confirmado e seu pedido está pronto para a próxima fase."
+                };
+            case "em_fabricacao":
             case "confirmado":
-                return { label: "Em Produção", icon: Receipt, color: "text-blue-500", bg: "bg-blue-100", step: 2 };
+                return { 
+                    label: "Pedido em Fabricação", 
+                    icon: Factory, 
+                    color: "text-blue-500", 
+                    bg: "bg-blue-50", 
+                    border: "border-blue-200",
+                    step: 3,
+                    desc: "Nosso time de produção já iniciou a fabricação dos seus produtos."
+                };
+            case "retirado_fabrica":
             case "enviado":
-                return { label: "Enviado", icon: Truck, color: "text-purple-500", bg: "bg-purple-100", step: 3 };
             case "entregue":
-                return { label: "Entregue", icon: CheckCircle2, color: "text-green-600", bg: "bg-green-100", step: 4 };
+                return { 
+                    label: "Pedido Retirado da Fábrica", 
+                    icon: Package, 
+                    color: "text-indigo-600", 
+                    bg: "bg-indigo-50", 
+                    border: "border-indigo-200",
+                    step: 4,
+                    desc: "Seu pedido foi finalizado e já saiu da nossa fábrica!"
+                };
             case "cancelado":
-                return { label: "Cancelado", icon: AlertCircle, color: "text-red-500", bg: "bg-red-100", step: 0 };
+                return { 
+                    label: "Cancelado", 
+                    icon: AlertCircle, 
+                    color: "text-red-500", 
+                    bg: "bg-red-50", 
+                    border: "border-red-200",
+                    step: 0,
+                    desc: "Este pedido foi cancelado. Entre em contato para mais informações."
+                };
             default:
-                return { label: status, icon: Package, color: "text-gray-500", bg: "bg-gray-100", step: 1 };
+                return { label: status, icon: Package, color: "text-gray-500", bg: "bg-gray-50", border: "border-gray-200", step: 1, desc: "" };
         }
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col">
+        <div className="min-h-screen bg-[#FDFDFF] flex flex-col font-sans">
             <Header />
             
-            <main className="flex-1 pt-32 pb-20 px-4">
-                <div className="max-w-4xl mx-auto">
-                    <Link to="/" className="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-bold mb-8 transition-all">
-                        <ArrowLeft className="w-5 h-5" />
-                        Voltar para Início
-                    </Link>
+            <main className="flex-1 pt-32 pb-20 px-6">
+                <div className="max-w-3xl mx-auto">
+                    <motion.div 
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                    >
+                        <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-cyan-600 font-semibold mb-8 transition-all group">
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                            Voltar para a loja
+                        </Link>
+                    </motion.div>
 
-                    {!order && (
-                        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl border border-slate-100 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                            <div className="max-w-md mx-auto text-center space-y-6">
-                                <div className="w-20 h-20 bg-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                    <Search className="w-10 h-10 text-cyan-600" />
+                    <AnimatePresence mode="wait">
+                        {!order ? (
+                            <motion.div 
+                                key="search"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                className="bg-white rounded-[2rem] p-10 md:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100"
+                            >
+                                <div className="max-w-sm mx-auto text-center space-y-8">
+                                    <div className="w-20 h-20 bg-cyan-50 rounded-3xl flex items-center justify-center mx-auto ring-8 ring-cyan-50/50">
+                                        <Search className="w-10 h-10 text-cyan-600" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Rastrear seu Pedido</h1>
+                                        <p className="text-slate-500 font-medium">Acompanhe cada etapa da sua fabricação</p>
+                                    </div>
+                                    
+                                    <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+                                        <div className="relative group">
+                                            <Receipt className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-cyan-500 transition-colors" />
+                                            <input 
+                                                type="text" 
+                                                placeholder="ID do Pedido" 
+                                                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-cyan-500 focus:outline-none font-bold transition-all placeholder:text-slate-300"
+                                                value={orderId}
+                                                onChange={(e) => setOrderId(e.target.value.replace("#", ""))}
+                                                required
+                                            />
+                                        </div>
+                                        <button 
+                                            type="submit" 
+                                            disabled={loading}
+                                            className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-slate-900/10 hover:bg-cyan-600 active:scale-[0.98] transition-all disabled:opacity-50"
+                                        >
+                                            {loading ? "Buscando..." : "Consultar Status"}
+                                        </button>
+                                    </form>
+
+                                    {error && (
+                                        <motion.div 
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            className="p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 font-semibold flex items-center gap-2"
+                                        >
+                                            <AlertCircle className="w-5 h-5" />
+                                            {error}
+                                        </motion.div>
+                                    )}
                                 </div>
-                                <h1 className="text-3xl font-black text-slate-900 tracking-tight">Rastrear seu Pedido</h1>
-                                <p className="text-slate-600 font-medium">Insira os dados abaixo para ver o status da sua entrega em tempo real.</p>
-                                
-                                <form onSubmit={handleSubmit} className="space-y-4 pt-4">
-                                    <div className="relative">
-                                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                                        <input 
-                                            type="text" 
-                                            placeholder="ID do Pedido (Ex: #8a2f...)" 
-                                            className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 focus:border-cyan-500 focus:outline-none font-bold transition-all"
-                                            value={orderId}
-                                            onChange={(e) => setOrderId(e.target.value.replace("#", ""))}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="relative">
-                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                                        <input 
-                                            type="email" 
-                                            placeholder="Seu e-mail" 
-                                            className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 focus:border-cyan-500 focus:outline-none font-bold transition-all"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                    <button 
-                                        type="submit" 
-                                        disabled={loading}
-                                        className="w-full py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-2xl font-black text-lg shadow-xl shadow-cyan-600/20 active:scale-95 transition-all disabled:opacity-50"
-                                    >
-                                        {loading ? "Buscando..." : "Ver Status agora"}
-                                    </button>
-                                </form>
-
-                                {error && (
-                                    <div className="p-4 bg-red-50 border-2 border-red-100 rounded-xl text-red-600 font-bold flex items-center gap-2 animate-pulse">
-                                        <AlertCircle className="w-5 h-5" />
-                                        {error}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {order && (
-                        <div className="space-y-8 animate-in fade-in duration-700">
-                            {/* Status Header */}
-                            <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100 relative overflow-hidden">
-                                <div className={`absolute top-0 right-0 px-6 py-2 rounded-bl-2xl font-black uppercase text-xs tracking-widest ${getStatusInfo(order.status).bg} ${getStatusInfo(order.status).color}`}>
-                                    {getStatusInfo(order.status).label}
-                                </div>
-                                
-                                <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className={`w-24 h-24 rounded-3xl ${getStatusInfo(order.status).bg} flex items-center justify-center shrink-0`}>
-                                        {(() => {
-                                            const Icon = getStatusInfo(order.status).icon;
-                                            return <Icon className={`w-12 h-12 ${getStatusInfo(order.status).color}`} />;
-                                        })()}
-                                    </div>
-                                    <div className="text-center md:text-left">
-                                        <p className="text-slate-500 font-bold text-sm uppercase tracking-widest mb-2">Status da sua Compra</p>
-                                        <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-none mb-4">
-                                            {getStatusInfo(order.status).label}! ✨
-                                        </h1>
-                                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-                                            <div className="flex items-center gap-2 text-slate-600 bg-slate-100 px-3 py-1 rounded-full text-sm font-bold border border-slate-200">
-                                                <Receipt className="w-4 h-4" />
-                                                #{order.id.slice(0, 8)}
-                                            </div>
-                                            <div className="flex items-center gap-2 text-slate-600 bg-slate-100 px-3 py-1 rounded-full text-sm font-bold border border-slate-200">
-                                                <Calendar className="w-4 h-4" />
-                                                {new Date(order.data_criacao).toLocaleDateString("pt-BR")}
-                                            </div>
+                            </motion.div>
+                        ) : (
+                            <motion.div 
+                                key="order"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="space-y-8"
+                            >
+                                {/* Banner de Status */}
+                                <div className={`bg-white rounded-[2rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border ${getStatusInfo(order.status).border} relative overflow-hidden backdrop-blur-sm`}>
+                                    <div className="flex flex-col md:flex-row gap-10 items-start md:items-center">
+                                        <div className={`w-24 h-24 rounded-3xl ${getStatusInfo(order.status).bg} flex items-center justify-center shrink-0 shadow-inner`}>
+                                            {(() => {
+                                                const Icon = getStatusInfo(order.status).icon;
+                                                return <Icon className={`w-12 h-12 ${getStatusInfo(order.status).color}`} />;
+                                            })()}
+                                        </div>
+                                        <div className="flex-1 space-y-3">
+                                            <span className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest ${getStatusInfo(order.status).bg} ${getStatusInfo(order.status).color}`}>
+                                                {getStatusInfo(order.status).label}
+                                            </span>
+                                            <h1 className="text-3xl font-black text-slate-900 leading-tight">
+                                                {getStatusInfo(order.status).label}!
+                                            </h1>
+                                            <p className="text-slate-500 font-medium leading-relaxed max-w-lg">
+                                                {getStatusInfo(order.status).desc}
+                                            </p>
                                         </div>
                                     </div>
-                                </div>
 
-                                {/* Progress Steps */}
-                                <div className="mt-12 relative">
-                                    <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-100 -translate-y-1/2 rounded-full overflow-hidden">
-                                        <div 
-                                            className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-1000"
-                                            style={{ width: `${(getStatusInfo(order.status).step / 4) * 100}%` }}
-                                        />
-                                    </div>
-                                    <div className="relative flex justify-between">
-                                        {[
-                                            { label: "Recebido", step: 1, icon: Receipt },
-                                            { label: "Pago", step: 2, icon: CheckCircle2 },
-                                            { label: "Enviado", step: 3, icon: Truck },
-                                            { label: "Entregue", step: 4, icon: Package }
-                                        ].map((s) => (
-                                            <div key={s.step} className="flex flex-col items-center gap-3">
-                                                <div className={`w-10 h-10 rounded-full flex items-center justify-center border-4 transition-all duration-500 z-10 ${
-                                                    getStatusInfo(order.status).step >= s.step 
-                                                    ? "bg-white border-cyan-500 text-cyan-500 scale-110 shadow-lg shadow-cyan-200" 
-                                                    : "bg-slate-100 border-slate-200 text-slate-400"
-                                                }`}>
-                                                    <s.icon className="w-5 h-5" />
-                                                </div>
-                                                <span className={`text-xs font-black uppercase tracking-wider ${getStatusInfo(order.status).step >= s.step ? "text-cyan-600" : "text-slate-400"}`}>
-                                                    {s.label}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Order Details Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                {/* Itens */}
-                                <div className="md:col-span-2 space-y-4">
-                                    <div className="bg-white rounded-3xl p-6 shadow-xl border border-slate-100">
-                                        <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-3">
-                                            <Package className="w-6 h-6 text-cyan-600" />
-                                            Produtos no Pedido
-                                        </h3>
-                                        <div className="space-y-4">
-                                            {order.itens.map((item: any, idx: number) => (
-                                                <div key={idx} className="flex gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-cyan-200 transition-colors group">
-                                                    <div className="w-16 h-16 bg-white rounded-xl border border-slate-200 flex-shrink-0 flex items-center justify-center font-black text-cyan-600 overflow-hidden shadow-sm">
-                                                        {item.image ? (
-                                                            <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-125 transition-transform" />
-                                                        ) : (
-                                                            <Package className="w-8 h-8 opacity-20" />
-                                                        )}
+                                    {/* Progress Timeline */}
+                                    <div className="mt-16 relative px-4">
+                                        <div className="absolute top-5 left-0 w-full h-[6px] bg-slate-50 rounded-full">
+                                            <motion.div 
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${((getStatusInfo(order.status).step - 1) / 3) * 100}%` }}
+                                                className="h-full bg-cyan-500 rounded-full"
+                                                transition={{ duration: 1.5, ease: "easeOut" }}
+                                            />
+                                        </div>
+                                        <div className="relative flex justify-between">
+                                            {[
+                                                { label: "Aguardando", step: 1, icon: CreditCard },
+                                                { label: "Aprovado", step: 2, icon: CheckCircle2 },
+                                                { label: "Fabricação", step: 3, icon: Factory },
+                                                { label: "Retirado", step: 4, icon: Package }
+                                            ].map((s) => (
+                                                <div key={s.step} className="flex flex-col items-center gap-4">
+                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center border-4 transition-all duration-700 z-10 ${
+                                                        getStatusInfo(order.status).step >= s.step 
+                                                        ? "bg-white border-cyan-500 text-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.3)] scale-110" 
+                                                        : "bg-slate-100 border-white text-slate-300"
+                                                    }`}>
+                                                        <s.icon className={`${getStatusInfo(order.status).step >= s.step ? "w-5 h-5" : "w-4 h-4"}`} />
                                                     </div>
-                                                    <div className="flex-1">
-                                                        <h4 className="font-bold text-slate-900 group-hover:text-cyan-700 transition-colors">{item.name}</h4>
-                                                        <p className="text-sm text-slate-500 font-bold">{item.quantity}x • {formatCurrency(item.price)}/un</p>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <p className="font-black text-slate-900">{formatCurrency(item.price * item.quantity)}</p>
-                                                    </div>
+                                                    <span className={`text-[10px] font-black uppercase tracking-tighter sm:tracking-widest ${getStatusInfo(order.status).step >= s.step ? "text-slate-900" : "text-slate-300"}`}>
+                                                        {s.label}
+                                                    </span>
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Sumário */}
-                                <div className="space-y-4">
-                                    <div className="bg-white rounded-3xl p-6 shadow-xl border border-slate-100 h-full">
-                                        <h3 className="text-xl font-black text-slate-900 mb-6">Resumo Financeiro</h3>
-                                        <div className="space-y-4 text-sm font-bold">
-                                            <div className="flex justify-between text-slate-500">
-                                                <span>Total do Pedido</span>
-                                                <span className="text-slate-900">{formatCurrency(order.total)}</span>
+                                {/* Seção de Detalhes */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="bg-white rounded-[2rem] p-8 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-slate-50">
+                                        <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-3">
+                                            <Package className="w-5 h-5 text-cyan-500" />
+                                            Itens no Pedido
+                                        </h3>
+                                        <div className="space-y-4">
+                                            {order.itens.map((item: any, idx: number) => (
+                                                <div key={idx} className="flex items-center gap-4 border-b border-slate-50 pb-4 last:border-0">
+                                                    <div className="w-12 h-12 bg-slate-50 rounded-xl flex-shrink-0 flex items-center justify-center font-bold text-slate-400 overflow-hidden">
+                                                        {item.image ? (
+                                                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                                        ) : (
+                                                            <Package className="w-6 h-6 opacity-20" />
+                                                        )}
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h4 className="font-bold text-slate-900 truncate">{item.name}</h4>
+                                                        <p className="text-xs text-slate-400 font-bold">{item.quantity} unidade(s)</p>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <p className="font-bold text-slate-900 text-sm">{formatCurrency(item.price * item.quantity)}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-slate-900 rounded-[2rem] p-8 shadow-xl text-white flex flex-col justify-between">
+                                        <div className="space-y-6">
+                                            <div className="flex justify-between items-center">
+                                                <div className="space-y-1">
+                                                    <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">Número do Pedido</p>
+                                                    <p className="font-bold text-lg">#{order.id.slice(0, 8)}</p>
+                                                </div>
+                                                <Receipt className="w-8 h-8 text-slate-700" />
                                             </div>
-                                            <div className="flex justify-between text-slate-500">
-                                                <span>Frete</span>
-                                                <span className="text-emerald-600">Grátis</span>
-                                            </div>
-                                            <div className="flex justify-between text-slate-500 pt-4 border-t border-slate-100">
-                                                <span className="text-lg font-black text-slate-900">VALOR PAGO</span>
-                                                <span className="text-lg font-black text-cyan-600">{formatCurrency(order.total)}</span>
+                                            <div className="space-y-1">
+                                                <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Final</p>
+                                                <p className="font-black text-3xl text-cyan-400">{formatCurrency(order.total)}</p>
                                             </div>
                                         </div>
                                         
-                                        <div className="mt-8 p-4 bg-cyan-50 rounded-2xl border border-cyan-100">
-                                            <p className="text-xs text-cyan-700 font-bold mb-1 uppercase tracking-widest">Atenção</p>
-                                            <p className="text-xs text-cyan-600 font-medium leading-relaxed">
-                                                Seu pedido já está com nosso time de logística. Em breve você receberá o código de rastreio em seu e-mail.
+                                        <div className="mt-10 p-4 bg-slate-800/50 rounded-2xl border border-slate-800">
+                                            <p className="text-xs text-slate-300 leading-relaxed">
+                                                Seu código de rastreio de transportadora será atualizado assim que o pedido for finalizado.
                                             </p>
                                         </div>
-
-                                        <button 
-                                            onClick={() => { setOrder(null); setOrderId(""); setEmail(""); }}
-                                            className="w-full mt-6 py-3 border-2 border-slate-100 text-slate-400 hover:text-slate-600 hover:border-slate-200 rounded-xl font-bold text-sm transition-all"
-                                        >
-                                            Consultar outro código
-                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    )}
+
+                                <div className="text-center pt-8">
+                                    <button 
+                                        onClick={() => { setOrder(null); setOrderId(""); setEmail(""); }}
+                                        className="text-slate-400 hover:text-slate-900 font-bold text-sm transition-all"
+                                    >
+                                        Consultar outro código
+                                    </button>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </main>
 

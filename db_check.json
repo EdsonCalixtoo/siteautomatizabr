@@ -1,0 +1,419 @@
+{
+  "cats": [
+    {
+      "id": "012f0c40-3d8f-4bb6-8fb6-0cb28f56b215",
+      "name": "🚐 Peugeot Boxer",
+      "key": "peugeot-boxer",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:23.369998+00:00"
+    },
+    {
+      "id": "193aad8f-7c69-4b75-889d-32d698798d0f",
+      "name": "🚐 Citroen Jumper",
+      "key": "citroen-jumper",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:23.615367+00:00"
+    },
+    {
+      "id": "1ff7ae49-cd87-49d9-9e19-37f861227ab9",
+      "name": "🚐 Peugeot Expert",
+      "key": "peugeot-expert",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:23.723305+00:00"
+    },
+    {
+      "id": "2899eee9-54e7-4237-9638-f5b146cafa13",
+      "name": "🚐 Iveco Daily",
+      "key": "iveco-daily",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "308ce963-d28c-4ca7-b220-c6ab98c5ecca",
+      "name": "🚐 Citroen Jumpy",
+      "key": "citroen-jumpy",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:23.86545+00:00"
+    },
+    {
+      "id": "363e8042-e7b7-4319-aeb4-eca11f9619f1",
+      "name": "⚡ Kit Simples",
+      "key": "simples",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "37ada893-a2c0-4553-8aa6-f3dd195ecc37",
+      "name": "🚐 Mercedes Sprinter",
+      "key": "mercedes-sprinter",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "51fa374c-bd7b-478f-b6f1-0dd1d4fa8b72",
+      "name": "📦 Peças & Consumíveis",
+      "key": "consumivel",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "72b75ec1-b0c1-47dc-b14a-5a4812f53870",
+      "name": "🚐 Fiat Ducato",
+      "key": "fiat-ducato",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "7801847f-d889-43e2-94d9-82e0ce6ad038",
+      "name": "🚐 Kia Besta",
+      "key": "kia-besta",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:24.19082+00:00"
+    },
+    {
+      "id": "8c7d43bf-3974-4075-81a5-d36378c6b78a",
+      "name": "🚐 Ford Transit",
+      "key": "ford-transit",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:24.255466+00:00"
+    },
+    {
+      "id": "95268148-861e-496b-bbdf-2c59083d3602",
+      "name": "🚐 Volkswagen Kombi",
+      "key": "vw-kombi",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:24.330411+00:00"
+    },
+    {
+      "id": "a8482662-77c1-4f63-9bae-1cd2701ddc38",
+      "name": "🔧 Acessório",
+      "key": "acessorio",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "c51b5486-6893-4ddc-860f-da2de7a8e71f",
+      "name": "🏆 Kit Completo",
+      "key": "completo",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "d38a4bed-78cc-46fe-8854-ef7d748e0c92",
+      "name": "🚐 Renault Master",
+      "key": "renault-master",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "e26ac1cd-61df-4fae-84d8-a693ba4eefc7",
+      "name": "🚐 Fiat Scudo",
+      "key": "fiat-scudo",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:24.588685+00:00"
+    }
+  ],
+  "subs": [
+    {
+      "id": "00193a0d-6e5d-4a37-a8be-87c9a9d3c6b3",
+      "category_id": "95268148-861e-496b-bbdf-2c59083d3602",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:24.672147+00:00"
+    },
+    {
+      "id": "0e4f569c-4475-4e9c-943c-da4e87c1d883",
+      "category_id": "7801847f-d889-43e2-94d9-82e0ce6ad038",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:24.752995+00:00"
+    },
+    {
+      "id": "12491f04-67ff-463d-b15f-b48875848ce6",
+      "category_id": "363e8042-e7b7-4319-aeb4-eca11f9619f1",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:24.833206+00:00"
+    },
+    {
+      "id": "143711e7-e8f0-4990-8c38-aee995d0f7f2",
+      "category_id": "a8482662-77c1-4f63-9bae-1cd2701ddc38",
+      "name": "Cremalheira",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:24.89734+00:00"
+    },
+    {
+      "id": "1b0e7ed3-1306-48d6-b8d5-c2d6d4a77d3e",
+      "category_id": "308ce963-d28c-4ca7-b220-c6ab98c5ecca",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:24.969102+00:00"
+    },
+    {
+      "id": "1c560270-3012-41f7-9b7e-e0ad70882d1e",
+      "category_id": "95268148-861e-496b-bbdf-2c59083d3602",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.041102+00:00"
+    },
+    {
+      "id": "234c43c2-d78f-4bbf-a7f4-550e47150014",
+      "category_id": "72b75ec1-b0c1-47dc-b14a-5a4812f53870",
+      "name": "ABNT",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.114683+00:00"
+    },
+    {
+      "id": "267b65f2-76cd-4276-b6fe-786513d4358e",
+      "category_id": "193aad8f-7c69-4b75-889d-32d698798d0f",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.17576+00:00"
+    },
+    {
+      "id": "28ab56b3-7b61-40a3-ac2a-5072bd63e9bf",
+      "category_id": "8c7d43bf-3974-4075-81a5-d36378c6b78a",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.250589+00:00"
+    },
+    {
+      "id": "2c97248e-25fc-46f3-ad75-954dcee6c242",
+      "category_id": "a8482662-77c1-4f63-9bae-1cd2701ddc38",
+      "name": "Controle",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.308612+00:00"
+    },
+    {
+      "id": "2e50fa15-364e-48fa-9665-a516a0ec7cb8",
+      "category_id": "a8482662-77c1-4f63-9bae-1cd2701ddc38",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.374843+00:00"
+    },
+    {
+      "id": "2ee1238a-414e-476e-8685-baee744de504",
+      "category_id": "72b75ec1-b0c1-47dc-b14a-5a4812f53870",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.430616+00:00"
+    },
+    {
+      "id": "334e4b1c-e1da-450c-97b9-2c33d0bbc407",
+      "category_id": "51fa374c-bd7b-478f-b6f1-0dd1d4fa8b72",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.513198+00:00"
+    },
+    {
+      "id": "384a2fea-8e74-490d-a3fa-5b2e448b8397",
+      "category_id": "2899eee9-54e7-4237-9638-f5b146cafa13",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.575746+00:00"
+    },
+    {
+      "id": "42bd050a-0b75-4d4c-b0d0-0a4735198dd7",
+      "category_id": "2899eee9-54e7-4237-9638-f5b146cafa13",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.641099+00:00"
+    },
+    {
+      "id": "4a2b42f4-afe3-4b45-83d0-714c153a692b",
+      "category_id": "308ce963-d28c-4ca7-b220-c6ab98c5ecca",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.69737+00:00"
+    },
+    {
+      "id": "4ae0060b-4258-40f1-b3b7-47bb9123a565",
+      "category_id": "e26ac1cd-61df-4fae-84d8-a693ba4eefc7",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.757244+00:00"
+    },
+    {
+      "id": "4ec22d86-22aa-49b9-8097-035374daa1e4",
+      "category_id": "363e8042-e7b7-4319-aeb4-eca11f9619f1",
+      "name": "Kit Essencial",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.817576+00:00"
+    },
+    {
+      "id": "50de954b-ad89-45d0-968c-bf67fb12de78",
+      "category_id": "c51b5486-6893-4ddc-860f-da2de7a8e71f",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "54a50fe7-6314-4f96-ad6f-0a80809b5f07",
+      "category_id": "37ada893-a2c0-4553-8aa6-f3dd195ecc37",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:25.945997+00:00"
+    },
+    {
+      "id": "5606cce6-d204-4b2f-8b40-df9d0c40a6f4",
+      "category_id": "e26ac1cd-61df-4fae-84d8-a693ba4eefc7",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.006574+00:00"
+    },
+    {
+      "id": "58f2ed69-e435-4fd9-98da-4635ccb28045",
+      "category_id": "d38a4bed-78cc-46fe-8854-ef7d748e0c92",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.076322+00:00"
+    },
+    {
+      "id": "6c68fba3-f6b3-419b-80b9-b421d9149028",
+      "category_id": "51fa374c-bd7b-478f-b6f1-0dd1d4fa8b72",
+      "name": "Graxa",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.135998+00:00"
+    },
+    {
+      "id": "71d0304f-6856-4ffb-80ec-ca6438303ea7",
+      "category_id": "72b75ec1-b0c1-47dc-b14a-5a4812f53870",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.196107+00:00"
+    },
+    {
+      "id": "78c8a58e-b9ff-4ce4-8de5-45ee5c710e16",
+      "category_id": "012f0c40-3d8f-4bb6-8fb6-0cb28f56b215",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.252743+00:00"
+    },
+    {
+      "id": "8891002f-75f2-4b89-8640-29e1aa4f29e0",
+      "category_id": "193aad8f-7c69-4b75-889d-32d698798d0f",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.307309+00:00"
+    },
+    {
+      "id": "8bf246e1-2380-49fd-a411-40f3c7d7646a",
+      "category_id": "37ada893-a2c0-4553-8aa6-f3dd195ecc37",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.364294+00:00"
+    },
+    {
+      "id": "915dc394-d034-40f4-80f1-179688c04a74",
+      "category_id": "7801847f-d889-43e2-94d9-82e0ce6ad038",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.424888+00:00"
+    },
+    {
+      "id": "985c49d5-4029-463b-ab09-c1344d034d6c",
+      "category_id": "51fa374c-bd7b-478f-b6f1-0dd1d4fa8b72",
+      "name": "Filtro",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.478563+00:00"
+    },
+    {
+      "id": "99875fd7-9492-4bf9-8a18-300d7297a0ca",
+      "category_id": "a8482662-77c1-4f63-9bae-1cd2701ddc38",
+      "name": "Motores",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.533373+00:00"
+    },
+    {
+      "id": "a0e75ae8-e256-4f05-9595-c27966e44664",
+      "category_id": "363e8042-e7b7-4319-aeb4-eca11f9619f1",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.587394+00:00"
+    },
+    {
+      "id": "a456957d-0cb6-44a0-bf7a-bd3a728940dd",
+      "category_id": "51fa374c-bd7b-478f-b6f1-0dd1d4fa8b72",
+      "name": "Óleo",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.649834+00:00"
+    },
+    {
+      "id": "abbb4be2-d61b-4317-97bf-8ce4d669f5b7",
+      "category_id": "1ff7ae49-cd87-49d9-9e19-37f861227ab9",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.716676+00:00"
+    },
+    {
+      "id": "b3d4a636-fabb-4f3b-972b-0839c75464db",
+      "category_id": "d38a4bed-78cc-46fe-8854-ef7d748e0c92",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.767502+00:00"
+    },
+    {
+      "id": "bfbb17ea-c190-49ea-80b3-ef522667b322",
+      "category_id": "c51b5486-6893-4ddc-860f-da2de7a8e71f",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T17:52:54.225741+00:00"
+    },
+    {
+      "id": "c256e38a-afe8-49c0-89db-3c0108d7f703",
+      "category_id": "51fa374c-bd7b-478f-b6f1-0dd1d4fa8b72",
+      "name": "Com Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.894895+00:00"
+    },
+    {
+      "id": "c5c02d5c-a313-4b89-a5cd-0230974afbc8",
+      "category_id": "012f0c40-3d8f-4bb6-8fb6-0cb28f56b215",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:26.954943+00:00"
+    },
+    {
+      "id": "ca9d8d9e-695c-4c85-85c1-14579851ba91",
+      "category_id": "a8482662-77c1-4f63-9bae-1cd2701ddc38",
+      "name": "Sensores",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:27.011129+00:00"
+    },
+    {
+      "id": "d1b3b9cd-463c-4f6b-8d9d-83bc3a147e13",
+      "category_id": "1ff7ae49-cd87-49d9-9e19-37f861227ab9",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:27.086822+00:00"
+    },
+    {
+      "id": "d3133db2-02d5-4c7c-ae7c-b23d0479ab75",
+      "category_id": "8c7d43bf-3974-4075-81a5-d36378c6b78a",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:27.148735+00:00"
+    },
+    {
+      "id": "db52efcb-e37f-4bf9-9ea5-bf90630aaa9f",
+      "category_id": "a8482662-77c1-4f63-9bae-1cd2701ddc38",
+      "name": "Sem Sensor",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:27.226798+00:00"
+    },
+    {
+      "id": "e2c4ed42-a603-40d5-a3be-d3d67098d653",
+      "category_id": "363e8042-e7b7-4319-aeb4-eca11f9619f1",
+      "name": "Motor Econômico",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:27.294887+00:00"
+    },
+    {
+      "id": "e325d107-1bff-494e-a621-6e35e0c1814a",
+      "category_id": "51fa374c-bd7b-478f-b6f1-0dd1d4fa8b72",
+      "name": "Limpador",
+      "user_id": "1a6d4405-7e4b-4fc0-9c6c-84c4451f5b5b",
+      "created_at": "2026-03-31T18:43:27.42299+00:00"
+    }
+  ]
+}
