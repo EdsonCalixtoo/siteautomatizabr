@@ -61,7 +61,7 @@ serve(async (req: Request) => {
                 // Notificação para os ADMINS
                 await resend.emails.send({
                     from: fromEmail,
-                    to: ['juninho.caxto@gmail.com', 'gueduardo30@hotmail.com'],
+                    to: ['juninho.caxto@gmail.com', 'gugaeduardo30@gmail.com'],
                     subject: `🔔 NOVO PEDIDO: #${order.id.slice(0, 8)}`,
                     html: `
                         <div style="font-family: sans-serif; background: #f1f5f9; padding: 40px 20px;">

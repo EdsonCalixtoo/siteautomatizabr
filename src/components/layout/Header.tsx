@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
 import logoAutomatiza from "@/assets/Automatiza-logo-rgb-01.jpg";
 
-const ADMIN_EMAIL = "gueduardo30@hotmail.com";
+const ADMIN_EMAIL = "gugaeduardo30@gmail.com";
 
 const navLinks = [
   { href: "/", label: "Início" },
