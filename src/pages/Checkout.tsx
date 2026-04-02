@@ -930,31 +930,14 @@ export default function Checkout() {
                             description={`Pedido Automatiza - ${items.length} itens`}
                             externalReference={orderCreated?.id}
                             payerEmail={formData.email || "cliente@automatiza.com.br"}
-                            onPaymentSuccess={async (paymentData) => {
+                            onPaymentSuccess={(paymentData) => {
                               console.log("Payment success data:", paymentData);
-                              try {
-                                if (paymentData.payment_method_id === "pix") {
-                                  const pixCode = paymentData.point_of_interaction?.transaction_data?.qr_code || "";
-                                  const pixQrcode = paymentData.point_of_interaction?.transaction_data?.qr_code_base64 || "";
-                                  await updateOrderStatus(orderCreated.id, "aguardando_pagamento", {
-                                    pix_code: pixCode,
-                                    pix_qrcode: pixQrcode,
-                                    mp_payment_id: String(paymentData.id),
-                                  });
-                                  toast.success("QR Code PIX gerado!");
-                                  navigate(`/pix-payment/${orderCreated.id}`);
-                                } else {
-                                  const cardFinal = paymentData.card?.last_four_digits || "";
-                                  await updateOrderStatus(orderCreated.id, "pago", {
-                                    mp_payment_id: String(paymentData.id),
-                                    cartao_final: cardFinal,
-                                  });
-                                  toast.success("Pagamento aprovado! 🎉");
-                                  setShowSuccessScreen(true);
-                                }
-                              } catch (err: any) {
-                                console.error("Update error:", err);
-                                toast.error("Erro ao atualizar status: " + err.message);
+                              if (paymentData.payment_method_id === "pix") {
+                                toast.success("QR Code PIX gerado!");
+                                navigate(`/pix-payment/${orderCreated.id}`);
+                              } else {
+                                toast.success("Pagamento aprovado! 🎉");
+                                setShowSuccessScreen(true);
                               }
                             }}
                             onPaymentError={(err) => {

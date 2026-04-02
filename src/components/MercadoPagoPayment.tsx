@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { initMercadoPago } from "@mercadopago/sdk-react";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseUrl, supabaseAnonKey } from "@/lib/supabase";
 import { CreditCard, Loader, AlertCircle } from "lucide-react";
 
 interface MercadoPagoPaymentProps {
@@ -95,14 +95,18 @@ export function MercadoPagoPayment({
                         if (err) { console.error("CardForm mount error:", err); return; }
                         cardFormMountedRef.current = true;
                     },
-                    onCardTokenReceived: async (err: any, token: string) => {
-                        if (err || !token) {
+                    onCardTokenReceived: async (err: any, tokenData: any) => {
+                        if (err || !tokenData) {
+                            console.error("Card Token Error:", err);
                             setCardError("Verifique os dados do cartão e tente novamente.");
                             setLoading(false);
                             return;
                         }
+                        
                         const formData = cardFormRef.current.getCardFormData();
-                        await submitPayment("credit_card", token, formData.paymentMethodId);
+                        console.log("Card Data Captured:", { token: tokenData.token, method: formData.paymentMethodId, count: formData.installments, issuerId: formData.issuerId });
+                        
+                        await submitPayment("credit_card", tokenData.token, formData.paymentMethodId, Number(formData.installments), formData.issuerId);
                     },
                     onInstallmentsReceived: (err: any, installments: any) => {
                         if (err) console.error("Installments error:", err);
@@ -124,36 +128,36 @@ export function MercadoPagoPayment({
     }, [mpReady, tab, amount]);
 
     // ── Payment submission ──────────────────────────────────────
-    const submitPayment = async (
-        type: "pix" | "credit_card",
-        token?: string,
-        paymentMethodId?: string
-    ) => {
+    const submitPayment = async (type: "pix" | "credit_card", token?: string, paymentMethodId?: string, installments?: number, issuerId?: string) => {
         try {
-            console.log("Submitting payment:", { type, amount, payerEmail });
+            console.log("Submitting payment:", { type, amount, payerEmail, orderId: externalReference });
 
-            const installments =
-                type === "credit_card"
+            const finalInstallments = installments || 
+                (type === "credit_card"
                     ? Number((document.getElementById("mp-card-installments") as HTMLSelectElement)?.value || 1)
-                    : 1;
+                    : 1);
 
-            // 1. Atualizar o método de pagamento no banco antes de processar
-            await supabase
-                .from("pedidos")
-                .update({ metodo_pagamento: type === "pix" ? "pix" : "cartao" })
-                .eq("id", externalReference);
-
-            // 2. Chamar a função de pagamento
-            const { data, error } = await supabase.functions.invoke("mercadopago-payment", {
-                body: {
-                    payment_type: type,
-                    transaction_amount: amount,
-                    payer_email: payerEmail || "cliente@automatiza.com.br",
-                    description,
-                    external_reference: externalReference,
-                    ...(type === "credit_card" && { token, installments, payment_method_id: paymentMethodId }),
+            // 1. Chamar a função de pagamento (usando fetch direto para evitar erros de auth do cliente)
+            const response = await fetch(`${supabaseUrl}/functions/v1/mercadopago-payment`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${supabaseAnonKey}`,
                 },
+                body: JSON.stringify({
+                    type,
+                    amount,
+                    payerEmail,
+                    orderId: externalReference,
+                    cardToken: token,
+                    installments: Number(installments) || 1,
+                    issuerId, 
+                    paymentMethodId
+                }),
             });
+
+            const data = await response.json();
+            const error = !response.ok ? (data.error || response.statusText) : null;
 
             console.log("Function response:", { data, error });
 

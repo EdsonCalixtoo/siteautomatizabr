@@ -18,17 +18,85 @@ serve(async (req: Request) => {
 
     try {
         // @ts-ignore: Deno global
-        const accessToken = Deno.env.get('MERCADO_PAGO_ACCESS_TOKEN')
+        const accessToken = Deno.env.get('MERCADO_PAGO_ACCESS_TOKEN');
         // @ts-ignore: Deno global
-        const supabaseUrl = Deno.env.get('SUPABASE_URL')
+        const supabaseUrl = Deno.env.get('SUPABASE_URL');
         // @ts-ignore: Deno global
-        const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+        const serviceKey = Deno.env.get('MP_SERVICE_ROLE_KEY') || Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
-        if (!accessToken) return json({ error: 'MERCADO_PAGO_ACCESS_TOKEN não configurado no servidor' })
-        if (!supabaseUrl || !supabaseServiceKey) return json({ error: 'Supabase URL ou Key não configurados' })
+        console.log('--- Nova Requisição de Pagamento ---');
+        console.log(`Debug - URL capturada: ${supabaseUrl ? 'OK' : 'AUSENTE'}`);
+        console.log(`Debug - Chave capturada: ${serviceKey ? 'OK' : 'AUSENTE'}`);
+        
+        if (!supabaseUrl || !serviceKey) {
+            return json({ 
+                error: 'Configuração de ambiente incompleta no Supabase.', 
+                details: `SUPABASE_URL: ${supabaseUrl ? 'OK' : 'MISSING'}, SERVICE_KEY: ${serviceKey ? 'OK' : 'MISSING'}. Certifique-se de que os Secrets estão configurados.`
+            }, 500);
+        }
 
-        const supabase = createClient(supabaseUrl, supabaseServiceKey)
-        const body = await req.json()
+        if (!accessToken) {
+            return json({ error: 'MERCADO_PAGO_ACCESS_TOKEN não configurado nos Secrets.' }, 500);
+        }
+
+        const supabaseMaster = createClient(supabaseUrl, serviceKey);
+        // Usamos a anon key como fallback para leitura se a service_role estiver falhando
+        const anonKey = Deno.env.get('SUPABASE_ANON_KEY') || '';
+        const supabasePublic = createClient(supabaseUrl, anonKey);
+
+        const body = await req.json();
+
+        // ─── VALIDATE ORDER EXISTENCE ────────────────────────────
+        const { orderId } = body;
+        const targetId = orderId || body.external_reference;
+
+        // Tentamos ler com o cliente master primeiro, se falhar usamos o public
+        let { data: orderExists, error: checkError } = await supabaseMaster
+            .from('pedidos')
+            .select('id')
+            .eq('id', targetId)
+            .single();
+
+        if (checkError) {
+            console.warn('Master key falhou no SELECT, tentando Public Key...');
+            const { data: publicData, error: publicError } = await supabasePublic
+                .from('pedidos')
+                .select('id')
+                .eq('id', targetId)
+                .single();
+            
+            if (!publicError) {
+                orderExists = publicData;
+                checkError = null;
+            }
+        }
+
+        if (checkError || !orderExists) {
+            const { data: lastOrders } = await supabaseMaster.from('pedidos').select('id').order('data_criacao', { ascending: false }).limit(3);
+            return json({ 
+                error: checkError?.message || 'Pedido não encontrado.', 
+                receivedId: targetId,
+                keyMatch: serviceKey?.substring(0, 10),
+                db_error: checkError 
+            }, 404);
+        }
+
+        const supabase = supabaseMaster;
+
+        // ─── CHECK PAYMENT STATUS (PREVIOUS ATTEMPTS) ─────────────
+        const { data: existingPayment } = await supabase
+            .from('pagamentos')
+            .select('status')
+            .eq('pedido_id', orderId)
+            .eq('status', 'approved')
+            .single();
+
+        if (existingPayment) {
+            return json({ 
+                error: 'Este pedido já possui um pagamento aprovado.',
+                status: 'pago'
+            }, 400);
+        }
 
         // ─── CHECK PAYMENT STATUS ────────────────────────────────
         if (body.check_payment_id) {
@@ -41,59 +109,72 @@ serve(async (req: Request) => {
 
         // ─── CREATE PAYMENT ──────────────────────────────────────
         const {
-            payment_type,
-            transaction_amount,
-            payer_email,
+            type,
+            amount,
+            payerEmail,
             payer_first_name,
             payer_last_name,
-            external_reference,
+            orderId: bodyOrderId, // Usar o ID que já validamos antes
             description,
-            token,
+            cardToken,
             installments,
-            payment_method_id,
-        } = body
+            issuerId,
+            paymentMethodId,
+        } = body;
 
-        if (!payment_type || !transaction_amount || !payer_email) {
-            return json({ error: 'Campos obrigatórios ausentes: payment_type, transaction_amount, payer_email' })
+        // Fallback para nomes antigos se necessário
+        const finalType = type || body.payment_type;
+        const finalAmount = amount || body.transaction_amount;
+        const finalEmail = payerEmail || body.payer_email;
+        const finalOrderId = bodyOrderId || body.orderId || body.external_reference;
+
+        if (!finalType || !finalAmount || !finalEmail) {
+            return json({ 
+                error: 'Campos obrigatórios ausentes: type, amount, payerEmail',
+                received: { type: finalType, amount: finalAmount, email: finalEmail }
+            }, 400);
         }
 
-        const amount = Math.round(Number(transaction_amount) * 100) / 100
-        if (isNaN(amount) || amount <= 0) {
-            return json({ error: `Valor inválido: ${transaction_amount}` })
+        const numericAmount = Math.round(Number(finalAmount) * 100) / 100;
+        if (isNaN(numericAmount) || numericAmount <= 0) {
+            return json({ error: `Valor inválido: ${finalAmount}` }, 400);
         }
 
-        const payer: Record<string, string> = { email: payer_email };
+        const payer: Record<string, string> = { email: finalEmail };
         if (payer_first_name || payer_last_name) {
             payer.first_name = payer_first_name || 'Cliente';
             payer.last_name = payer_last_name || 'Automatiza';
         }
 
         const payload: Record<string, unknown> = {
-            transaction_amount: amount,
+            transaction_amount: numericAmount,
             description: description || 'Pedido Automatiza',
-            external_reference: external_reference || crypto.randomUUID(),
+            external_reference: finalOrderId || crypto.randomUUID(),
             payer,
         }
 
-        if (payment_type === 'pix') {
+        if (finalType === 'pix') {
             payload.payment_method_id = 'pix'
-        } else if (payment_type === 'credit_card') {
-            if (!token) return json({ error: 'Token do cartão é obrigatório' })
-            payload.token = token
+        } else if (finalType === 'credit_card') {
+            if (!cardToken) return json({ error: 'Token do cartão é obrigatório' })
+            payload.token = cardToken
             payload.installments = Number(installments) || 1
-            payload.payment_method_id = payment_method_id
+            payload.payment_method_id = paymentMethodId
+            payload.issuer_id = issuerId
         } else {
-            return json({ error: `Tipo inválido: "${payment_type}". Use "pix" ou "credit_card"` })
+            return json({ error: `Tipo inválido: "${finalType}". Use "pix" ou "credit_card"` })
         }
 
-        const idempotencyKey = `${external_reference || ''}-${Date.now()}`
+        const idempotencyKey = `${finalOrderId || ''}-${Date.now()}`
 
         console.log('→ MP Payload:', JSON.stringify(payload))
 
-        const r = await fetch('https://api.mercadopago.com/v1/payments', {
+        // Enviando o Access Token na URL como query parameter (mais robusto)
+        const url = `https://api.mercadopago.com/v1/payments?access_token=${accessToken}`
+
+        const r = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
                 'X-Idempotency-Key': idempotencyKey,
             },
@@ -121,16 +202,28 @@ serve(async (req: Request) => {
 
             const novoStatus = orderStatusMap[data.status] || 'aguardando_pagamento'
 
-            await supabase
+            const { data: updateRes, error: paymentError } = await supabase
                 .from('pedidos')
                 .update({
                     mp_payment_id: String(data.id),
                     status: novoStatus,
-                    metodo_pagamento: payment_type,
+                    metodo_pagamento: finalType,
                     cartao_final: data.card?.last_four_digits || null,
+                    pix_code: data.point_of_interaction?.transaction_data?.qr_code || null,
+                    pix_qrcode: data.point_of_interaction?.transaction_data?.qr_code_base64 || null,
                     ...(novoStatus === 'pago' ? { data_pagamento: new Date().toISOString() } : {})
                 })
-                .eq('id', external_reference)
+                .eq('id', finalOrderId);
+
+        if (paymentError) {
+            console.error('Erro de Banco Detalhado:', paymentError);
+            return json({ 
+                error: paymentError.message, 
+                code: paymentError.code, 
+                hint: paymentError.hint,
+                details: paymentError.details 
+            }, 500);
+        }
 
             // 2. Opcional: Salvar na tabela de pagamentos para histórico completo se existir
             // Apenas tentamos, se falhar (tabela não existir) não quebra o fluxo
@@ -142,7 +235,7 @@ serve(async (req: Request) => {
                     status_detail: data.status_detail,
                     transaction_amount: data.transaction_amount,
                     payment_method_id: data.payment_method_id,
-                    external_reference: external_reference,
+                    external_reference: finalOrderId,
                     created_at: data.date_created
                 })
             
