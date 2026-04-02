@@ -34,32 +34,62 @@ serve(async (req: Request) => {
         const body = await req.json()
         console.log('Webhook received:', JSON.stringify(body))
 
-        if (body.type !== 'payment') {
-            return json({ message: `Evento "${body.type}" ignorado` })
+        // No Mercado Pago, o ID pode estar em data.id ou resource (dependendo da versão)
+        const mpPaymentId = body?.data?.id || (body?.resource ? body.resource.split('/').pop() : null);
+        
+        if (!mpPaymentId || (body.type !== 'payment' && body.topic !== 'payment')) {
+            return json({ message: `Evento "${body.type || body.topic}" ignorado ou sem ID` })
         }
 
-        const mpPaymentId = body?.data?.id
-        if (!mpPaymentId) return json({ error: 'ID de pagamento inválido' }, 400)
-
+        // Buscar dados completos do pagamento na API do Mercado Pago
         const mpResponse = await fetch(`https://api.mercadopago.com/v1/payments/${mpPaymentId}`, {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         })
+        
+        if (!mpResponse.ok) {
+            console.error('Erro ao buscar pagamento no MP:', await mpResponse.text())
+            return json({ error: 'Erro ao consultar Mercado Pago' }, 500)
+        }
+        
         const mpData = await mpResponse.json()
-
-        console.log('MP Payment data:', JSON.stringify({
-            id: mpData.id,
-            status: mpData.status,
-            status_detail: mpData.status_detail,
-            payment_type_id: mpData.payment_type_id,
-            external_reference: mpData.external_reference,
-        }))
-
         const orderId = mpData.external_reference
-        const status = mpData.status 
+        const mpStatus = mpData.status 
 
         if (!orderId) {
+            console.warn('Webhook sem external_reference (Order ID)')
             return json({ message: 'Sem referência de pedido' })
         }
+
+        // 1. ATUALIZAR TABELA DE PAGAMENTOS (LOG/HISTÓRICO)
+        const { error: pagError } = await supabase
+            .from('pagamentos')
+            .upsert({
+                id: String(mpData.id),
+                status: mpData.status,
+                status_detail: mpData.status_detail,
+                transaction_amount: mpData.transaction_amount,
+                payment_method_id: mpData.payment_method_id,
+                external_reference: orderId,
+                created_at: mpData.date_created
+            })
+        
+        if (pagError) console.warn('Aviso: Tabela pagamentos não atualizada:', pagError.message)
+
+        // 2. ATUALIZAR TABELA DE PEDIDOS (STATUS PRINCIPAL)
+        // Mapeamento solicitado pelo usuário:
+        // approved → pago, pending → aguardando, rejected → recusado
+        const statusMapping: Record<string, string> = {
+            'approved': 'pago',
+            'pending': 'aguardando',
+            'in_process': 'aguardando',
+            'rejected': 'recusado',
+            'cancelled': 'cancelado',
+            'refunded': 'cancelado',
+            'charged_back': 'cancelado',
+        }
+
+        const novoStatus = statusMapping[mpStatus] || 'aguardando'
+        const realPaymentMethod = mpData.payment_type_id === 'bank_transfer' ? 'pix' : 'cartao'
 
         const { data: order, error: fetchError } = await supabase
             .from('pedidos')
@@ -72,38 +102,33 @@ serve(async (req: Request) => {
             return json({ error: 'Pedido não encontrado' }, 404)
         }
 
-        // Mapeamento de Status do Mercado Pago para o seu sistema
-        let novoStatus = order.status
-        if (status === 'approved') {
-            novoStatus = 'pago'
-        } else if (status === 'rejected' || status === 'cancelled' || status === 'expired') {
-            novoStatus = 'cancelado' // Na Dashboard ele aparecerá como cancelado
+        // Só atualizamos se houver mudança ou para garantir IDs
+        const updateData: any = {
+            status: novoStatus,
+            metodo_pagamento: realPaymentMethod,
+            mp_payment_id: String(mpPaymentId),
+            cartao_final: mpData.card?.last_four_digits || null,
         }
 
-        // Definir o método de pagamento real usado
-        const realPaymentMethod = mpData.payment_type_id === 'bank_transfer' ? 'pix' : 'cartao'
+        if (novoStatus === 'pago' && !order.data_pagamento) {
+            updateData.data_pagamento = new Date().toISOString()
+        }
 
-        if (novoStatus !== order.status || order.metodo_pagamento !== realPaymentMethod) {
-            const { error: updateError } = await supabase
-                .from('pedidos')
-                .update({
-                    status: novoStatus,
-                    metodo_pagamento: realPaymentMethod,
-                    mp_payment_id: String(mpPaymentId),
-                    cartao_final: mpData.card?.last_four_digits || null,
-                    ...(novoStatus === 'pago' ? { data_pagamento: new Date().toISOString() } : {}),
-                })
-                .eq('id', orderId)
+        const { error: updateError } = await supabase
+            .from('pedidos')
+            .update(updateData)
+            .eq('id', orderId)
 
-            if (updateError) {
-                console.error('Erro ao atualizar pedido:', updateError)
-                return json({ error: 'Erro ao atualizar pedido' }, 500)
-            }
+        if (updateError) {
+            console.error('Erro ao atualizar pedido:', updateError)
+            return json({ error: 'Erro ao atualizar pedido' }, 500)
+        }
 
-            console.log(`✅ Pedido ${orderId} atualizado para "${novoStatus}" (${realPaymentMethod})`)
+        console.log(`✅ Pedido ${orderId} atualizado para "${novoStatus}"`)
 
-            // SE FOI PAGO, MANDA E-MAIL "PAGAMENTO APROVADO"
-            if (novoStatus === 'pago') {
+        // 3. DISPARAR E-MAIL SE O STATUS MUDOU PARA PAGO
+        if (novoStatus === 'pago' && order.status !== 'pago') {
+            try {
                 const functionUrl = `${supabaseUrl}/functions/v1/send-order-email`
                 await fetch(functionUrl, {
                     method: 'POST',
@@ -112,10 +137,12 @@ serve(async (req: Request) => {
                         'Authorization': `Bearer ${supabaseServiceKey}`,
                     },
                     body: JSON.stringify({
-                        order: { ...order, status: novoStatus },
+                        order: { ...order, ...updateData },
                         type: 'pagamento_aprovado'
                     })
                 })
+            } catch (emailErr) {
+                console.error('Erro ao disparar e-mail:', emailErr)
             }
         }
 
@@ -126,3 +153,4 @@ serve(async (req: Request) => {
         return json({ error: err.message }, 500)
     }
 })
+

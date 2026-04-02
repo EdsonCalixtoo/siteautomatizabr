@@ -45,7 +45,7 @@ interface Order {
   items: Array<{ id: string; name: string; quantity: number; price: number; category?: string }>;
   total: number;
   paymentMethod: string;
-  status: "pendente" | "pago" | "confirmado" | "enviado" | "entregue" | "cancelado";
+  status: "pendente" | "aguardando" | "pago" | "confirmado" | "enviado" | "entregue" | "cancelado" | "recusado";
   customer: { name: string; email: string; phone: string; cpf_cnpj?: string };
   cartao_final?: string;
   seller?: string;
@@ -625,8 +625,8 @@ const Dashboard = () => {
   // Calcular estatísticas
   const stats = {
     totalOrders: orders.length,
-    totalSales: orders.reduce((sum, order) => sum + order.total, 0),
-    pendingOrders: orders.filter((o) => o.status === "pendente").length,
+    totalSales: orders.filter(o => o.status === "pago" || o.status === "confirmado" || o.status === "enviado" || o.status === "entregue").reduce((sum, order) => sum + order.total, 0),
+    pendingOrders: orders.filter((o) => o.status === "pendente" || o.status === "aguardando").length,
     paidOrders: orders.filter((o) => o.status === "pago" || o.status === "confirmado").length,
     shippedOrders: orders.filter((o) => o.status === "enviado").length,
     deliveredOrders: orders.filter((o) => o.status === "entregue").length,
@@ -652,12 +652,14 @@ const Dashboard = () => {
 
   const StatusBadge = ({ status }: { status: string }) => {
     const colors: { [key: string]: { bg: string; text: string; label: string; icon: any } } = {
-      pendente: { bg: "bg-yellow-100", text: "text-yellow-800", label: "Aguardando Pagamento", icon: <Clock className="w-4 h-4" /> },
+      pendente: { bg: "bg-yellow-100", text: "text-yellow-800", label: "Pendente", icon: <Clock className="w-4 h-4" /> },
+      aguardando: { bg: "bg-amber-100", text: "text-amber-800", label: "Aguardando Pagamento", icon: <Clock className="w-4 h-4" /> },
       pago: { bg: "bg-green-100", text: "text-green-800", label: "Pagamento Aprovado", icon: <CheckCircle2 className="w-4 h-4" /> },
       confirmado: { bg: "bg-blue-100", text: "text-blue-800", label: "Em Produção", icon: <Package className="w-4 h-4" /> },
       enviado: { bg: "bg-purple-100", text: "text-purple-800", label: "Enviado", icon: <Truck className="w-4 h-4" /> },
       entregue: { bg: "bg-green-100", text: "text-green-800", label: "Entregue", icon: <CheckCircle2 className="w-4 h-4" /> },
       cancelado: { bg: "bg-red-100", text: "text-red-800", label: "Cancelado", icon: <AlertCircle className="w-4 h-4" /> },
+      recusado: { bg: "bg-rose-100", text: "text-rose-800", label: "Pagamento Recusado", icon: <AlertCircle className="w-4 h-4" /> },
     };
 
     const color = colors[status] || colors.pendente;
