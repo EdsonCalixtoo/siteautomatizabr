@@ -6,7 +6,7 @@ const About = () => {
   return (
     <Layout>
       {/* Header */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-cyan-50 via-cyan-50 to-white relative overflow-hidden">
+      <section className="pt-40 pb-16 bg-gradient-to-b from-cyan-50 via-cyan-50 to-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
         <div className="absolute bottom-0 left-10 w-72 h-72 bg-cyan-100/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4 animate-bounce-slow" />
         

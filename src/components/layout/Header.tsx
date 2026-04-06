@@ -60,7 +60,7 @@ export function Header() {
     <header 
       className={cn(
         "fixed left-0 right-0 z-50 pointer-events-none transition-all duration-500 ease-in-out",
-        isVisible ? "top-10 md:top-12" : "-top-32"
+        isVisible ? "top-14 md:top-16" : "-top-32"
       )}
     >
       <div className="px-4 flex justify-center pointer-events-auto">

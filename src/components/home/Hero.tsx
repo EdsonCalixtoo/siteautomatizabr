@@ -43,7 +43,7 @@ export function Hero() {
         ))}
       </div>
 
-      <div className="container mx-auto px-4 relative z-10 pt-32 pb-16">
+      <div className="container mx-auto px-4 relative z-10 pt-44 pb-16">
         <div className="max-w-4xl mx-auto text-center space-y-10">
           {/* LEFT CONTENT */}
           <div className="space-y-8 animate-slide-up">
