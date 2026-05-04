@@ -53,7 +53,7 @@ export function CouponForm({ onClose, coupon }: CouponFormProps) {
     <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn">
       <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-white/20">
         {/* Header com Gradiente */}
-        <div className="sticky top-0 bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 p-6 rounded-t-3xl relative overflow-hidden">
+        <div className="sticky top-0 bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 p-6 rounded-t-3xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-3xl" />
           <div className="relative z-10 flex items-center justify-between">
@@ -79,11 +79,11 @@ export function CouponForm({ onClose, coupon }: CouponFormProps) {
           {/* Código do Cupom */}
           <div className="space-y-3">
             <Label htmlFor="code" className="text-gray-700 font-bold text-sm uppercase tracking-wider flex items-center gap-2">
-              <Tag className="w-4 h-4 text-cyan-600" />
+              <Tag className="w-4 h-4 text-green-600" />
               Código do Cupom *
             </Label>
             <div className="flex gap-2">
-              <div className="flex-1 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-xl p-3 border-2 border-cyan-300/50 hover:border-cyan-500/80 transition-all duration-300 focus-within:shadow-lg focus-within:shadow-cyan-500/30">
+              <div className="flex-1 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-3 border-2 border-cyan-300/50 hover:border-green-500/80 transition-all duration-300 focus-within:shadow-lg focus-within:shadow-green-500/30">
                 <Input
                   id="code"
                   type="text"
@@ -97,13 +97,13 @@ export function CouponForm({ onClose, coupon }: CouponFormProps) {
                   }
                   required
                   disabled={!!coupon}
-                  className="border-0 bg-transparent focus:outline-none text-lg font-black tracking-widest text-cyan-700 placeholder:text-cyan-400 uppercase"
+                  className="border-0 bg-transparent focus:outline-none text-lg font-black tracking-widest text-green-700 placeholder:text-yellow-400 uppercase"
                 />
               </div>
               <button
                 type="button"
                 onClick={copyCode}
-                className="p-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg font-semibold"
+                className="p-3 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg font-semibold"
                 title="Copiar código"
               >
                 {copied ? (
@@ -222,7 +222,7 @@ export function CouponForm({ onClose, coupon }: CouponFormProps) {
               <Calendar className="w-4 h-4 text-blue-600" />
               Data de Expiração *
             </Label>
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-3 border-2 border-blue-300/50 hover:border-blue-500/80 transition-all duration-300 focus-within:shadow-lg focus-within:shadow-blue-500/30">
+            <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-3 border-2 border-blue-300/50 hover:border-blue-500/80 transition-all duration-300 focus-within:shadow-lg focus-within:shadow-blue-500/30">
               <Input
                 id="expiryDate"
                 type="date"
@@ -256,12 +256,12 @@ export function CouponForm({ onClose, coupon }: CouponFormProps) {
           </div>
 
           {/* Preview */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-cyan-400/20 via-blue-400/20 to-purple-400/20 border-2 border-dashed border-cyan-500/50 backdrop-blur-sm">
-            <p className="text-xs font-black uppercase tracking-widest text-cyan-700 mb-4 flex items-center gap-2">
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-yellow-400/20 via-blue-400/20 to-purple-400/20 border-2 border-dashed border-green-500/50 backdrop-blur-sm">
+            <p className="text-xs font-black uppercase tracking-widest text-green-700 mb-4 flex items-center gap-2">
               <Star className="w-4 h-4" /> Preview do Cupom
             </p>
             <div className="space-y-3 bg-white/80 rounded-xl p-4 backdrop-blur-sm border border-white/50">
-              <p className="text-2xl font-black text-cyan-600 tracking-widest">{formData.code}</p>
+              <p className="text-2xl font-black text-green-600 tracking-widest">{formData.code}</p>
               <p className="text-sm text-gray-600 font-medium">{formData.description}</p>
               <div className="flex items-center gap-2 pt-2 border-t border-cyan-200">
                 {formData.discountType === "percentage" ? (

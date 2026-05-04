@@ -196,7 +196,7 @@ export function MercadoPagoPayment({
 
     if (!mpReady) {
         return (
-            <div className="flex items-center justify-center py-10 gap-3 text-amber-600 font-bold">
+            <div className="flex items-center justify-center py-10 gap-3 text-green-600 font-bold">
                 <Loader className="w-5 h-5 animate-spin" />
                 Carregando formulário seguro...
             </div>
@@ -221,7 +221,7 @@ export function MercadoPagoPayment({
                     type="button"
                     onClick={() => { setTab("credit_card"); setCardError(null); }}
                     className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 border-2 ${tab === "credit_card"
-                            ? "bg-amber-500 text-white border-amber-500 shadow-lg"
+                            ? "bg-yellow-500 text-white border-yellow-500 shadow-lg"
                             : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"
                         }`}
                 >
@@ -291,24 +291,24 @@ export function MercadoPagoPayment({
                     <div>
                         <label className="block text-xs font-bold text-gray-600 mb-1">Nome no Cartão</label>
                         <input type="text" id="mp-card-name" placeholder="Nome como no cartão"
-                            className="w-full h-12 rounded-xl border-2 border-gray-200 bg-gray-50 px-3 text-sm font-semibold focus:border-amber-400 focus:outline-none" />
+                            className="w-full h-12 rounded-xl border-2 border-gray-200 bg-gray-50 px-3 text-sm font-semibold focus:border-yellow-400 focus:outline-none" />
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                         <div>
                             <label className="block text-xs font-bold text-gray-600 mb-1">Documento</label>
                             <select id="mp-card-doctype"
-                                className="w-full h-12 rounded-xl border-2 border-gray-200 bg-gray-50 px-3 text-sm font-semibold focus:border-amber-400 focus:outline-none" />
+                                className="w-full h-12 rounded-xl border-2 border-gray-200 bg-gray-50 px-3 text-sm font-semibold focus:border-yellow-400 focus:outline-none" />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-gray-600 mb-1">CPF</label>
                             <input type="text" id="mp-card-docnum" placeholder="000.000.000-00"
-                                className="w-full h-12 rounded-xl border-2 border-gray-200 bg-gray-50 px-3 text-sm font-semibold focus:border-amber-400 focus:outline-none" />
+                                className="w-full h-12 rounded-xl border-2 border-gray-200 bg-gray-50 px-3 text-sm font-semibold focus:border-yellow-400 focus:outline-none" />
                         </div>
                     </div>
                     <div>
                         <label className="block text-xs font-bold text-gray-600 mb-1">Parcelas</label>
                         <select id="mp-card-installments"
-                            className="w-full h-12 rounded-xl border-2 border-gray-200 bg-gray-50 px-3 text-sm font-semibold focus:border-amber-400 focus:outline-none" />
+                            className="w-full h-12 rounded-xl border-2 border-gray-200 bg-gray-50 px-3 text-sm font-semibold focus:border-yellow-400 focus:outline-none" />
                     </div>
 
                     {/* Hidden fields */}
@@ -326,7 +326,7 @@ export function MercadoPagoPayment({
                     )}
 
                     <button type="submit" disabled={loading}
-                        className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg disabled:opacity-70"
+                        className="w-full py-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-green-600 hover:to-orange-600 text-white font-bold rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg disabled:opacity-70"
                     >
                         {loading
                             ? <><Loader className="w-5 h-5 animate-spin" /> Processando...</>

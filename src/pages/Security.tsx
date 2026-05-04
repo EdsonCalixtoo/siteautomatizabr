@@ -52,7 +52,7 @@ export default function Security() {
             {/* Criptografia SSL */}
             <div>
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-700 flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center shadow-lg">
                   <Lock className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="font-heading text-3xl font-bold text-gray-900">
@@ -60,21 +60,21 @@ export default function Security() {
                 </h2>
               </div>
               
-              <div className="p-8 rounded-xl bg-cyan-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
+              <div className="p-8 rounded-xl bg-green-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
                 <p className="text-lg text-cyan-900 leading-relaxed mb-6">
                   Toda transação que envolver pagamento, seja por cartão de crédito ou não, estará <span className="font-semibold">encriptada com a tecnologia SSL (Secure Socket Layer)</span>.
                 </p>
                 <ul className="space-y-3">
-                  <li className="flex items-start gap-3 p-4 bg-white rounded-lg border border-cyan-100">
-                    <Check className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <li className="flex items-start gap-3 p-4 bg-white rounded-lg border border-green-100">
+                    <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <span className="text-cyan-900"><span className="font-semibold">Criptografia de ponta a ponta</span> - Seus dados viajam protegidos</span>
                   </li>
-                  <li className="flex items-start gap-3 p-4 bg-white rounded-lg border border-cyan-100">
-                    <Check className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <li className="flex items-start gap-3 p-4 bg-white rounded-lg border border-green-100">
+                    <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <span className="text-cyan-900"><span className="font-semibold">Acesso exclusivo</span> - Apenas nossa empresa tem acesso aos seus dados</span>
                   </li>
-                  <li className="flex items-start gap-3 p-4 bg-white rounded-lg border border-cyan-100">
-                    <Check className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <li className="flex items-start gap-3 p-4 bg-white rounded-lg border border-green-100">
+                    <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <span className="text-cyan-900"><span className="font-semibold">Certificado SSL válido</span> - Protocolo HTTPS ativo em toda a plataforma</span>
                   </li>
                 </ul>

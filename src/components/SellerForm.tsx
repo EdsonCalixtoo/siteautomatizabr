@@ -81,9 +81,9 @@ export function SellerForm({ onClose, seller }: SellerFormProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl border-2 border-cyan-500/30 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl border-2 border-green-500/30 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-cyan-600 to-blue-600 text-white p-6 flex items-center justify-between border-b border-white/10">
+        <div className="sticky top-0 bg-gradient-to-r from-green-600 to-blue-600 text-white p-6 flex items-center justify-between border-b border-white/10">
           <h2 className="text-2xl font-black">
             {seller ? "Editar Vendedor" : "Novo Vendedor"}
           </h2>
@@ -108,7 +108,7 @@ export function SellerForm({ onClose, seller }: SellerFormProps) {
               }
               placeholder="Ex: Gustavo Silva"
               className={`bg-white/10 border-2 text-white placeholder:text-gray-400 ${
-                errors.name ? "border-red-500" : "border-cyan-500/30"
+                errors.name ? "border-red-500" : "border-green-500/30"
               }`}
             />
             {errors.name && (
@@ -127,7 +127,7 @@ export function SellerForm({ onClose, seller }: SellerFormProps) {
               }
               placeholder="email@example.com"
               className={`bg-white/10 border-2 text-white placeholder:text-gray-400 ${
-                errors.email ? "border-red-500" : "border-cyan-500/30"
+                errors.email ? "border-red-500" : "border-green-500/30"
               }`}
             />
             {errors.email && (
@@ -146,7 +146,7 @@ export function SellerForm({ onClose, seller }: SellerFormProps) {
               }
               placeholder="(11) 98765-4321"
               className={`bg-white/10 border-2 text-white placeholder:text-gray-400 ${
-                errors.phone ? "border-red-500" : "border-cyan-500/30"
+                errors.phone ? "border-red-500" : "border-green-500/30"
               }`}
             />
             {errors.phone && (
@@ -170,7 +170,7 @@ export function SellerForm({ onClose, seller }: SellerFormProps) {
               }
               placeholder="10"
               className={`bg-white/10 border-2 text-white placeholder:text-gray-400 ${
-                errors.commissionRate ? "border-red-500" : "border-cyan-500/30"
+                errors.commissionRate ? "border-red-500" : "border-green-500/30"
               }`}
             />
             {errors.commissionRate && (
@@ -190,13 +190,13 @@ export function SellerForm({ onClose, seller }: SellerFormProps) {
               {AVAILABLE_CATEGORIES.map((category) => (
                 <label
                   key={category}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-white/5 border-2 border-white/10 hover:border-cyan-500/50 cursor-pointer transition-all group"
+                  className="flex items-center gap-3 p-4 rounded-xl bg-white/5 border-2 border-white/10 hover:border-green-500/50 cursor-pointer transition-all group"
                 >
                   <input
                     type="checkbox"
                     checked={formData.categories.includes(category)}
                     onChange={() => handleCategoryToggle(category)}
-                    className="w-5 h-5 rounded border-2 border-cyan-500 bg-cyan-500/20 cursor-pointer accent-cyan-500"
+                    className="w-5 h-5 rounded border-2 border-green-500 bg-green-500/20 cursor-pointer accent-green-500"
                   />
                   <span className="text-white font-semibold group-hover:text-cyan-300 transition-colors">
                     {category}

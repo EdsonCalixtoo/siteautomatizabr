@@ -259,15 +259,15 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl border-2 border-cyan-500/30 shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl border-2 border-green-500/30 shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-cyan-600 to-blue-600 text-white p-6 flex items-center justify-between border-b border-white/10">
+        <div className="sticky top-0 bg-gradient-to-r from-green-600 to-blue-600 text-white p-6 flex items-center justify-between border-b border-white/10">
           <div>
             <h2 className="text-3xl font-black flex items-center gap-2">
               {product && product.id ? "Editar Produto" : product ? "Duplicar Produto" : "Novo Produto"}
             </h2>
             {product && product.id && (
-              <p className="text-cyan-100 text-sm mt-1">ID: {product.id}</p>
+              <p className="text-green-100 text-sm mt-1">ID: {product.id}</p>
             )}
           </div>
           <button
@@ -284,7 +284,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
             onClick={() => setActiveSection("basico")}
             className={`px-6 py-2 rounded-xl font-bold transition-all ${
               activeSection === "basico"
-                ? "bg-cyan-600 text-white"
+                ? "bg-green-600 text-white"
                 : "bg-white/10 text-gray-300 hover:bg-white/20"
             }`}
           >
@@ -295,7 +295,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
             onClick={() => setActiveSection("tecnico")}
             className={`px-6 py-2 rounded-xl font-bold transition-all ${
               activeSection === "tecnico"
-                ? "bg-cyan-600 text-white"
+                ? "bg-green-600 text-white"
                 : "bg-white/10 text-gray-300 hover:bg-white/20"
             }`}
           >
@@ -330,7 +330,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                     setFormData({ ...formData, name: e.target.value })
                   }
                   className={`bg-white/10 border-2 text-white placeholder:text-gray-400 ${
-                    errors.name ? "border-red-500" : "border-cyan-500/30"
+                    errors.name ? "border-red-500" : "border-green-500/30"
                   }`}
                 />
                 {errors.name && (
@@ -348,7 +348,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                   onChange={(e) =>
                     setFormData({ ...formData, shortDescription: e.target.value })
                   }
-                  className="bg-white/10 border-2 border-cyan-500/30 text-white placeholder:text-gray-400"
+                  className="bg-white/10 border-2 border-green-500/30 text-white placeholder:text-gray-400"
                 />
               </div>
 
@@ -363,7 +363,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                   }
                   rows={4}
                   className={`w-full bg-white/10 border-2 text-white placeholder:text-gray-400 rounded-xl p-4 font-sans resize-none ${
-                    errors.description ? "border-red-500" : "border-cyan-500/30"
+                    errors.description ? "border-red-500" : "border-green-500/30"
                   }`}
                 />
                 {errors.description && (
@@ -380,7 +380,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                 
                 {/* Lista de Features */}
                 {features.length > 0 && (
-                  <div className="space-y-2 bg-white/5 rounded-xl p-3 border border-cyan-500/20">
+                  <div className="space-y-2 bg-white/5 rounded-xl p-3 border border-green-500/20">
                     {features.map((feature, index) => (
                       <div key={index} className="flex items-center justify-between gap-2 bg-white/10 p-2 rounded-lg">
                         <span className="text-white text-sm flex-1">✓ {feature}</span>
@@ -411,7 +411,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                         setNewFeature("");
                       }
                     }}
-                    className="flex-1 bg-white/10 border-2 border-cyan-500/30 text-white placeholder:text-gray-400"
+                    className="flex-1 bg-white/10 border-2 border-green-500/30 text-white placeholder:text-gray-400"
                   />
                   <button
                     type="button"
@@ -421,7 +421,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                         setNewFeature("");
                       }
                     }}
-                    className="px-4 py-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg font-semibold transition-all text-sm"
+                    className="px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all text-sm"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -444,7 +444,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                         subcategory: relevantSubs[0]?.name || "",
                       });
                     }}
-                    className="w-full bg-white/10 border-2 border-cyan-500/30 text-white rounded-xl p-3 font-semibold hover:border-cyan-500/60 transition-all"
+                    className="w-full bg-white/10 border-2 border-green-500/30 text-white rounded-xl p-3 font-semibold hover:border-green-500/60 transition-all"
                   >
                     {/* Incluir a categoria atual mesmo que não esteja na lista padrão para evitar erro */}
                     {!categories.some(c => c.key === formData.category) && formData.category && (
@@ -467,7 +467,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                     onChange={(e) =>
                       setFormData({ ...formData, subcategory: e.target.value })
                     }
-                    className="w-full bg-white/10 border-2 border-cyan-500/30 text-white rounded-xl p-3 font-semibold hover:border-cyan-500/60 transition-all"
+                    className="w-full bg-white/10 border-2 border-green-500/30 text-white rounded-xl p-3 font-semibold hover:border-green-500/60 transition-all"
                   >
                     {subcategories
                       .filter(s => s.categoryId === categories.find(c => c.key === formData.category)?.id)
@@ -487,7 +487,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                     <span className="w-2 h-2 rounded-full bg-green-400"></span>
                     Preço (R$) *
                   </Label>
-                  <div className="flex items-center gap-2 bg-gradient-to-r from-cyan-600/10 to-blue-600/10 rounded-xl p-3 border-2 border-cyan-500/30 hover:border-cyan-500/60 transition-all duration-300 focus-within:border-cyan-500/80 focus-within:shadow-lg focus-within:shadow-cyan-500/20">
+                  <div className="flex items-center gap-2 bg-gradient-to-r from-green-600/10 to-blue-600/10 rounded-xl p-3 border-2 border-green-500/30 hover:border-green-500/60 transition-all duration-300 focus-within:border-green-500/80 focus-within:shadow-lg focus-within:shadow-green-500/20">
                     <span className="text-green-400 font-black text-lg">R$</span>
                     <Input
                       type="text"
@@ -554,10 +554,10 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
 
                 <div className="space-y-2">
                   <Label className="text-white font-bold text-sm uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                    <span className="w-2 h-2 rounded-full bg-yellow-400"></span>
                     Selo / Badge
                   </Label>
-                  <div className="bg-gradient-to-r from-amber-600/10 to-orange-600/10 rounded-xl p-3 border-2 border-amber-500/30 hover:border-amber-500/60 transition-all duration-300">
+                  <div className="bg-gradient-to-r from-green-600/10 to-orange-600/10 rounded-xl p-3 border-2 border-yellow-500/30 hover:border-yellow-500/60 transition-all duration-300">
                     <Input
                       type="text"
                       placeholder="Ex: Mais Vendido, Oferta"
@@ -580,7 +580,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                     onChange={(e) =>
                       setFormData({ ...formData, status: e.target.value })
                     }
-                    className="w-full bg-gradient-to-r from-blue-600/10 to-cyan-600/10 border-2 border-blue-500/30 text-white rounded-xl p-3 font-semibold hover:border-blue-500/60 transition-all cursor-pointer appearance-none"
+                    className="w-full bg-gradient-to-r from-blue-600/10 to-green-600/10 border-2 border-blue-500/30 text-white rounded-xl p-3 font-semibold hover:border-blue-500/60 transition-all cursor-pointer appearance-none"
                   >
                     <option value="ativo" className="bg-slate-900">
                       ✓ Ativo
@@ -611,7 +611,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full py-4 border-2 border-dashed border-cyan-500/30 hover:border-cyan-500/60 rounded-xl transition-all flex flex-col items-center gap-3 hover:bg-white/5 group"
+                  className="w-full py-4 border-2 border-dashed border-green-500/30 hover:border-green-500/60 rounded-xl transition-all flex flex-col items-center gap-3 hover:bg-white/5 group"
                 >
                   <div className="p-3 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-lg group-hover:from-purple-600/40 group-hover:to-pink-600/40 transition-all">
                     <Upload className="w-6 h-6 text-purple-400" />
@@ -632,7 +632,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                       {images.map((image, index) => (
                         <div
                           key={index}
-                          className="relative group rounded-xl overflow-hidden border-2 border-cyan-500/30 hover:border-cyan-500/60 transition-all"
+                          className="relative group rounded-xl overflow-hidden border-2 border-green-500/30 hover:border-green-500/60 transition-all"
                         >
                           {/* Imagem */}
                           <img
@@ -720,7 +720,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                             (e.target as HTMLInputElement).value = "";
                           }
                         }}
-                        className="flex-1 bg-white/10 border-2 border-cyan-500/30 text-white placeholder:text-gray-400 h-10"
+                        className="flex-1 bg-white/10 border-2 border-green-500/30 text-white placeholder:text-gray-400 h-10"
                       />
                       <button
                         type="button"
@@ -731,7 +731,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                             input.value = "";
                           }
                         }}
-                        className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-all font-semibold text-sm"
+                        className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all font-semibold text-sm"
                       >
                         Adicionar
                       </button>
@@ -886,7 +886,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                     onChange={(e) =>
                       setFormData({ ...formData, material: e.target.value })
                     }
-                    className="bg-white/10 border-2 border-cyan-500/30 text-white placeholder:text-gray-400"
+                    className="bg-white/10 border-2 border-green-500/30 text-white placeholder:text-gray-400"
                   />
                 </div>
 
@@ -900,7 +900,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                       onChange={(e) =>
                         setFormData({ ...formData, weight: e.target.value })
                       }
-                      className="flex-1 bg-white/10 border-2 border-cyan-500/30 text-white placeholder:text-gray-400"
+                      className="flex-1 bg-white/10 border-2 border-green-500/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
@@ -918,7 +918,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                   onChange={(e) =>
                     setFormData({ ...formData, dimensions: e.target.value })
                   }
-                  className="bg-white/10 border-2 border-cyan-500/30 text-white placeholder:text-gray-400"
+                  className="bg-white/10 border-2 border-green-500/30 text-white placeholder:text-gray-400"
                 />
               </div>
 
@@ -974,7 +974,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                   onChange={(e) =>
                     setFormData({ ...formData, warranty: e.target.value })
                   }
-                  className="w-full bg-white/10 border-2 border-cyan-500/30 text-white rounded-xl p-3 font-semibold"
+                  className="w-full bg-white/10 border-2 border-green-500/30 text-white rounded-xl p-3 font-semibold"
                 >
                   <option value="6 meses" className="bg-slate-900">
                     6 Meses
@@ -992,7 +992,7 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
               </div>
 
               {/* Resumo */}
-              <div className="bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 rounded-xl p-4 space-y-3">
+              <div className="bg-gradient-to-r from-green-600/20 to-blue-600/20 border border-green-500/30 rounded-xl p-4 space-y-3">
                 <p className="text-white font-bold">📋 Resumo do Produto</p>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>

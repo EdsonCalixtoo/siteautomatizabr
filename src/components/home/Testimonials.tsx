@@ -8,7 +8,7 @@ const testimonials = [
     message: "Melhor investimento que fiz! Meus passageiros adoraram. Agora não preciso mais ficar abrindo a porta manualmente. O sistema é muito confiável.",
     rating: 5,
     avatar: "J",
-    color: "from-cyan-500 to-blue-600",
+    color: "from-green-500 to-blue-600",
   },
   {
     name: "Maria Santos",
@@ -41,7 +41,7 @@ export function Testimonials() {
     <section className="py-28 bg-gradient-to-b from-slate-900 to-slate-950 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px]" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-green-500/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px]" />
       </div>
 
@@ -75,7 +75,7 @@ export function Testimonials() {
               <div className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${t.color} opacity-50 group-hover:opacity-100 transition-opacity`} />
 
               {/* Quote icon */}
-              <Quote className="w-8 h-8 text-cyan-500/30 mb-4" />
+              <Quote className="w-8 h-8 text-green-500/30 mb-4" />
 
               {/* Stars */}
               <div className="flex gap-1 mb-4">
@@ -107,11 +107,11 @@ export function Testimonials() {
         </div>
 
         {/* Stats Banner */}
-        <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-3xl p-8">
+        <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/20 rounded-3xl p-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             {stats.map((stat, i) => (
               <div key={i} className="space-y-2 group">
-                <p className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:scale-110 transition-transform duration-300 inline-block">
+                <p className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-blue-400 group-hover:scale-110 transition-transform duration-300 inline-block">
                   {stat.value}
                 </p>
                 <p className="text-slate-400 font-medium">{stat.label}</p>

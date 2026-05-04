@@ -140,9 +140,9 @@ export default function InstallationVideos() {
               </div>
             </div>
 
-            <div className="p-6 rounded-xl bg-cyan-50 border border-cyan-200 hover:border-cyan-300 transition-colors animate-slide-up" style={{ animationDelay: '250ms' }}>
+            <div className="p-6 rounded-xl bg-green-50 border border-cyan-200 hover:border-cyan-300 transition-colors animate-slide-up" style={{ animationDelay: '250ms' }}>
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-cyan-600 text-white flex items-center justify-center flex-shrink-0 font-bold">
+                <div className="w-10 h-10 rounded-full bg-green-600 text-white flex items-center justify-center flex-shrink-0 font-bold">
                   ✓
                 </div>
                 <div>

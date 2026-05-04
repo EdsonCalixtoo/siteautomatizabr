@@ -10,12 +10,12 @@ export default function Returns() {
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto space-y-4 animate-slide-up">
-            <div className="inline-flex items-center justify-center gap-2 text-amber-600 font-semibold text-sm uppercase tracking-wider bg-amber-100/50 px-4 py-2 rounded-full border border-amber-200">
+            <div className="inline-flex items-center justify-center gap-2 text-green-600 font-semibold text-sm uppercase tracking-wider bg-amber-100/50 px-4 py-2 rounded-full border border-amber-200">
               <RefreshCw className="w-4 h-4" />
               Política Flexível
             </div>
             <h1 className="font-heading text-5xl md:text-6xl font-bold text-gray-900">
-              Trocas e <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-amber-700">Devoluções</span>
+              Trocas e <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-amber-700">Devoluções</span>
             </h1>
             <p className="text-xl text-gray-700 max-w-3xl">
               Você tem direito a devolver ou trocar seu produto em até 7 dias. Conheça nossas condições
@@ -31,7 +31,7 @@ export default function Returns() {
             {/* Solicitação */}
             <div>
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-600 to-amber-700 flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-600 to-amber-700 flex items-center justify-center shadow-lg">
                   <Phone className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="font-heading text-3xl font-bold text-gray-900">
@@ -47,15 +47,15 @@ export default function Returns() {
                   <p className="font-semibold text-gray-900">📍 Entre em contato através de:</p>
                   <ul className="space-y-2 text-amber-900">
                     <li className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-amber-600" />
+                      <Check className="w-4 h-4 text-green-600" />
                       <span><span className="font-semibold">WhatsApp</span> - No rodapé do site</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-amber-600" />
+                      <Check className="w-4 h-4 text-green-600" />
                       <span><span className="font-semibold">Email</span> - No rodapé do site</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-amber-600" />
+                      <Check className="w-4 h-4 text-green-600" />
                       <span><span className="font-semibold">Página "Fale Conosco"</span> - Para mais informações</span>
                     </li>
                   </ul>
@@ -119,7 +119,7 @@ export default function Returns() {
             {/* Envio */}
             <div>
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-700 flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center shadow-lg">
                   <RefreshCw className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="font-heading text-3xl font-bold text-gray-900">
@@ -128,21 +128,21 @@ export default function Returns() {
               </div>
               
               <div className="space-y-4">
-                <div className="p-6 rounded-xl bg-cyan-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
+                <div className="p-6 rounded-xl bg-green-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
                   <h3 className="font-semibold text-lg text-cyan-900 mb-3">Custo do Frete</h3>
                   <p className="text-cyan-900 leading-relaxed">
                     O custo de frete para o retorno da mercadoria será de <span className="font-bold">responsabilidade da loja virtual</span>, não tendo custo adicional ao consumidor.
                   </p>
                 </div>
 
-                <div className="p-6 rounded-xl bg-cyan-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
+                <div className="p-6 rounded-xl bg-green-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
                   <h3 className="font-semibold text-lg text-cyan-900 mb-3">Prazo de Solicitação</h3>
                   <p className="text-cyan-900 leading-relaxed">
                     Sendo necessário que o consumidor solicite a troca, devolução ou direito de arrependimento no prazo máximo de <span className="font-bold">7 dias</span> após o recebimento da mercadoria.
                   </p>
                 </div>
 
-                <div className="p-6 rounded-xl bg-cyan-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
+                <div className="p-6 rounded-xl bg-green-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
                   <h3 className="font-semibold text-lg text-cyan-900 mb-3">Fluxo de Envio</h3>
                   <p className="text-cyan-900 leading-relaxed">
                     O fluxo de envio será explicado por nossa equipe de atendimento, onde irá depender da quantidade e tamanho do produto que será retornado.
@@ -217,7 +217,7 @@ export default function Returns() {
             </div>
 
             {/* Resumo */}
-            <div className="bg-gradient-to-r from-amber-600 to-amber-700 rounded-2xl p-8 text-white shadow-xl">
+            <div className="bg-gradient-to-r from-green-600 to-amber-700 rounded-2xl p-8 text-white shadow-xl">
               <h3 className="font-heading text-2xl font-bold mb-4 flex items-center gap-2">
                 <RefreshCw className="w-6 h-6" />
                 Sua Satisfação é Nossa Prioridade

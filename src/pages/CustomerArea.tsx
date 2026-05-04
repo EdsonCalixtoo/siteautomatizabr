@@ -26,7 +26,7 @@ interface CustomerProfile {
 const getStatusColor = (status: string) => {
   switch (status) {
     case "pendente":
-      return "bg-amber-500/20 text-amber-500 border border-amber-500/30";
+      return "bg-yellow-500/20 text-yellow-500 border border-yellow-500/30";
     case "pago":
     case "confirmado":
       return "bg-emerald-500/20 text-emerald-500 border border-emerald-500/30";
@@ -543,7 +543,7 @@ export default function CustomerArea() {
           <div className="mb-8">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-semibold mb-6 transition-colors"
+              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold mb-6 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Voltar
@@ -566,7 +566,7 @@ export default function CustomerArea() {
             <div className="md:col-span-1">
               <div className="bg-white rounded-xl border-2 border-gray-200 p-6 shadow-lg sticky top-24">
                 <div className="flex flex-col items-center text-center mb-6">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-600 to-cyan-700 flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center mb-4">
                     <User className="w-8 h-8 text-white" />
                   </div>
                   <h2 className="font-bold text-gray-900">
@@ -574,7 +574,7 @@ export default function CustomerArea() {
                   </h2>
                   <p className="text-sm text-gray-600">{customer.email}</p>
                   {!customer.name && (
-                    <p className="text-xs text-amber-600 mt-2 bg-amber-50 px-2 py-1 rounded">
+                    <p className="text-xs text-green-600 mt-2 bg-amber-50 px-2 py-1 rounded">
                       ⚠️ Preencha seu perfil
                     </p>
                   )}
@@ -585,7 +585,7 @@ export default function CustomerArea() {
                     onClick={() => setActiveTab("orders")}
                     className={`w-full text-left px-4 py-3 rounded-lg font-semibold transition-colors flex items-center gap-3 ${
                       activeTab === "orders"
-                        ? "bg-cyan-100 text-cyan-700"
+                        ? "bg-green-100 text-green-700"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
                   >
@@ -596,7 +596,7 @@ export default function CustomerArea() {
                     onClick={() => setActiveTab("profile")}
                     className={`w-full text-left px-4 py-3 rounded-lg font-semibold transition-colors flex items-center gap-3 ${
                       activeTab === "profile"
-                        ? "bg-cyan-100 text-cyan-700"
+                        ? "bg-green-100 text-green-700"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
                   >
@@ -615,19 +615,19 @@ export default function CustomerArea() {
                   <div className="grid grid-cols-3 gap-4 mb-8">
                     <div className="bg-white rounded-xl border-2 border-gray-200 p-4 shadow-lg">
                       <p className="text-sm text-gray-600 mb-1">Total de Pedidos</p>
-                      <p className="text-3xl font-bold text-cyan-600">
+                      <p className="text-3xl font-bold text-green-600">
                         {orders.length}
                       </p>
                     </div>
                     <div className="bg-white rounded-xl border-2 border-gray-200 p-4 shadow-lg">
                       <p className="text-sm text-gray-600 mb-1">Gasto Total</p>
-                      <p className="text-3xl font-bold text-cyan-600">
+                      <p className="text-3xl font-bold text-green-600">
                         {formatCurrency(totalSpent)}
                       </p>
                     </div>
                     <div className="bg-white rounded-xl border-2 border-gray-200 p-4 shadow-lg">
                       <p className="text-sm text-gray-600 mb-1">Status</p>
-                      <p className="text-sm font-bold text-cyan-600">
+                      <p className="text-sm font-bold text-green-600">
                         {customer.name ? "✅ Perfil Completo" : "⚠️ Perfil Incompleto"}
                       </p>
                     </div>
@@ -644,7 +644,7 @@ export default function CustomerArea() {
                         agora!
                       </p>
                       <Link to="/produtos">
-                        <Button className="bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white px-8 py-3 rounded-xl">
+                        <Button className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-cyan-800 text-white px-8 py-3 rounded-xl">
                           Ir para Loja
                         </Button>
                       </Link>
@@ -672,7 +672,7 @@ export default function CustomerArea() {
                             <div className="flex items-center gap-4">
                               <div className="text-right">
                                 <p className="text-sm text-gray-600">Total</p>
-                                <p className="text-2xl font-bold text-cyan-600">
+                                <p className="text-2xl font-bold text-green-600">
                                   {formatCurrency(order.total)}
                                 </p>
                               </div>
@@ -710,7 +710,7 @@ export default function CustomerArea() {
                           </div>
 
                           <div className="flex gap-3">
-                            <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 border-cyan-600 text-cyan-600 hover:bg-cyan-50 font-semibold transition-colors">
+                            <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 border-green-600 text-green-600 hover:bg-green-50 font-semibold transition-colors">
                               <Eye className="w-4 h-4" />
                               Ver Detalhes
                             </button>
@@ -749,7 +749,7 @@ export default function CustomerArea() {
                               setEditData({ ...editData, name: e.target.value })
                             }
                             placeholder="Digite seu nome"
-                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-cyan-600 focus:outline-none"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-600 focus:outline-none"
                           />
                         ) : (
                           <div className="px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-50 text-gray-900 font-semibold">
@@ -780,7 +780,7 @@ export default function CustomerArea() {
                               handlePhoneChange(e.target.value)
                             }
                             placeholder="(19) 99691-2323"
-                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-cyan-600 focus:outline-none"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-600 focus:outline-none"
                           />
                         ) : (
                           <div className="px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-50 text-gray-900 font-semibold">
@@ -801,7 +801,7 @@ export default function CustomerArea() {
                               setEditData({ ...editData, cpf: e.target.value })
                             }
                             placeholder="000.000.000-00"
-                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-cyan-600 focus:outline-none"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-600 focus:outline-none"
                           />
                         ) : (
                           <div className="px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-50 text-gray-900 font-semibold">
@@ -819,7 +819,7 @@ export default function CustomerArea() {
                               setIsEditing(true);
                               setEditData(customer);
                             }}
-                            className="border-cyan-600 text-cyan-600 hover:bg-cyan-50"
+                            className="border-green-600 text-green-600 hover:bg-green-50"
                             variant="outline"
                           >
                             ✏️ Editar Perfil
@@ -828,7 +828,7 @@ export default function CustomerArea() {
                           <>
                             <Button
                               onClick={handleSaveProfile}
-                              className="bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white"
+                              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-cyan-800 text-white"
                             >
                               ✅ Salvar Alterações
                             </Button>

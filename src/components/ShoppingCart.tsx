@@ -15,7 +15,7 @@ export function ShoppingCart() {
       {/* Cart Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="relative p-3 text-gray-700 hover:text-cyan-600 transition-colors duration-300 flex items-center gap-2"
+        className="relative p-3 text-gray-700 hover:text-green-600 transition-colors duration-300 flex items-center gap-2"
       >
         <ShoppingCartIcon className="w-6 h-6" />
         {itemCount > 0 && (
@@ -42,7 +42,7 @@ export function ShoppingCart() {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
-            <ShoppingCartIcon className="w-6 h-6 text-cyan-600" />
+            <ShoppingCartIcon className="w-6 h-6 text-green-600" />
             <h2 className="text-2xl font-bold text-gray-900">Carrinho</h2>
           </div>
           <button
@@ -84,7 +84,7 @@ export function ShoppingCart() {
                     <h3 className="font-semibold text-gray-900 text-sm line-clamp-2">
                       {item.name}
                     </h3>
-                    <p className="text-cyan-600 font-bold text-sm mt-1">
+                    <p className="text-green-600 font-bold text-sm mt-1">
                       {formatCurrency(item.price)}
                     </p>
                   </div>
@@ -142,14 +142,14 @@ export function ShoppingCart() {
             </div>
 
             <Link to="/checkout" onClick={() => setIsOpen(false)}>
-              <Button className="w-full bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white py-3 rounded-xl font-semibold">
+              <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-cyan-800 text-white py-3 rounded-xl font-semibold">
                 Ir para Checkout
               </Button>
             </Link>
 
             <button
               onClick={() => setIsOpen(false)}
-              className="w-full py-2 text-gray-700 hover:text-cyan-600 font-medium transition-colors"
+              className="w-full py-2 text-gray-700 hover:text-green-600 font-medium transition-colors"
             >
               Continuar Comprando
             </button>

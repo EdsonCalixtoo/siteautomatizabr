@@ -154,12 +154,12 @@ export function SupabaseDiagnostic() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Database className="w-6 h-6 text-cyan-400" />
+          <Database className="w-6 h-6 text-yellow-400" />
           <h3 className="text-lg font-bold text-white">Diagnóstico Supabase</h3>
         </div>
         <button
           onClick={() => setShowDetails(!showDetails)}
-          className="text-cyan-400 hover:text-cyan-300 underline text-sm"
+          className="text-yellow-400 hover:text-cyan-300 underline text-sm"
         >
           {showDetails ? "Ocultar" : "Detalhes"}
         </button>
@@ -242,7 +242,7 @@ export function SupabaseDiagnostic() {
         <Button
           onClick={runDiagnostics}
           disabled={isRunning}
-          className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-2"
+          className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-2"
         >
           <RefreshCw className={`w-4 h-4 ${isRunning ? "animate-spin" : ""}`} />
           Re-verificar

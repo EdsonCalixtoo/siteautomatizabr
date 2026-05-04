@@ -169,7 +169,7 @@ export default function Warranty() {
             {/* Procedimento */}
             <div>
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-700 flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center shadow-lg">
                   <Check className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="font-heading text-3xl font-bold text-gray-900">
@@ -185,7 +185,7 @@ export default function Warranty() {
                   "Manutenção ou substituição em aproximadamente 10 dias úteis"
                 ].map((step, i) => (
                   <div key={i} className="flex gap-4 p-5 rounded-xl bg-white border border-cyan-200 hover:border-cyan-300 hover:shadow-md transition-all duration-300">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-600 to-cyan-700 text-white flex items-center justify-center font-bold flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-600 to-green-700 text-white flex items-center justify-center font-bold flex-shrink-0">
                       {i + 1}
                     </div>
                     <div className="flex-1">

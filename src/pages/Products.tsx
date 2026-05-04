@@ -4,7 +4,7 @@ import { CartNotification } from "@/components/cart/CartNotification";
 import { Button } from "@/components/ui/button";
 import { useProducts } from "@/contexts/ProductContext";
 import { CATEGORY_LOGOS } from "@/data/brandLogos";
-import { Package, Zap, ShoppingCart, ChevronDown, Filter, X, Star } from "lucide-react";
+import { Package, Zap, ShoppingCart, ChevronDown, Filter, X, Star, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
@@ -123,21 +123,22 @@ const Products = () => {
   return (
     <Layout>
       {/* Header */}
-      <section className="pt-40 pb-16 bg-gradient-to-br from-cyan-600 via-cyan-500 to-cyan-600 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+      <section className="pt-40 pb-20 bg-[#0a0f0a] relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-950/40 via-black to-blue-950/20" />
+        <div className="absolute top-1/4 -right-20 w-96 h-96 bg-green-500/10 rounded-full blur-[120px]" />
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <div className="flex items-center justify-center gap-3 text-white/80">
-              <Zap className="w-5 h-5" />
-              <span className="font-semibold">Catálogo Completo</span>
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 px-6 py-2 rounded-full">
+              <Trophy className="w-5 h-5 text-yellow-400" />
+              <span className="text-green-400 font-bold uppercase tracking-[0.3em] text-xs">Convocação Oficial</span>
             </div>
-            <h1 className="font-heading text-5xl md:text-6xl font-bold text-white">
-              Nossos Produtos
+            <h1 className="font-heading text-6xl md:text-8xl font-black text-white tracking-tighter uppercase">
+              SELEÇÃO DE <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-yellow-400">PRODUTOS</span>
             </h1>
-            <p className="text-xl text-white/90 leading-relaxed">
-              Conheça nossa linha completa de kits de automação e componentes de qualidade premium
+            <p className="text-xl text-slate-400 leading-relaxed font-medium max-w-2xl mx-auto italic">
+              "A tecnologia de ponta que entra em campo para transformar o seu transporte."
             </p>
           </div>
         </div>
@@ -150,10 +151,10 @@ const Products = () => {
           <div className="lg:hidden mb-6 sticky top-[90px] z-30">
             <button 
               onClick={() => setIsFilterOpen(true)}
-              className="w-full bg-white border-2 border-cyan-100 p-4 rounded-2xl flex items-center justify-between shadow-sm"
+              className="w-full bg-white border-2 border-green-100 p-4 rounded-2xl flex items-center justify-between shadow-sm"
             >
               <div className="flex items-center gap-2">
-                <Filter className="w-5 h-5 text-cyan-600" />
+                <Filter className="w-5 h-5 text-green-600" />
                 <span className="font-bold text-gray-900">Filtrar por Veículo</span>
               </div>
               <ChevronDown className="w-5 h-5 text-gray-400" />
@@ -176,7 +177,7 @@ const Products = () => {
               )}
               <div className="bg-white rounded-2xl lg:border-2 lg:border-gray-100 lg:p-6 sticky top-24">
                 <div className="flex items-center gap-2 mb-6">
-                  <Filter className="w-5 h-5 text-cyan-600" />
+                  <Filter className="w-5 h-5 text-green-600" />
                   <h2 className="font-heading text-lg font-bold text-gray-900">Filtros</h2>
                 </div>
 
@@ -192,7 +193,7 @@ const Products = () => {
                       }}
                       className={`w-full text-left px-4 py-2 rounded-xl transition-all duration-300 font-medium ${
                         selectedCategory === "all"
-                          ? "bg-cyan-600 text-white"
+                          ? "bg-green-600 text-white"
                           : "text-gray-700 hover:bg-gray-100"
                       }`}
                     >
@@ -208,7 +209,7 @@ const Products = () => {
                         }}
                         className={`w-full text-left px-4 py-2 rounded-xl transition-all duration-300 font-medium ${
                           selectedCategory === cat.id && selectedSubcategory === "all"
-                            ? "bg-cyan-600 text-white"
+                            ? "bg-green-600 text-white"
                             : "text-gray-700 hover:bg-gray-100"
                         }`}
                       >
@@ -232,7 +233,7 @@ const Products = () => {
                           }}
                           className={`w-full text-left px-4 py-2 rounded-xl transition-all duration-300 font-medium flex items-center justify-between gap-3 ${
                             selectedCategory === key && selectedSubcategory === "all"
-                              ? "bg-cyan-100 text-cyan-700"
+                              ? "bg-green-100 text-green-700"
                               : "text-gray-700 hover:bg-gray-100"
                           }`}
                         >
@@ -267,7 +268,7 @@ const Products = () => {
                                 }}
                                 className={`w-full text-left px-4 py-2 rounded-xl transition-all duration-300 text-sm font-medium ${
                                   selectedSubcategory === subcat
-                                    ? "bg-cyan-600 text-white"
+                                    ? "bg-green-600 text-white"
                                     : "text-gray-600 hover:bg-gray-100"
                                 }`}
                               >
@@ -284,7 +285,7 @@ const Products = () => {
                   <div className="mt-12 lg:hidden">
                     <Button 
                       onClick={() => setIsFilterOpen(false)}
-                      className="w-full bg-cyan-600 py-6 rounded-2xl font-bold"
+                      className="w-full bg-green-600 py-6 rounded-2xl font-bold"
                     >
                       Ver Resultados
                     </Button>
@@ -299,7 +300,7 @@ const Products = () => {
               <div className="mb-12 flex items-center justify-between">
                 <div>
                   <p className="text-gray-600">
-                    Mostrando <span className="font-bold text-cyan-600">{filteredProducts.length}</span> produtos
+                    Mostrando <span className="font-bold text-green-600">{filteredProducts.length}</span> produtos
                   </p>
                 </div>
               </div>
@@ -311,11 +312,11 @@ const Products = () => {
                     {/* Image Area */}
                     <Link to={`/produto/${product.id}`} className="relative h-60 overflow-hidden bg-gray-50 flex items-center justify-center border-b border-gray-100">
                       <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
-                        <span className="bg-cyan-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
-                          {product.badge || 'Aniversário'}
+                        <span className="bg-green-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
+                          {product.badge || 'Destaque'}
                         </span>
-                        <span className="bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 px-3 py-1 rounded-lg text-center text-[9px] font-black uppercase tracking-tighter shadow-lg flex items-center gap-1 border border-amber-400/50">
-                          <Star className="w-3 h-3 fill-amber-950" /> 10 ANOS
+                        <span className="bg-gradient-to-r from-yellow-400 to-yellow-300 text-green-950 px-3 py-1 rounded-lg text-center text-[9px] font-black uppercase tracking-tighter shadow-lg flex items-center gap-1 border border-yellow-400/50">
+                          <Star className="w-3 h-3 fill-green-950" /> RUMO AO HEXA
                         </span>
                       </div>
                       <img 
@@ -329,7 +330,7 @@ const Products = () => {
                     <div className="p-6 flex flex-col flex-grow">
                       <div className="mb-4">
                         <Link to={`/produto/${product.id}`}>
-                          <h3 className="font-heading text-lg font-bold text-gray-900 line-clamp-2 hover:text-cyan-600 transition-colors">
+                          <h3 className="font-heading text-lg font-bold text-gray-900 line-clamp-2 hover:text-green-600 transition-colors">
                             {product.name}
                           </h3>
                         </Link>
@@ -347,8 +348,8 @@ const Products = () => {
                             </span>
                           )}
                             <div className="flex flex-col">
-                             <span className="text-[9px] text-amber-600 font-black uppercase tracking-widest mb-0.5 animate-pulse">✨ Aniversário Automatiza</span>
-                             <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-cyan-400">
+                             <span className="text-[9px] text-green-600 font-black uppercase tracking-widest mb-0.5 animate-pulse">⚽ Oferta da Copa</span>
+                             <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-500">
                                {formatCurrency(product.price)}
                              </span>
                            </div>
@@ -377,14 +378,14 @@ const Products = () => {
                           className={`w-full h-12 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm shadow-md ${
                             addedToCart[product.id]
                               ? "bg-green-600 text-white"
-                              : "bg-slate-900 text-white hover:bg-cyan-600"
+                              : "bg-slate-900 text-white hover:bg-green-600"
                           }`}
                         >
                           <ShoppingCart className="w-4 h-4" />
                           {addedToCart[product.id] ? "ADICIONADO" : "COMPRAR AGORA"}
                         </button>
                         <Link to={`/produto/${product.id}`} className="block">
-                          <button className="w-full h-11 border-2 border-slate-100 text-slate-500 hover:border-cyan-100 hover:text-cyan-600 hover:bg-cyan-50 font-bold rounded-xl text-xs transition-all duration-300 uppercase tracking-widest">
+                          <button className="w-full h-11 border-2 border-slate-100 text-slate-500 hover:border-green-100 hover:text-green-600 hover:bg-green-50 font-bold rounded-xl text-xs transition-all duration-300 uppercase tracking-widest">
                             Ver detalhes
                           </button>
                         </Link>

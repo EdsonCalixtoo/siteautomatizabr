@@ -21,7 +21,14 @@ import {
   Plus,
   Zap,
   Download,
-  Truck
+  Truck,
+  RefreshCw,
+  CreditCard,
+  History,
+  Info,
+  ExternalLink,
+  ShieldAlert,
+  ArrowRight
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -37,7 +44,7 @@ import { getSellerForCategory } from "@/data/sellers";
 import { formatCurrency } from "@/lib/utils";
 import { toast } from "sonner";
 import { CATEGORY_LABELS } from "@/data/categories";
-import { listOrders, updateOrderStatus as updateOrderInSupabase, deleteOrder as deleteOrderInSupabase } from "@/lib/orderService";
+import { listOrders, updateOrderStatus as updateOrderInSupabase, deleteOrder as deleteOrderInSupabase, syncOrderWithMercadoPago } from "@/lib/orderService";
 
 interface Order {
   id: string;
@@ -45,7 +52,7 @@ interface Order {
   items: Array<{ id: string; name: string; quantity: number; price: number; category?: string }>;
   total: number;
   paymentMethod: string;
-  status: "pendente" | "aguardando" | "pago" | "confirmado" | "enviado" | "entregue" | "cancelado" | "recusado";
+  status: "pendente" | "aguardando" | "aguardando_pagamento" | "pago" | "confirmado" | "enviado" | "entregue" | "cancelado" | "recusado";
   customer: { name: string; email: string; phone: string; cpf_cnpj?: string };
   cartao_final?: string;
   seller?: string;
@@ -59,12 +66,14 @@ interface Order {
     estado: string;
     complemento?: string;
   };
+  mp_payment_id?: string;
   shippingMethod?: "entrega" | "retirada";
 }
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState<"overview" | "orders" | "products" | "coupons" | "sellers" | "categories" | "diagnostico">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "orders" | "products" | "coupons" | "sellers" | "categories" | "diagnostico" | "financeiro">("overview");
   const [orders, setOrders] = useState<Order[]>([]);
+  const [isSyncing, setIsSyncing] = useState<string | null>(null);
   const [selectedOrderStatus, setSelectedOrderStatus] = useState<{ [key: string]: string }>({});
   const [showProductForm, setShowProductForm] = useState(false);
   const [showCouponForm, setShowCouponForm] = useState(false);
@@ -106,6 +115,8 @@ const Dashboard = () => {
           status: order.status,
           ano_veiculo: order.ano_veiculo,
           shippingMethod: order.tipo_entrega || "entrega",
+          mp_payment_id: order.mp_payment_id,
+          cpfCnpj: order.cliente_cpf_cnpj,
           address: order.endereco ? {
             cep: order.endereco.cep,
             rua: order.endereco.rua,
@@ -200,6 +211,99 @@ const Dashboard = () => {
         toast.error("Erro ao deletar: " + err.message);
       }
     }
+  };
+
+  const handleSyncOrder = async (orderId: string, mpPaymentId?: string) => {
+    if (!mpPaymentId) {
+      toast.error("Este pedido não possui um ID de pagamento vinculado.");
+      return;
+    }
+
+    setIsSyncing(orderId);
+    try {
+      const result = await syncOrderWithMercadoPago(orderId, mpPaymentId);
+      
+      // Atualizar estado local
+      setOrders(prev => prev.map(o => 
+        o.id === orderId ? { ...o, status: result.status as any } : o
+      ));
+      setSelectedOrderStatus(prev => ({ ...prev, [orderId]: result.status }));
+      
+      toast.success(`Sincronizado! Status MP: ${result.mpStatus} (${result.detail})`);
+    } catch (err: any) {
+      console.error("Erro ao sincronizar:", err);
+      toast.error("Erro ao sincronizar: " + err.message);
+    } finally {
+      setIsSyncing(null);
+    }
+  };
+
+  const handleSyncAllOrders = async () => {
+    const pendingOrders = orders.filter(o => 
+      o.mp_payment_id && 
+      (o.status === "aguardando" || o.status === "aguardando_pagamento" || o.status === "pendente")
+    );
+
+    if (pendingOrders.length === 0) {
+      toast.info("Não há pedidos pendentes com ID de pagamento para sincronizar.");
+      return;
+    }
+
+    setIsSyncing("all");
+    let syncedCount = 0;
+    let errorCount = 0;
+
+    toast.promise(
+      (async () => {
+        for (const order of pendingOrders) {
+          try {
+            await syncOrderWithMercadoPago(order.id, order.mp_payment_id!);
+            syncedCount++;
+          } catch (err) {
+            console.error(`Erro ao sincronizar pedido ${order.id}:`, err);
+            errorCount++;
+          }
+        }
+        
+        // Recarregar todos os pedidos após o loop
+        const data = await listOrders();
+        setOrders(data.map((order: any) => ({
+          id: order.id,
+          customer: {
+            name: order.cliente_nome,
+            email: order.cliente_email,
+            phone: order.cliente_telefone,
+            cpf_cnpj: order.cliente_cpf_cnpj,
+          },
+          date: order.data_criacao,
+          total: order.total,
+          items: order.itens,
+          paymentMethod: order.metodo_pagamento,
+          status: order.status,
+          ano_veiculo: order.ano_veiculo,
+          shippingMethod: order.tipo_entrega || "entrega",
+          mp_payment_id: order.mp_payment_id,
+          address: order.endereco ? {
+            cep: order.endereco.cep,
+            rua: order.endereco.rua,
+            numero: order.endereco.numero,
+            bairro: order.endereco.bairro,
+            city: order.endereco.cidade,
+            estado: order.endereco.estado,
+            complemento: order.endereco.complemento
+          } : undefined
+        })));
+        
+        setIsSyncing(null);
+        if (errorCount > 0) throw new Error(`${errorCount} erros durante a sincronização.`);
+        return syncedCount;
+      })(),
+      {
+        loading: 'Sincronizando todos os pedidos pendentes...',
+        success: (count) => `${count} pedidos atualizados com sucesso!`,
+        error: (err) => `Erro: ${err.message}. ${syncedCount} pedidos foram atualizados.`,
+      }
+    );
   };
 
   const [showDownloadModal, setShowDownloadModal] = useState<string | null>(null);
@@ -626,7 +730,8 @@ const Dashboard = () => {
   const stats = {
     totalOrders: orders.length,
     totalSales: orders.filter(o => o.status === "pago" || o.status === "confirmado" || o.status === "enviado" || o.status === "entregue").reduce((sum, order) => sum + order.total, 0),
-    pendingOrders: orders.filter((o) => o.status === "pendente" || o.status === "aguardando").length,
+    totalPotential: orders.reduce((sum, order) => sum + order.total, 0),
+    pendingOrders: orders.filter((o) => o.status === "pendente" || o.status === "aguardando" || o.status === "aguardando_pagamento").length,
     paidOrders: orders.filter((o) => o.status === "pago" || o.status === "confirmado").length,
     shippedOrders: orders.filter((o) => o.status === "enviado").length,
     deliveredOrders: orders.filter((o) => o.status === "entregue").length,
@@ -654,6 +759,7 @@ const Dashboard = () => {
     const colors: { [key: string]: { bg: string; text: string; label: string; icon: any } } = {
       pendente: { bg: "bg-yellow-100", text: "text-yellow-800", label: "Pendente", icon: <Clock className="w-4 h-4" /> },
       aguardando: { bg: "bg-amber-100", text: "text-amber-800", label: "Aguardando Pagamento", icon: <Clock className="w-4 h-4" /> },
+      aguardando_pagamento: { bg: "bg-amber-100", text: "text-amber-800", label: "Aguardando Pagamento", icon: <Clock className="w-4 h-4" /> },
       pago: { bg: "bg-green-100", text: "text-green-800", label: "Pagamento Aprovado", icon: <CheckCircle2 className="w-4 h-4" /> },
       confirmado: { bg: "bg-blue-100", text: "text-blue-800", label: "Em Produção", icon: <Package className="w-4 h-4" /> },
       enviado: { bg: "bg-purple-100", text: "text-purple-800", label: "Enviado", icon: <Truck className="w-4 h-4" /> },
@@ -678,7 +784,7 @@ const Dashboard = () => {
       <SupabaseConnectionAlert />
 
       {/* Header Moderno */}
-      <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white border-b border-white/10 backdrop-blur-xl sticky top-0 z-40 shadow-lg">
+      <div className="bg-gradient-to-r from-green-600 to-blue-600 text-white border-b border-white/10 backdrop-blur-xl sticky top-0 z-40 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -687,7 +793,7 @@ const Dashboard = () => {
               </div>
               <div>
                 <h1 className="text-3xl font-bold">Dashboard Admin</h1>
-                <p className="text-cyan-100 text-sm">Gerenciar sua loja</p>
+                <p className="text-green-100 text-sm">Gerenciar sua loja</p>
               </div>
             </div>
             <Link to="/" className="p-2 hover:bg-white/20 rounded-xl transition-all duration-300 backdrop-blur-sm border border-white/10">
@@ -707,6 +813,7 @@ const Dashboard = () => {
             { id: "sellers", label: "Vendedores", icon: Users },
             { id: "coupons", label: "Cupons", icon: Ticket },
             { id: "categories", label: "Categorias", icon: Ticket }, // Usando Ticket como ícone provisório ou Package
+            { id: "financeiro", label: "Financeiro", icon: DollarSign },
             { id: "diagnostico", label: "Diagnóstico", icon: Zap },
           ].map(({ id, label, icon: Icon }) => (
             <button
@@ -714,7 +821,7 @@ const Dashboard = () => {
               onClick={() => setActiveTab(id as any)}
               className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 whitespace-nowrap border backdrop-blur-sm ${
                 activeTab === id
-                  ? "bg-cyan-600 text-white shadow-lg border-cyan-500/50"
+                  ? "bg-green-600 text-white shadow-lg border-green-500/50"
                   : "bg-white/10 text-gray-200 hover:bg-white/20 border-white/10 hover:border-white/30"
               }`}
             >
@@ -733,7 +840,7 @@ const Dashboard = () => {
                 icon={ShoppingCart}
                 label="Total de Pedidos"
                 value={stats.totalOrders}
-                color="from-blue-600 to-cyan-600"
+                color="from-blue-600 to-green-600"
                 trend="+12%"
               />
               <StatCard
@@ -796,7 +903,7 @@ const Dashboard = () => {
                     </div>
                     <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
                       <span className="text-gray-300">Clientes Ativos</span>
-                      <span className="text-cyan-400 font-bold text-lg">{new Set(orders.map(o => o.customer.email)).size}</span>
+                      <span className="text-yellow-400 font-bold text-lg">{new Set(orders.map(o => o.customer.email)).size}</span>
                     </div>
                   </div>
                 </div>
@@ -810,7 +917,7 @@ const Dashboard = () => {
                   <ShoppingCart className="w-6 h-6" />
                   Últimos Pedidos
                 </h3>
-                <button className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2 transition-colors">
+                <button className="text-yellow-400 hover:text-cyan-300 flex items-center gap-2 transition-colors">
                   <Eye className="w-4 h-4" />
                   Ver Todos
                 </button>
@@ -836,7 +943,7 @@ const Dashboard = () => {
                     <tbody>
                       {orders.slice(0, 5).map((order) => (
                         <tr key={order.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                          <td className="px-4 py-4 text-cyan-400 font-mono text-sm">{order.id.slice(0, 8)}...</td>
+                          <td className="px-4 py-4 text-yellow-400 font-mono text-sm">{order.id.slice(0, 8)}...</td>
                           <td className="px-4 py-4 text-white">{order.customer.name}</td>
                           <td className="px-4 py-4 text-gray-400">{new Date(order.date).toLocaleDateString("pt-BR")}</td>
                           <td className="px-4 py-4 text-green-400 font-bold">{formatCurrency(order.total)}</td>
@@ -861,25 +968,41 @@ const Dashboard = () => {
                 <p className="text-gray-400 text-lg">Seus pedidos aparecerão aqui quando os clientes fizerem compras</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-5">
+              <>
+              <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <ShoppingCart className="w-6 h-6 text-green-400" />
+                Lista de Pedidos
+              </h3>
+              <button
+                onClick={handleSyncAllOrders}
+                disabled={isSyncing === "all"}
+                className={`flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold transition-all shadow-lg shadow-green-900/20 active:scale-95 disabled:opacity-50 ${isSyncing === "all" ? "animate-pulse" : ""}`}
+              >
+                <RefreshCw className={`w-5 h-5 ${isSyncing === "all" ? "animate-spin" : ""}`} />
+                {isSyncing === "all" ? "Sincronizando..." : "Sincronizar Todos os Pendentes"}
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-5">
                 {orders.map((order) => {
                     return (
                     <div
                       key={order.id}
-                      className="group bg-gradient-to-br from-white/15 via-white/5 to-white/10 backdrop-blur-xl rounded-3xl border-2 border-white/10 hover:border-cyan-500/40 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:scale-[1.01]"
+                      className="group bg-gradient-to-br from-white/15 via-white/5 to-white/10 backdrop-blur-xl rounded-3xl border-2 border-white/10 hover:border-green-500/40 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:scale-[1.01]"
                     >
                       {/* Header com ID, Cliente e Status */}
                       <div className="p-6 border-b border-white/10 bg-gradient-to-r from-slate-800/40 to-transparent">
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500/30 to-blue-500/30 flex items-center justify-center border border-cyan-500/40 backdrop-blur-sm">
-                              <ShoppingCart className="w-6 h-6 text-cyan-400" />
+                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-500/30 to-blue-500/30 flex items-center justify-center border border-green-500/40 backdrop-blur-sm">
+                              <ShoppingCart className="w-6 h-6 text-yellow-400" />
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
                                 <h3 className="font-black text-white text-lg">Pedido #{order.id.slice(0, 8)}...</h3>
                                 {order.ano_veiculo && (
-                                  <span className="bg-cyan-500 text-slate-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter shadow-sm animate-pulse">
+                                  <span className="bg-green-500 text-slate-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter shadow-sm animate-pulse">
                                     Ano: {order.ano_veiculo}
                                   </span>
                                 )}
@@ -902,7 +1025,7 @@ const Dashboard = () => {
                         {/* Itens com Vendedores */}
                         <div>
                           <p className="text-gray-300 font-bold text-sm mb-4 flex items-center gap-2">
-                            <Package className="w-4 h-4 text-cyan-400" />
+                            <Package className="w-4 h-4 text-yellow-400" />
                             Itens do Pedido ({order.items.length})
                           </p>
                           <div className="space-y-4">
@@ -923,7 +1046,7 @@ const Dashboard = () => {
                                       <p className="text-white font-bold text-base flex items-center gap-2">
                                         {item.name}
                                         {order.ano_veiculo && (
-                                          <span className="text-cyan-400 text-xs font-black px-2 py-0.5 bg-cyan-400/10 rounded-lg border border-cyan-400/20">
+                                          <span className="text-yellow-400 text-xs font-black px-2 py-0.5 bg-yellow-400/10 rounded-lg border border-yellow-400/20">
                                             {order.ano_veiculo}
                                           </span>
                                         )}
@@ -987,7 +1110,7 @@ const Dashboard = () => {
                             <div className="space-y-2">
                               <div>
                                 <p className="text-gray-500 text-xs">Tipo de Entrega</p>
-                                <p className={`text-sm font-bold ${order.shippingMethod === "retirada" ? "text-amber-400" : "text-cyan-400"}`}>
+                                <p className={`text-sm font-bold ${order.shippingMethod === "retirada" ? "text-yellow-400" : "text-yellow-400"}`}>
                                   {order.shippingMethod === "retirada" ? "🏪 Retirada no Local" : "🚚 Entrega via Transportadora"}
                                 </p>
                               </div>
@@ -1004,7 +1127,7 @@ const Dashboard = () => {
                                   <p className="text-gray-400 text-xs">CEP: {order.address.cep}</p>
                                 </div>
                               ) : order.shippingMethod === "retirada" ? (
-                                <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/20">
+                                <div className="p-2 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
                                   <p className="text-amber-200 text-xs italic">O cliente virá buscar o pedido.</p>
                                 </div>
                               ) : (
@@ -1039,18 +1162,32 @@ const Dashboard = () => {
 
                       {/* Footer com Ações */}
                       <div className="px-6 py-4 border-t border-white/10 bg-gradient-to-r from-transparent to-slate-800/20 flex flex-col sm:flex-row items-center gap-3">
-                        <select
-                          value={selectedOrderStatus[order.id] || order.status}
-                          onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                          className="flex-1 px-4 py-3 rounded-xl bg-slate-700 border-2 border-cyan-500/50 text-white font-semibold focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 transition-all hover:bg-slate-600 cursor-pointer appearance-none"
-                        >
-                          <option value="pendente">🕐 Aguardando Pagamento</option>
-                          <option value="pago">✅ Pagamento Aprovado</option>
-                          <option value="confirmado">🛠️ Em Produção</option>
-                          <option value="enviado">📦 Enviado</option>
-                          <option value="entregue">🎉 Entregue</option>
-                          <option value="cancelado">❌ Cancelado</option>
-                        </select>
+                        <div className="flex-1 flex gap-2 w-full">
+                          <select
+                            value={selectedOrderStatus[order.id] || order.status}
+                            onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                            className="flex-1 px-4 py-3 rounded-xl bg-slate-700 border-2 border-green-500/50 text-white font-semibold focus:border-yellow-400 focus:ring-2 focus:ring-green-500/30 transition-all hover:bg-slate-600 cursor-pointer appearance-none"
+                          >
+                            <option value="pendente">🕐 Aguardando Pagamento</option>
+                            <option value="pago">✅ Pagamento Aprovado</option>
+                            <option value="confirmado">🛠️ Em Produção</option>
+                            <option value="enviado">📦 Enviado</option>
+                            <option value="entregue">🎉 Entregue</option>
+                            <option value="cancelado">❌ Cancelado</option>
+                          </select>
+                          
+                          {order.mp_payment_id && (
+                            <button
+                              onClick={() => handleSyncOrder(order.id, order.mp_payment_id)}
+                              disabled={isSyncing === order.id}
+                              className={`p-3 rounded-xl transition-all border border-green-500/30 hover:bg-green-500/20 flex items-center gap-2 text-green-400 font-bold text-xs ${isSyncing === order.id ? 'opacity-50 animate-pulse' : ''}`}
+                              title="Sincronizar com Mercado Pago"
+                            >
+                              <RefreshCw className={`w-4 h-4 ${isSyncing === order.id ? 'animate-spin' : ''}`} />
+                              {isSyncing === order.id ? 'Sincronizando...' : 'Sincronizar MP'}
+                            </button>
+                          )}
+                        </div>
                         <button
                           onClick={() => downloadOrder(order.id)}
                           className="p-3 hover:bg-green-500/20 rounded-xl transition-all border border-white/10 hover:border-green-500/30 hover:scale-110 active:scale-95"
@@ -1070,9 +1207,10 @@ const Dashboard = () => {
                     );
                 })}
               </div>
+            </>
             )}
           </div>
-        )}        {/* Products Tab */}
+        )}
         {/* Products Tab */}
         {activeTab === "products" && (
           <div className="space-y-6">
@@ -1173,9 +1311,9 @@ const Dashboard = () => {
                               setEditingProduct(product as any);
                               setShowProductForm(true);
                             }}
-                            className="p-2 hover:bg-cyan-500/20 rounded-lg transition-all border border-white/10 hover:border-cyan-500/30"
+                            className="p-2 hover:bg-green-500/20 rounded-lg transition-all border border-white/10 hover:border-green-500/30"
                           >
-                            <Edit className="w-5 h-5 text-cyan-400" />
+                            <Edit className="w-5 h-5 text-yellow-400" />
                           </button>
                           <button
                             onClick={() => deleteProduct(product.id)}
@@ -1319,7 +1457,7 @@ const Dashboard = () => {
                           </div>
                           <div className="bg-white/5 rounded-xl p-3 border border-white/10">
                             <p className="text-gray-500 text-xs font-bold mb-1">Itens</p>
-                            <p className="text-cyan-400 font-black text-lg">{sellerItemsCount}</p>
+                            <p className="text-yellow-400 font-black text-lg">{sellerItemsCount}</p>
                           </div>
                           <div className="bg-white/5 rounded-xl p-3 border border-white/10">
                             <p className="text-gray-500 text-xs font-bold mb-1">Vendas</p>
@@ -1418,7 +1556,7 @@ const Dashboard = () => {
                       <div key={sub.id} className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
                         <div className="flex flex-col">
                           <span className="text-white font-semibold">{sub.name}</span>
-                          <span className="text-cyan-400 text-xs">{cat?.name || "Sem categoria"}</span>
+                          <span className="text-yellow-400 text-xs">{cat?.name || "Sem categoria"}</span>
                         </div>
                         <button 
                           onClick={() => deleteSubcategory(sub.id)}
@@ -1437,6 +1575,123 @@ const Dashboard = () => {
               <p className="text-blue-300 text-xs">
                 💡 <strong>Dica:</strong> As chaves (key) são usadas internamente para organizar as categorias. Certifique-se de usar nomes sem espaços ou acentos para a Chave (ex: `kits-completos`).
               </p>
+            </div>
+          </div>
+        )}
+
+        {/* Financeiro Tab */}
+        {activeTab === "financeiro" && (
+          <div className="space-y-8 animate-in fade-in duration-500">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-3xl font-black text-white flex items-center gap-3">
+                <DollarSign className="w-8 h-8 text-green-400" />
+                Relatório Financeiro
+              </h2>
+              <div className="flex gap-3">
+                <Button variant="outline" className="border-white/10 text-white bg-white/5">
+                  <Download className="w-4 h-4 mr-2" />
+                  Exportar PDF
+                </Button>
+              </div>
+            </div>
+
+            {/* Stats Grid Financeiro */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-br from-green-600/20 to-emerald-600/20 rounded-3xl p-8 border border-green-500/30 backdrop-blur-xl">
+                <p className="text-green-400 text-xs font-black uppercase tracking-widest mb-2">Faturamento Aprovado</p>
+                <p className="text-4xl font-black text-white">{formatCurrency(stats.totalSales)}</p>
+                <div className="mt-4 flex items-center gap-2 text-green-400 text-sm font-bold">
+                  <TrendingUp className="w-4 h-4" />
+                  +12.5% vs mês passado
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-yellow-600/20 to-orange-600/20 rounded-3xl p-8 border border-yellow-500/30 backdrop-blur-xl">
+                <p className="text-yellow-400 text-xs font-black uppercase tracking-widest mb-2">Potencial de Vendas (Pendente)</p>
+                <p className="text-4xl font-black text-white">{formatCurrency(stats.totalPotential - stats.totalSales)}</p>
+                <p className="mt-4 text-yellow-500/70 text-sm font-medium">
+                  {stats.pendingOrders} pedidos aguardando pagamento
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-600/20 to-indigo-600/20 rounded-3xl p-8 border border-blue-500/30 backdrop-blur-xl">
+                <p className="text-blue-400 text-xs font-black uppercase tracking-widest mb-2">Ticket Médio</p>
+                <p className="text-4xl font-black text-white">
+                  {formatCurrency(stats.totalSales / (orders.filter(o => o.status === 'pago').length || 1))}
+                </p>
+                <p className="mt-4 text-blue-500/70 text-sm font-medium">Baseado em pedidos pagos</p>
+              </div>
+            </div>
+
+            {/* Detailed Analytics */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="bg-white/5 rounded-3xl p-8 border border-white/10">
+                <h3 className="text-white font-bold text-xl mb-6">Conversão de Pagamentos</h3>
+                <div className="space-y-6">
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-gray-400">PIX</span>
+                      <span className="text-white font-bold">
+                        {orders.filter(o => o.paymentMethod === 'pix' && o.status === 'pago').length} de {orders.filter(o => o.paymentMethod === 'pix').length}
+                      </span>
+                    </div>
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-green-500 transition-all duration-1000" 
+                        style={{ width: `${(orders.filter(o => o.paymentMethod === 'pix' && o.status === 'pago').length / (orders.filter(o => o.paymentMethod === 'pix').length || 1)) * 100}%` }} 
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-gray-400">Cartão de Crédito</span>
+                      <span className="text-white font-bold">
+                        {orders.filter(o => o.paymentMethod === 'cartao' && o.status === 'pago').length} de {orders.filter(o => o.paymentMethod === 'cartao').length}
+                      </span>
+                    </div>
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-blue-500 transition-all duration-1000" 
+                        style={{ width: `${(orders.filter(o => o.paymentMethod === 'cartao' && o.status === 'pago').length / (orders.filter(o => o.paymentMethod === 'cartao').length || 1)) * 100}%` }} 
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-12 p-6 bg-green-500/10 border border-green-500/20 rounded-2xl">
+                  <h4 className="text-green-400 font-bold mb-2">💡 Dica Estratégica</h4>
+                  <p className="text-green-300/80 text-sm">
+                    Pedidos PIX pendentes costumam ser pagos em até 24h. Use o botão <strong>Sincronizar MP</strong> para atualizar o status instantaneamente se o cliente confirmar o pagamento.
+                  </p>
+                </div>
+              </div>
+
+              {/* Tabela de Receita por Categoria */}
+              <div className="bg-white/5 rounded-3xl p-8 border border-white/10">
+                <h3 className="text-white font-bold text-xl mb-6">Receita por Categoria</h3>
+                <div className="space-y-4">
+                  {Object.entries(CATEGORY_LABELS).map(([key, label]) => {
+                    const totalCat = orders
+                      .filter(o => o.status === 'pago')
+                      .reduce((sum, o) => {
+                        const itemTotal = o.items
+                          .filter(i => i.category === key)
+                          .reduce((iSum, i) => iSum + (i.price * i.quantity), 0);
+                        return sum + itemTotal;
+                      }, 0);
+                    
+                    if (totalCat === 0) return null;
+
+                    return (
+                      <div key={key} className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                        <span className="text-gray-300 font-medium">{label}</span>
+                        <span className="text-white font-black">{formatCurrency(totalCat)}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -1513,7 +1768,7 @@ const Dashboard = () => {
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <code className="text-2xl font-bold text-cyan-400 font-mono">
+                          <code className="text-2xl font-bold text-yellow-400 font-mono">
                             {coupon.code}
                           </code>
                           <button
@@ -1522,7 +1777,7 @@ const Dashboard = () => {
                               setCopiedCoupon(coupon.id);
                               setTimeout(() => setCopiedCoupon(null), 2000);
                             }}
-                            className="p-2 hover:bg-cyan-500/20 rounded-lg transition-all"
+                            className="p-2 hover:bg-green-500/20 rounded-lg transition-all"
                           >
                             {copiedCoupon === coupon.id ? (
                               <Check className="w-4 h-4 text-green-400" />
@@ -1575,9 +1830,9 @@ const Dashboard = () => {
                             setEditingCoupon(coupon as any);
                             setShowCouponForm(true);
                           }}
-                          className="p-2 hover:bg-cyan-500/20 rounded-lg transition-all border border-white/10 hover:border-cyan-500/30"
+                          className="p-2 hover:bg-green-500/20 rounded-lg transition-all border border-white/10 hover:border-green-500/30"
                         >
-                          <Edit className="w-5 h-5 text-cyan-400" />
+                          <Edit className="w-5 h-5 text-yellow-400" />
                         </button>
                         <button
                           onClick={() => deleteCoupon(coupon.id)}
@@ -1630,11 +1885,11 @@ const Dashboard = () => {
       {showDownloadModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-white/10 max-w-md w-full shadow-2xl">
-            <div className="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-4 border-b border-white/10">
+            <div className="bg-gradient-to-r from-green-600 to-blue-600 px-6 py-4 border-b border-white/10">
               <h3 className="text-xl font-bold text-white flex items-center gap-3">
                 <span>📄</span> Escolha o Tipo de Documento
               </h3>
-              <p className="text-cyan-100 text-sm mt-1">Qual documento deseja gerar?</p>
+              <p className="text-green-100 text-sm mt-1">Qual documento deseja gerar?</p>
             </div>
 
             <div className="p-6 space-y-4">
@@ -1644,7 +1899,7 @@ const Dashboard = () => {
                   const order = orders.find(o => o.id === showDownloadModal);
                   if (order) openOrderDocument(order, "financeiro");
                 }}
-                className="w-full p-4 rounded-xl border border-white/20 hover:border-cyan-400/50 hover:bg-cyan-500/10 transition-all duration-300 text-left group"
+                className="w-full p-4 rounded-xl border border-white/20 hover:border-yellow-400/50 hover:bg-green-500/10 transition-all duration-300 text-left group"
               >
                 <div className="flex items-start gap-4">
                   <div className="text-2xl">💰</div>
@@ -1654,7 +1909,7 @@ const Dashboard = () => {
                       Relatório completo com preços, subtotais e total do pedido. Para setor financeiro.
                     </p>
                   </div>
-                  <div className="text-xl text-cyan-400 opacity-0 group-hover:opacity-100 transition">→</div>
+                  <div className="text-xl text-yellow-400 opacity-0 group-hover:opacity-100 transition">→</div>
                 </div>
               </button>
 

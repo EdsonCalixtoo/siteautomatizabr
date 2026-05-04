@@ -81,19 +81,19 @@ export default function Shipping() {
                   </ul>
                 </div>
 
-                <div className="p-6 rounded-xl bg-cyan-50 border border-cyan-200 hover:border-cyan-300 transition-all hover:shadow-md">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-700 flex items-center justify-center mb-4 shadow-md">
+                <div className="p-6 rounded-xl bg-green-50 border border-cyan-200 hover:border-cyan-300 transition-all hover:shadow-md">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center mb-4 shadow-md">
                     <Truck className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="font-semibold text-lg text-gray-900 mb-2">Rodonaves</h3>
                   <p className="text-cyan-900 text-sm mb-4">Transporte seguro para portas automáticas e peças de grande porte</p>
                   <ul className="space-y-2 text-sm text-cyan-800">
                     <li className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-cyan-600" />
+                      <Check className="w-4 h-4 text-green-600" />
                       Seguro completo
                     </li>
                     <li className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-cyan-600" />
+                      <Check className="w-4 h-4 text-green-600" />
                       Entrega programada
                     </li>
                   </ul>
@@ -122,7 +122,7 @@ export default function Shipping() {
             {/* Rastreamento */}
             <div>
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-700 flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center shadow-lg">
                   <Phone className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="font-heading text-3xl font-bold text-gray-900">
@@ -130,17 +130,17 @@ export default function Shipping() {
                 </h2>
               </div>
               
-              <div className="p-8 rounded-xl bg-cyan-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
+              <div className="p-8 rounded-xl bg-green-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
                 <p className="text-lg text-cyan-900 leading-relaxed mb-4">
                   Para obter informações e rastrear sua encomenda em tempo real, entre em contato:
                 </p>
                 <div className="bg-white p-6 rounded-lg border border-cyan-200 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-cyan-600 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
                     <Phone className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900">Suporte de Envios</p>
-                    <p className="text-2xl font-bold text-cyan-600">(19) 99661-0774</p>
+                    <p className="text-2xl font-bold text-green-600">(19) 99661-0774</p>
                   </div>
                 </div>
               </div>

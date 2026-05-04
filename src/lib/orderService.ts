@@ -140,3 +140,63 @@ export async function deleteOrder(orderId: string) {
     if (error) throw new Error(`Erro ao deletar pedido: ${error.message}`);
     return true;
 }
+
+/**
+ * Sincroniza o status de um pedido com o Mercado Pago
+ */
+export async function syncOrderWithMercadoPago(orderId: string, mpPaymentId: string) {
+    const { supabaseUrl, supabaseAnonKey } = (await import("@/lib/supabase"));
+    
+    const response = await fetch(`${supabaseUrl}/functions/v1/mercadopago-payment`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${supabaseAnonKey}`,
+        },
+        body: JSON.stringify({
+            check_payment_id: mpPaymentId,
+            orderId: orderId
+        }),
+    });
+
+    if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || "Erro ao consultar Mercado Pago");
+    }
+
+    const data = await response.json();
+    
+    // Mapear status do MP para nosso sistema
+    const statusMapping: Record<string, string> = {
+        'approved': 'pago',
+        'pending': 'aguardando',
+        'in_process': 'aguardando',
+        'rejected': 'recusado',
+        'cancelled': 'cancelado'
+    };
+
+    const novoStatus = statusMapping[data.status] || 'aguardando';
+    
+    // Se o status for diferente do atual ou for 'pago', atualizar no banco
+    await updateOrderStatus(orderId, novoStatus as any);
+    
+    return { 
+        status: novoStatus, 
+        mpStatus: data.status, 
+        detail: data.status_detail 
+    };
+}
+
+/**
+ * Busca logs de pagamento para um pedido
+ */
+export async function listOrderLogs(orderId: string) {
+    const { data, error } = await supabase
+        .from("pagamentos")
+        .select("*")
+        .eq("external_reference", orderId)
+        .order("created_at", { ascending: false });
+
+    if (error) return [];
+    return data;
+}

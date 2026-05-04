@@ -12,15 +12,15 @@ html, body {
 
 @layer utilities {
   .gradient-green {
-    @apply bg-gradient-to-br from-cyan-600 to-cyan-700;
+    @apply bg-gradient-to-br from-green-600 to-green-700;
   }
 
   .shadow-glow {
-    @apply shadow-lg shadow-cyan-600/50;
+    @apply shadow-lg shadow-green-600/50;
   }
 
   .shadow-green {
-    @apply shadow-lg shadow-cyan-500/50;
+    @apply shadow-lg shadow-green-500/50;
   }
 
   .gradient-hero {

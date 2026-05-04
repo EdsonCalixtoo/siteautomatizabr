@@ -6,8 +6,8 @@ const features = [
     icon: Truck,
     title: "Compatível com todos os modelos",
     description: "Funciona com praticamente todas as vans comerciais do mercado brasileiro",
-    color: "text-cyan-400",
-    bg: "bg-cyan-500/10 border-cyan-500/20",
+    color: "text-yellow-400",
+    bg: "bg-green-500/10 border-green-500/20",
   },
   {
     icon: Wrench,
@@ -59,7 +59,7 @@ export function WhyChooseUs() {
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px]" />
-        <div className="absolute right-0 top-1/3 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px]" />
+        <div className="absolute right-0 top-1/3 w-[400px] h-[400px] bg-green-500/5 rounded-full blur-[100px]" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -71,7 +71,7 @@ export function WhyChooseUs() {
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
             A Solução{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-yellow-400">
               Completa
             </span>{" "}
             para Automação de Vans
@@ -105,7 +105,7 @@ export function WhyChooseUs() {
         {/* Bottom Banner */}
         <div className="relative rounded-3xl overflow-hidden">
           {/* Background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-700" />
+          <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-700" />
           <div
             className="absolute inset-0 opacity-[0.05]"
             style={{
@@ -131,12 +131,12 @@ export function WhyChooseUs() {
                 {perks.map((perk, i) => (
                   <li key={i} className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-cyan-300 flex-shrink-0" />
-                    <span className="text-cyan-50 text-sm">{perk}</span>
+                    <span className="text-green-50 text-sm">{perk}</span>
                   </li>
                 ))}
               </ul>
               <Link to="/produtos">
-                <button className="group inline-flex items-center gap-2 mt-2 bg-white text-cyan-700 px-6 py-3 rounded-xl font-bold text-sm hover:bg-cyan-50 transition-all duration-300 hover:scale-105 shadow-lg">
+                <button className="group inline-flex items-center gap-2 mt-2 bg-white text-green-700 px-6 py-3 rounded-xl font-bold text-sm hover:bg-green-50 transition-all duration-300 hover:scale-105 shadow-lg">
                   Ver Todos os Produtos
                   <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </button>

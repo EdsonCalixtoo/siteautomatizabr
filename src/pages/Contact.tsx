@@ -47,8 +47,8 @@ const Contact = () => {
   return (
     <Layout>
       {/* Header */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-cyan-50 to-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-100/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      <section className="pt-28 pb-16 bg-gradient-to-b from-green-50 to-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-green-100/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-6">
@@ -85,7 +85,7 @@ const Contact = () => {
                   rel="noopener noreferrer"
                   className="flex items-start gap-4 p-6 bg-card rounded-2xl shadow-card hover:shadow-lg transition-all duration-300 group border border-transparent hover:border-primary/20"
                 >
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-700 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-cyan-600/50">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-green-600/50">
                     <MessageCircle className="w-7 h-7 text-white" />
                   </div>
                   <div>

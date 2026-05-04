@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { CATEGORY_LOGOS } from "@/data/brandLogos";
+import { ChevronRight, Trophy } from "lucide-react";
+import { motion } from "framer-motion";
 
 const brands = [
   { id: "mercedes-sprinter", name: "SPRINTER" },
@@ -14,34 +16,56 @@ export function BrandSelector() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
-      <p className="text-cyan-400 text-sm font-bold uppercase tracking-widest mb-8 text-center animate-fade-in opacity-80">
-        Selecione o seu veículo:
-      </p>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-        {brands.map((brand) => (
-          <button
+    <div className="w-full relative py-12 px-4 md:px-8 bg-gradient-to-b from-white/10 to-transparent backdrop-blur-3xl rounded-[2.5rem] md:rounded-[4rem] border border-white/10 shadow-[0_20px_100px_rgba(0,0,0,0.5)] overflow-hidden">
+      {/* Field Line Decoration */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[150%] border-2 border-white rounded-full scale-125" />
+      </div>
+
+      <div className="flex flex-col md:flex-row items-center justify-between mb-12 md:mb-16 gap-8 relative z-10">
+        <div className="space-y-4 text-center md:text-left">
+          <div className="inline-flex items-center gap-3 bg-green-500 text-white px-4 py-1.5 rounded-full font-black text-[10px] uppercase tracking-[0.3em] shadow-xl">
+            Convocação Oficial
+          </div>
+          <h2 className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter">
+            SUA <span className="text-yellow-400">ESCALAÇÃO</span>
+          </h2>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 relative z-10">
+        {brands.map((brand, index) => (
+          <motion.button
             key={brand.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
             onClick={() => navigate(`/produtos?vehicle=${brand.id}`)}
-            className="group relative flex flex-col items-center gap-4 p-6 bg-white/5 backdrop-blur-xl rounded-[2rem] border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-cyan-500/10"
+            className="group relative flex flex-col items-center gap-8 p-10 bg-black/40 hover:bg-white/5 rounded-[3rem] border border-white/5 hover:border-yellow-400/30 transition-all duration-500 hover:-translate-y-4"
           >
-            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center shadow-lg border-2 border-transparent group-hover:border-cyan-400 overflow-hidden transition-all p-2.5">
-              <img 
-                src={CATEGORY_LOGOS[brand.id]} 
-                alt={brand.name}
-                className="w-full h-full object-contain"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://via.placeholder.com/100?text=" + brand.name;
-                }}
-              />
+            {/* Logo Wrapper */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-yellow-400/20 blur-2xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-700" />
+              <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-white flex items-center justify-center shadow-2xl p-6 transition-all duration-500 group-hover:rotate-[360deg] group-hover:scale-110">
+                <img 
+                  src={CATEGORY_LOGOS[brand.id]} 
+                  alt={brand.name}
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </div>
-            <span className="text-white text-[10px] md:text-xs font-black tracking-[0.2em] group-hover:text-cyan-400 transition-colors">
-              {brand.name}
-            </span>
-            
-            {/* Hover Glow */}
-            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-          </button>
+
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-white text-[10px] font-black tracking-[0.3em] group-hover:text-yellow-400 transition-colors uppercase">
+                {brand.name}
+              </span>
+              <div className="w-6 h-1 bg-white/20 rounded-full group-hover:w-full group-hover:bg-yellow-500 transition-all duration-500" />
+            </div>
+
+            <div className="absolute top-4 right-4 text-white/5 text-4xl font-black italic group-hover:text-yellow-400/10 transition-colors">
+              {index + 1}
+            </div>
+          </motion.button>
         ))}
       </div>
     </div>

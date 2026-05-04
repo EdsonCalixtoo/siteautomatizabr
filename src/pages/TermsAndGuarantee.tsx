@@ -5,17 +5,17 @@ export default function TermsAndGuarantee() {
   return (
     <Layout>
       {/* Header */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-cyan-50 via-cyan-50 to-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
+      <section className="pt-28 pb-16 bg-gradient-to-b from-green-50 via-green-50 to-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-green-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto space-y-4 animate-slide-up">
-            <div className="inline-flex items-center justify-center gap-2 text-cyan-600 font-semibold text-sm uppercase tracking-wider bg-cyan-100/50 px-4 py-2 rounded-full border border-cyan-200">
-              <span className="w-2 h-2 rounded-full bg-cyan-600" />
+            <div className="inline-flex items-center justify-center gap-2 text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-100/50 px-4 py-2 rounded-full border border-cyan-200">
+              <span className="w-2 h-2 rounded-full bg-green-600" />
               Transparência e Segurança
             </div>
             <h1 className="font-heading text-5xl md:text-6xl font-bold text-gray-900">
-              Termos, Garantia e <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-cyan-700">Segurança</span>
+              Termos, Garantia e <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-700">Segurança</span>
             </h1>
             <p className="text-xl text-gray-700 max-w-3xl">
               Conheça nossa política de garantia, segurança, envio e como comprar com confiança
@@ -38,7 +38,7 @@ export default function TermsAndGuarantee() {
               ].map((tab) => (
                 <button
                   key={tab.id}
-                  className="pb-4 px-2 font-semibold text-gray-600 hover:text-cyan-600 border-b-4 border-transparent hover:border-cyan-600 transition-all duration-300 flex items-center gap-2 group"
+                  className="pb-4 px-2 font-semibold text-gray-600 hover:text-green-600 border-b-4 border-transparent hover:border-green-600 transition-all duration-300 flex items-center gap-2 group"
                 >
                   <tab.icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   <span className="hidden sm:inline">{tab.label}</span>
@@ -84,9 +84,9 @@ export default function TermsAndGuarantee() {
                   </p>
                 </div>
 
-                <div className="bg-gradient-to-r from-cyan-50 to-cyan-100/50 p-6 rounded-xl border border-cyan-300 shadow-md">
+                <div className="bg-gradient-to-r from-green-50 to-green-100/50 p-6 rounded-xl border border-cyan-300 shadow-md">
                   <p className="text-cyan-900 font-semibold flex items-center gap-2">
-                    <Check className="w-5 h-5 text-cyan-600" />
+                    <Check className="w-5 h-5 text-green-600" />
                     Seus dados estão protegidos em todos os momentos
                   </p>
                 </div>
@@ -255,9 +255,9 @@ export default function TermsAndGuarantee() {
                   </ul>
                 </div>
 
-                <div className="p-6 rounded-xl bg-cyan-50 border border-cyan-200">
+                <div className="p-6 rounded-xl bg-green-50 border border-cyan-200">
                   <h3 className="font-semibold text-lg text-gray-900 mb-4 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-cyan-600" />
+                    <span className="w-2 h-2 rounded-full bg-green-600" />
                     Procedimento para Garantia
                   </h3>
                   <ol className="space-y-3">
@@ -267,8 +267,8 @@ export default function TermsAndGuarantee() {
                       "Envio com Nota Fiscal de remessa para conserto",
                       "Manutenção ou substituição em aproximadamente 10 dias úteis"
                     ].map((item, i) => (
-                      <li key={i} className="flex gap-4 p-3 bg-white rounded-lg border border-cyan-100">
-                        <div className="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold flex-shrink-0">
+                      <li key={i} className="flex gap-4 p-3 bg-white rounded-lg border border-green-100">
+                        <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold flex-shrink-0">
                           {i + 1}
                         </div>
                         <span className="text-cyan-900 pt-0.5">{item}</span>
@@ -291,7 +291,7 @@ export default function TermsAndGuarantee() {
           <section className="space-y-8 animate-slide-up" style={{ animationDelay: '250ms' }}>
             <div>
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-700 flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center shadow-lg">
                   <CheckCircle2 className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="font-heading text-3xl font-bold text-gray-900">
@@ -300,7 +300,7 @@ export default function TermsAndGuarantee() {
               </div>
               
               <div className="space-y-6 text-gray-700">
-                <div className="bg-gradient-to-r from-cyan-50 to-cyan-100/50 p-6 rounded-xl border border-cyan-300 shadow-md">
+                <div className="bg-gradient-to-r from-green-50 to-green-100/50 p-6 rounded-xl border border-cyan-300 shadow-md">
                   <p className="text-cyan-900 font-semibold">
                     ✨ Comprar em nossa loja é muito fácil! Siga os passos abaixo:
                   </p>
@@ -334,11 +334,11 @@ export default function TermsAndGuarantee() {
                     }
                   ].map((step, i) => (
                     <div key={i} className="flex gap-4 p-5 rounded-xl bg-white border border-gray-200 hover:border-cyan-300 hover:shadow-md transition-all duration-300 group">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-600 to-cyan-700 text-white flex items-center justify-center font-bold flex-shrink-0 group-hover:scale-110 transition-transform shadow-md">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-600 to-green-700 text-white flex items-center justify-center font-bold flex-shrink-0 group-hover:scale-110 transition-transform shadow-md">
                         {i + 1}
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-cyan-600 transition-colors">
+                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
                           {step.title}
                         </h3>
                         <p className="text-gray-600 text-sm">

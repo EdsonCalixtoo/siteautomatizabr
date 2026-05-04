@@ -76,7 +76,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-purple-50 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Elementos de fundo decorativos */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-cyan-200/20 to-blue-200/20 rounded-full blur-3xl"></div>
@@ -88,7 +88,7 @@ export default function Login() {
         {/* Lado Esquerdo - Informações */}
         <div className="hidden lg:flex flex-col justify-center items-start">
           <div className="animate-fade-in">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
               Bem-vindo à Automatiza
             </h1>
             <p className="text-lg text-gray-700 mb-8 leading-relaxed">
@@ -97,9 +97,9 @@ export default function Login() {
 
             {/* Cards de Benefícios */}
             <div className="space-y-4">
-              <div className="flex items-start gap-4 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-cyan-100/50 hover:border-cyan-300/50 transition-all hover:shadow-lg">
-                <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center">
-                  <ShieldCheck className="w-6 h-6 text-cyan-600" />
+              <div className="flex items-start gap-4 p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-green-100/50 hover:border-cyan-300/50 transition-all hover:shadow-lg">
+                <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center">
+                  <ShieldCheck className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">Segurança</h3>
@@ -136,7 +136,7 @@ export default function Login() {
             {/* Header */}
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-cyan-600 to-blue-600 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-blue-600 rounded-xl flex items-center justify-center">
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">
@@ -176,7 +176,7 @@ export default function Login() {
                       onChange={(e) => setName(e.target.value)}
                       required
                       disabled={loading}
-                      className="pl-10 h-11 border-gray-300 border-2 focus:border-cyan-500 focus:ring-cyan-500 rounded-lg transition-all"
+                      className="pl-10 h-11 border-gray-300 border-2 focus:border-green-500 focus:ring-green-500 rounded-lg transition-all"
                     />
                   </div>
                 </div>
@@ -199,7 +199,7 @@ export default function Login() {
                         onChange={(e) => handlePhoneChange(e.target.value)}
                         required
                         disabled={loading}
-                        className="pl-10 h-11 border-gray-300 border-2 focus:border-cyan-500 focus:ring-cyan-500 rounded-lg transition-all"
+                        className="pl-10 h-11 border-gray-300 border-2 focus:border-green-500 focus:ring-green-500 rounded-lg transition-all"
                       />
                     </div>
                   </div>
@@ -217,7 +217,7 @@ export default function Login() {
                         onChange={(e) => handleCpfChange(e.target.value)}
                         required
                         disabled={loading}
-                        className="pl-10 h-11 border-gray-300 border-2 focus:border-cyan-500 focus:ring-cyan-500 rounded-lg transition-all"
+                        className="pl-10 h-11 border-gray-300 border-2 focus:border-green-500 focus:ring-green-500 rounded-lg transition-all"
                       />
                     </div>
                   </div>
@@ -239,7 +239,7 @@ export default function Login() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     disabled={loading}
-                    className="pl-10 h-11 border-gray-300 border-2 focus:border-cyan-500 focus:ring-cyan-500 rounded-lg transition-all"
+                    className="pl-10 h-11 border-gray-300 border-2 focus:border-green-500 focus:ring-green-500 rounded-lg transition-all"
                   />
                 </div>
               </div>
@@ -259,7 +259,7 @@ export default function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     disabled={loading}
-                    className="pl-10 h-11 border-gray-300 border-2 focus:border-cyan-500 focus:ring-cyan-500 rounded-lg transition-all"
+                    className="pl-10 h-11 border-gray-300 border-2 focus:border-green-500 focus:ring-green-500 rounded-lg transition-all"
                   />
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function Login() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full h-11 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-base mt-6"
+                className="w-full h-11 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-base mt-6"
               >
                 {loading ? (
                   <div className="flex items-center gap-2">
@@ -293,7 +293,7 @@ export default function Login() {
                     setEmail("");
                     setPassword("");
                   }}
-                  className="text-sm font-semibold text-cyan-600 hover:text-cyan-700 underline transition-colors"
+                  className="text-sm font-semibold text-green-600 hover:text-green-700 underline transition-colors"
                 >
                   {isLogin ? "Cadastre-se" : "Faça login"}
                 </button>
@@ -304,7 +304,7 @@ export default function Login() {
             <div className="mt-8 pt-6 border-t border-gray-200 text-center">
               <p className="text-xs text-gray-500">
                 Ao criar uma conta ou fazer login, você concorda com nossos{" "}
-                <a href="/termos-garantia" className="text-cyan-600 hover:underline">
+                <a href="/termos-garantia" className="text-green-600 hover:underline">
                   Termos de Serviço
                 </a>
               </p>

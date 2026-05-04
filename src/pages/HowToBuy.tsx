@@ -5,17 +5,17 @@ export default function HowToBuy() {
   return (
     <Layout>
       {/* Header */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-cyan-50 via-cyan-50 to-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
+      <section className="pt-28 pb-16 bg-gradient-to-b from-green-50 via-green-50 to-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-green-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto space-y-4 animate-slide-up">
-            <div className="inline-flex items-center justify-center gap-2 text-cyan-600 font-semibold text-sm uppercase tracking-wider bg-cyan-100/50 px-4 py-2 rounded-full border border-cyan-200">
+            <div className="inline-flex items-center justify-center gap-2 text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-100/50 px-4 py-2 rounded-full border border-cyan-200">
               <ShoppingCart className="w-4 h-4" />
               Compra Fácil e Segura
             </div>
             <h1 className="font-heading text-5xl md:text-6xl font-bold text-gray-900">
-              Como <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-cyan-700">Comprar</span>
+              Como <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-700">Comprar</span>
             </h1>
             <p className="text-xl text-gray-700 max-w-3xl">
               Siga nossos passos e adquira seus produtos de forma simples e segura
@@ -29,9 +29,9 @@ export default function HowToBuy() {
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="animate-slide-up" style={{ animationDelay: '100ms' }}>
             {/* Introduction */}
-            <div className="bg-gradient-to-r from-cyan-50 to-cyan-100/50 p-8 rounded-xl border border-cyan-300 shadow-md mb-12">
+            <div className="bg-gradient-to-r from-green-50 to-green-100/50 p-8 rounded-xl border border-cyan-300 shadow-md mb-12">
               <div className="flex items-start gap-4">
-                <CheckCircle2 className="w-8 h-8 text-cyan-600 flex-shrink-0 mt-1" />
+                <CheckCircle2 className="w-8 h-8 text-green-600 flex-shrink-0 mt-1" />
                 <div>
                   <h2 className="font-heading text-2xl font-bold text-gray-900 mb-2">
                     Comprar em nossa loja é muito fácil!
@@ -51,7 +51,7 @@ export default function HowToBuy() {
                   icon: ShoppingCart,
                   title: "Navegue e Selecione",
                   desc: "Navegue entre as diversas páginas de produtos (portas automáticas, lançamentos, consumíveis, destaques) e clique sobre o ícone 'Comprar'. Ou clique em 'Ver Produto' para maiores informações. O produto será inserido em seu carrinho de compras.",
-                  color: "from-cyan-600 to-cyan-700"
+                  color: "from-green-600 to-green-700"
                 },
                 {
                   step: 2,
@@ -86,7 +86,7 @@ export default function HowToBuy() {
                   icon: CheckCircle,
                   title: "Pronto!",
                   desc: "Você adquiriu seu produto Automatiza! Você receberá um email de confirmação com o número do pedido. Aguarde a confirmação de pagamento e sua encomenda será enviada em até 5 dias úteis.",
-                  color: "from-cyan-600 to-cyan-700"
+                  color: "from-green-600 to-green-700"
                 }
               ].map((item) => {
                 const Icon = item.icon;
@@ -99,7 +99,7 @@ export default function HowToBuy() {
                       <Icon className="w-7 h-7" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-heading text-xl font-bold text-gray-900 group-hover:text-cyan-600 transition-colors mb-2">
+                      <h3 className="font-heading text-xl font-bold text-gray-900 group-hover:text-green-600 transition-colors mb-2">
                         Passo {item.step}: {item.title}
                       </h3>
                       <p className="text-gray-700 leading-relaxed">
@@ -122,7 +122,7 @@ export default function HowToBuy() {
                 </p>
               </div>
 
-              <div className="p-6 rounded-xl bg-cyan-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
+              <div className="p-6 rounded-xl bg-green-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
                 <h3 className="font-semibold text-lg text-cyan-900 mb-3 flex items-center gap-2">
                   ✓ Segurança Garantida
                 </h3>

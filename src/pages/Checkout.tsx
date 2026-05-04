@@ -326,10 +326,10 @@ export default function Checkout() {
   // Tela de sucesso animada - VERSÃO LIGHT
   if (showSuccessScreen) {
     return (
-      <div className="fixed inset-0 bg-gradient-to-br from-white via-cyan-50 to-blue-50 z-50 flex items-center justify-center overflow-hidden">
+      <div className="fixed inset-0 bg-gradient-to-br from-white via-green-50 to-blue-50 z-50 flex items-center justify-center overflow-hidden">
         {/* Animação de fundo */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-cyan-400/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute top-20 left-20 w-72 h-72 bg-yellow-400/20 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-20 right-20 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse" />
         </div>
 
@@ -339,14 +339,14 @@ export default function Checkout() {
           <div className="mb-8 flex justify-center">
             <div className="relative w-24 h-24">
               {/* Círculo externo */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 animate-spin" style={{ animationDuration: "3s" }} />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-500 to-blue-500 animate-spin" style={{ animationDuration: "3s" }} />
 
               {/* Círculo branco */}
               <div className="absolute inset-1 rounded-full bg-white shadow-xl" />
 
               {/* Checkmark */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <Check className="w-12 h-12 text-cyan-600 animate-bounce" />
+                <Check className="w-12 h-12 text-green-600 animate-bounce" />
               </div>
             </div>
           </div>
@@ -356,28 +356,28 @@ export default function Checkout() {
             Pedido Confirmado! 🎉
           </h1>
 
-          <p className="text-xl text-cyan-700 mb-8 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+          <p className="text-xl text-green-700 mb-8 animate-fade-in" style={{ animationDelay: "0.4s" }}>
             Seu pedido foi finalizado com sucesso
           </p>
 
           {/* Detalhes */}
-          <div className="bg-white/70 backdrop-blur-xl rounded-3xl border-2 border-cyan-100 p-8 mb-8 max-w-md mx-auto animate-fade-in shadow-2xl" style={{ animationDelay: "0.6s" }}>
+          <div className="bg-white/70 backdrop-blur-xl rounded-3xl border-2 border-green-100 p-8 mb-8 max-w-md mx-auto animate-fade-in shadow-2xl" style={{ animationDelay: "0.6s" }}>
             <div className="space-y-4 text-left">
               <div className="flex items-center gap-3 text-slate-700">
-                <div className="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center">
-                  <Check className="w-5 h-5 text-cyan-600" />
+                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                  <Check className="w-5 h-5 text-green-600" />
                 </div>
                 <span className="font-semibold">Email de confirmação enviado</span>
               </div>
               <div className="flex items-center gap-3 text-slate-700">
-                <div className="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center">
-                  <Check className="w-5 h-5 text-cyan-600" />
+                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                  <Check className="w-5 h-5 text-green-600" />
                 </div>
                 <span className="font-semibold">Pedido aprovado para processamento</span>
               </div>
               <div className="flex items-center gap-3 text-slate-700">
-                <div className="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center">
-                  <Check className="w-5 h-5 text-cyan-600" />
+                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                  <Check className="w-5 h-5 text-green-600" />
                 </div>
                 <span className="font-semibold">Rastreie seu status em nossa plataforma</span>
               </div>
@@ -385,7 +385,7 @@ export default function Checkout() {
           </div>
 
           {/* Contador automático */}
-          <p className="text-cyan-600 font-bold text-sm animate-fade-in" style={{ animationDelay: "0.8s" }}>
+          <p className="text-green-600 font-bold text-sm animate-fade-in" style={{ animationDelay: "0.8s" }}>
             ⏱️ Redirecionando em alguns segundos...
           </p>
         </div>
@@ -411,7 +411,7 @@ export default function Checkout() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-cyan-50/30 to-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-green-50/30 to-gray-50 flex flex-col">
       <Header />
 
 
@@ -421,7 +421,7 @@ export default function Checkout() {
           <div className="mb-12 animate-fade-in">
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-semibold mb-6 transition-all group hover:gap-3"
+              className="flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold mb-6 transition-all group hover:gap-3"
             >
               <ArrowLeft className="w-5 h-5 group-hover:-translate-x-2 transition-transform" />
               Voltar ao Carrinho
@@ -429,7 +429,7 @@ export default function Checkout() {
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <h1 className="text-4xl md:text-6xl font-black bg-gradient-to-r from-slate-900 via-cyan-600 to-blue-800 bg-clip-text text-transparent drop-shadow-sm leading-tight">
+                <h1 className="text-4xl md:text-6xl font-black bg-gradient-to-r from-slate-900 via-green-600 to-blue-800 bg-clip-text text-transparent drop-shadow-sm leading-tight">
                   Finalizar Compra
                 </h1>
                 <p className="text-gray-700 font-medium text-lg">Você está a um passo de receber seu pedido! ✨</p>
@@ -441,7 +441,7 @@ export default function Checkout() {
                   <div
                     key={step}
                     className={`h-2 flex-1 rounded-full transition-all duration-500 ${step <= 1
-                      ? "bg-gradient-to-r from-cyan-500 to-blue-500"
+                      ? "bg-gradient-to-r from-green-500 to-blue-500"
                       : "bg-gray-300"
                       }`}
                   />
@@ -453,8 +453,8 @@ export default function Checkout() {
           {items.length === 0 ? (
             <div className="flex items-center justify-center min-h-96">
               <div className="text-center space-y-6 animate-bounce-slow">
-                <div className="w-32 h-32 mx-auto bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 rounded-3xl flex items-center justify-center border-2 border-cyan-200/50 backdrop-blur-xl">
-                  <Heart className="w-16 h-16 text-cyan-600 animate-pulse" />
+                <div className="w-32 h-32 mx-auto bg-gradient-to-br from-green-500/10 via-blue-500/10 to-purple-500/10 rounded-3xl flex items-center justify-center border-2 border-cyan-200/50 backdrop-blur-xl">
+                  <Heart className="w-16 h-16 text-green-600 animate-pulse" />
                 </div>
                 <div>
                   <p className="text-gray-900 font-bold text-2xl mb-2">Seu carrinho está vazio</p>
@@ -462,7 +462,7 @@ export default function Checkout() {
                   <button
                     type="button"
                     onClick={() => navigate("/produtos")}
-                    className="px-8 py-4 bg-gradient-to-r from-cyan-600 via-cyan-700 to-blue-700 hover:from-cyan-700 hover:via-cyan-800 hover:to-blue-800 text-white rounded-full font-bold text-lg transition-all hover:shadow-2xl active:scale-95 shadow-lg"
+                    className="px-8 py-4 bg-gradient-to-r from-green-600 via-green-700 to-blue-700 hover:from-green-700 hover:via-cyan-800 hover:to-blue-800 text-white rounded-full font-bold text-lg transition-all hover:shadow-2xl active:scale-95 shadow-lg"
                   >
                     Explorar Produtos
                   </button>
@@ -475,11 +475,11 @@ export default function Checkout() {
               <div className="lg:col-span-2 space-y-6">
                 <div className="space-y-6">
                   {/* 1. Resumo do Carrinho - PREMIUM */}
-                  <div className="group bg-gradient-to-br from-white via-cyan-50/20 to-white rounded-3xl p-8 border-2 border-cyan-200/50 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-cyan-300/80 animate-fade-in"
+                  <div className="group bg-gradient-to-br from-white via-green-50/20 to-white rounded-3xl p-8 border-2 border-cyan-200/50 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-cyan-300/80 animate-fade-in"
                     style={{ animationDelay: "0.1s" }}>
                     <div className="flex items-center gap-4 mb-8">
-                      <div className="p-4 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl border border-cyan-300/50 backdrop-blur-sm">
-                        <Package className="w-8 h-8 text-cyan-600" />
+                      <div className="p-4 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-2xl border border-cyan-300/50 backdrop-blur-sm">
+                        <Package className="w-8 h-8 text-green-600" />
                       </div>
                       <div>
                         <h2 className="text-3xl font-black text-gray-900">Seus Itens</h2>
@@ -491,7 +491,7 @@ export default function Checkout() {
                       {items.map((item, idx) => (
                         <div
                           key={item.id}
-                          className="flex flex-col sm:flex-row gap-4 p-4 sm:p-5 bg-gradient-to-r from-gray-50/80 via-cyan-50/30 to-transparent rounded-2xl border-2 border-gray-100/50 group/item hover:border-cyan-400/60 hover:bg-cyan-50/50 transition-all duration-300 backdrop-blur-sm hover:shadow-lg relative"
+                          className="flex flex-col sm:flex-row gap-4 p-4 sm:p-5 bg-gradient-to-r from-gray-50/80 via-green-50/30 to-transparent rounded-2xl border-2 border-gray-100/50 group/item hover:border-yellow-400/60 hover:bg-green-50/50 transition-all duration-300 backdrop-blur-sm hover:shadow-lg relative"
                           style={{ animationDelay: `${idx * 0.05}s` }}>
                           {/* Imagem */}
                           <div className="w-full sm:w-28 h-40 sm:h-28 rounded-2xl overflow-hidden bg-white border-2 border-gray-200 flex-shrink-0 shadow-md relative">
@@ -500,21 +500,21 @@ export default function Checkout() {
                               alt={item.name}
                               className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-500"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-cyan-500/10 opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-green-500/0 to-green-500/10 opacity-0 group-hover/item:opacity-100 transition-opacity" />
                           </div>
 
                           {/* Detalhes */}
                           <div className="flex-1 flex flex-col justify-between py-1">
                             <div>
-                              <h4 className="font-bold text-gray-900 text-lg group-hover/item:text-cyan-700 transition-colors">{item.name}</h4>
+                              <h4 className="font-bold text-gray-900 text-lg group-hover/item:text-green-700 transition-colors">{item.name}</h4>
                               <div className="flex items-center gap-2 mt-2">
-                                <span className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 px-3 py-1 rounded-full text-sm font-bold border border-cyan-300/50">
+                                <span className="bg-gradient-to-r from-green-100 to-blue-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold border border-cyan-300/50">
                                   {item.quantity}x
                                 </span>
                                 <span className="text-gray-600 font-semibold">{formatCurrency(item.price)}</span>
                               </div>
                             </div>
-                            <p className="text-cyan-600 font-black text-xl sm:text-2xl bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent mt-2 sm:mt-0">
+                            <p className="text-green-600 font-black text-xl sm:text-2xl bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mt-2 sm:mt-0">
                               {formatCurrency(item.price * item.quantity)}
                             </p>
                           </div>
@@ -901,8 +901,8 @@ export default function Checkout() {
                     <div className="group bg-gradient-to-br from-white via-amber-50/20 to-white rounded-3xl p-8 border-2 border-amber-200/50 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-amber-300/80"
                       style={{ animationDelay: "0.25s" }}>
                       <div className="flex items-center gap-4 mb-8">
-                        <div className="p-4 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl border border-amber-300/50 backdrop-blur-sm">
-                          <Lock className="w-8 h-8 text-amber-600" />
+                        <div className="p-4 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-2xl border border-amber-300/50 backdrop-blur-sm">
+                          <Lock className="w-8 h-8 text-green-600" />
                         </div>
                         <h2 className="text-2xl sm:text-3xl font-black text-gray-900">Pagamento Seguro</h2>
                       </div>
@@ -910,7 +910,7 @@ export default function Checkout() {
                       {!dataConfirmed ? (
                         <div className="space-y-6">
                             <div className="p-6 bg-amber-50 rounded-2xl border-2 border-amber-100 flex items-start gap-3">
-                                <AlertCircle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
+                                <AlertCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
                                 <p className="text-amber-800 font-medium">
                                     Preencha todos os campos acima (contato, ano do veículo e endereço) para liberar as opções de pagamento.
                                 </p>
@@ -918,7 +918,7 @@ export default function Checkout() {
                             <button
                                 onClick={handleConfirmData}
                                 disabled={loading}
-                                className="w-full py-5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-black text-xl rounded-2xl transition-all active:scale-95 shadow-lg border-b-4 border-orange-800 disabled:opacity-50"
+                                className="w-full py-5 bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-green-600 hover:to-orange-700 text-white font-black text-xl rounded-2xl transition-all active:scale-95 shadow-lg border-b-4 border-orange-800 disabled:opacity-50"
                             >
                                 {loading ? "Processando..." : "Confirmar Dados e Ir para Pagamento"}
                             </button>
@@ -1029,7 +1029,7 @@ export default function Checkout() {
               <div className="lg:col-span-1">
                 <div className="rounded-3xl sticky top-40 space-y-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
                   {/* Cartão Principal */}
-                  <div className="bg-gradient-to-br from-white via-cyan-50/20 to-white rounded-3xl p-8 border-2 border-cyan-300/50 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-300">
+                  <div className="bg-gradient-to-br from-white via-green-50/20 to-white rounded-3xl p-8 border-2 border-cyan-300/50 backdrop-blur-xl shadow-2xl hover:shadow-3xl transition-all duration-300">
                     <h3 className="text-3xl font-black text-gray-900 mb-8">Resumo Final</h3>
 
                     <div className="space-y-6 border-t-2 border-gray-200 pt-6">
@@ -1071,10 +1071,10 @@ export default function Checkout() {
                       <div className="border-t-2 border-gray-200 pt-6 flex justify-between items-end">
                         <span className="font-black text-gray-900 text-xl">Total a Pagar</span>
                         <div className="space-y-1 text-right">
-                          <span className="text-4xl font-black bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+                          <span className="text-4xl font-black bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
                             {formatCurrency(finalTotal)}
                           </span>
-                          <p className="text-xs font-bold text-cyan-600">em até 12x sem juros</p>
+                          <p className="text-xs font-bold text-green-600">em até 12x sem juros</p>
                         </div>
                       </div>
                     </div>
@@ -1094,7 +1094,7 @@ export default function Checkout() {
                   </div>
 
                   {/* Entrega */}
-                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-8 border-2 border-blue-300/50 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300">
+                  <div className="bg-gradient-to-br from-blue-50 to-green-50 rounded-3xl p-8 border-2 border-blue-300/50 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300">
                     <div className="flex gap-4">
                       <div className="p-3 bg-blue-500/20 rounded-2xl flex-shrink-0">
                         <Truck className="w-8 h-8 text-blue-600" />

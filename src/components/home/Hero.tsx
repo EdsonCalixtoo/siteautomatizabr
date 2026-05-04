@@ -1,5 +1,7 @@
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Zap, Award, Star, ChevronRight, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Shield, Zap, Award, Star, Trophy, Target } from "lucide-react";
 import { BrandSelector } from "./BrandSelector";
 
 const stats = [
@@ -9,180 +11,88 @@ const stats = [
   { icon: Star, value: "4.9", label: "Avaliação Média", suffix: "★" },
 ];
 
+import { MascotAnimation } from "./MascotAnimation";
+
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950">
-      {/* Animated grid background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(6,182,212,1) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,1) 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-          }}
-        />
-
-        {/* Glowing orbs */}
-        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: "4s" }} />
-        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[80px] animate-pulse" style={{ animationDuration: "6s", animationDelay: "2s" }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-400/5 rounded-full blur-[150px]" />
-
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-30"
-            style={{
-              left: `${10 + (i * 4.5)}%`,
-              top: `${15 + ((i * 3.7) % 70)}%`,
-              animation: `float ${3 + (i % 4)}s ease-in-out infinite`,
-              animationDelay: `${i * 0.3}s`,
-            }}
-          />
-        ))}
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0a150a]">
+      {/* Background Decor - Softer */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(34,197,94,0.1)_0%,transparent_50%)]" />
+        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[#0a150a] to-transparent" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10 pt-44 pb-16">
-        <div className="max-w-4xl mx-auto text-center space-y-10">
-          {/* LEFT CONTENT */}
-          <div className="space-y-8 animate-slide-up">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-3 bg-cyan-500/10 backdrop-blur-sm border border-cyan-500/20 px-5 py-2.5 rounded-full group hover:bg-cyan-500/15 transition-all duration-300">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500" />
-              </span>
-              <span className="text-cyan-300 text-sm font-semibold tracking-wide">Tecnologia de Automação Premium</span>
-              <ChevronRight className="w-4 h-4 text-cyan-500 group-hover:translate-x-1 transition-transform" />
-            </div>
+      <div className="container mx-auto px-4 relative z-10 pt-32 pb-20">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          
+          {/* Content Left */}
+          <div className="flex-1 space-y-8 text-center lg:text-left">
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-1.5 rounded-full"
+            >
+              <Trophy className="w-4 h-4 text-yellow-500" />
+              <span className="text-green-500 font-bold text-[10px] uppercase tracking-widest">Seleção Especial 2026</span>
+            </motion.div>
 
-            {/* Title */}
             <div className="space-y-6">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="h-px bg-amber-500/50 flex-1 max-w-[80px]" />
-                <span className="text-amber-500 font-black tracking-widest text-lg uppercase flex items-center gap-2">
-                  <Star className="w-5 h-5 fill-amber-500" />
-                  Especial de Aniversário
-                  <Star className="w-5 h-5 fill-amber-500" />
-                </span>
-                <div className="h-px bg-amber-500/50 flex-1 max-w-[80px]" />
-              </div>
-
-              <h1 className="font-heading text-5xl md:text-8xl lg:text-9xl font-black leading-[0.9] text-white">
-                <span className="text-transparent bg-clip-text bg-gradient-to-br from-amber-200 via-yellow-400 to-amber-500 uppercase tracking-tighter">
-                  10 ANOS
-                </span>
-                <br />
-                <span className="relative inline-block mt-1 sm:mt-2">
-                  <span className="text-white uppercase tracking-tight text-4xl sm:text-7xl md:text-8xl lg:text-9xl">
-                    AUTOMATIZA
-                  </span>
+              <h1 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white leading-tight tracking-tight">
+                O Brasil pede <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-yellow-400">
+                  Automatiza.
                 </span>
               </h1>
-
-              <div className="flex flex-col items-center gap-4 mt-6 sm:mt-8 px-2">
-                <div className="w-full sm:w-auto bg-white/5 backdrop-blur-md border-2 border-amber-500/30 rounded-3xl p-4 sm:p-6 shadow-2xl relative group overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent" />
-                  
-                  <div className="bg-amber-500/20 border-2 border-amber-500 rounded-2xl py-2 px-4 mb-3 sm:mb-4 animate-[pulse_2s_ease-in-out_infinite]">
-                    <p className="text-amber-400 font-black text-xs sm:text-base uppercase tracking-widest flex items-center justify-center gap-2">
-                      <Sparkles className="w-3 h-3 sm:w-5 sm:h-5 flex-shrink-0" /> 
-                      USE O CUPOM: 10ANOSAUTOMATIZA
-                      <Sparkles className="w-3 h-3 sm:w-5 sm:h-5 flex-shrink-0" />
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
-                    <div className="flex items-center gap-3">
-                      <span className="text-white text-lg sm:text-2xl font-bold">De</span>
-                      <span className="line-through text-slate-500 text-xl sm:text-2xl font-bold">R$ 1.680</span>
-                    </div>
-                    <span className="text-5xl sm:text-6xl font-black text-amber-400">R$ 1.450</span>
-                  </div>
-
-                  <div className="mt-4 flex flex-col items-center">
-                    <div className="flex flex-wrap justify-center items-center gap-2 mb-2">
-                      <span className="bg-green-500 text-white rounded-full px-3 py-0.5 text-[10px] font-bold">FRETE GRÁTIS</span>
-                      <span className="text-white text-sm sm:text-xl font-bold">10x SEM JUROS</span>
-                    </div>
-                    <p className="text-slate-400 text-xs sm:text-sm font-semibold">de R$ 145,00 /mês</p>
-                  </div>
-                </div>
-              </div>
-
-              <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed pt-4 font-medium italic">
-                "Há uma década abrindo caminhos e transformando o transporte alternativo no Brasil com tecnologia premium."
+              <p className="text-lg md:text-xl text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium opacity-80">
+                A tecnologia líder em automação de vans, desenvolvida para quem busca máxima performance e segurança.
               </p>
             </div>
 
-            {/* Brand Selector Integrated */}
-            <div className="pt-8">
-              <BrandSelector />
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
               <Link to="/produtos">
-                <button className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105">
-                  <span className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600" />
-                  <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <span className="relative text-white">Ver Todos os Produtos</span>
-                  <ArrowRight className="relative w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
-                  <span className="absolute inset-0 rounded-2xl shadow-[0_0_30px_rgba(6,182,212,0.5)] opacity-0 group-hover:opacity-100 transition-opacity" />
-                </button>
+                <Button className="w-full sm:w-auto px-10 py-7 bg-green-600 hover:bg-green-700 text-white font-bold text-lg rounded-2xl transition-all shadow-xl shadow-green-900/20">
+                  Ver Escalação
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
               </Link>
-
               <a href="https://wa.me/5519989429972" target="_blank" rel="noopener noreferrer">
-                <button className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-bold text-lg border border-slate-600 text-slate-300 hover:border-cyan-500/50 hover:text-cyan-300 hover:bg-white/5 transition-all duration-300 hover:scale-105">
-                  💬 Suporte WhatsApp
-                </button>
+                <Button variant="outline" className="w-full sm:w-auto px-10 py-7 border-white/20 text-white hover:bg-white/10 rounded-2xl font-bold text-lg">
+                  Falar com o Time
+                </Button>
               </a>
             </div>
           </div>
+
+          {/* Mascot Right - More Elegant Integration */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="flex-1 relative max-w-lg lg:max-w-none"
+          >
+            <div className="relative z-10 rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm p-4">
+              <MascotAnimation className="w-full h-auto rounded-[2.5rem]" />
+            </div>
+            {/* Soft Glow */}
+            <div className="absolute -inset-4 bg-green-500/20 blur-[100px] -z-10 rounded-full" />
+          </motion.div>
         </div>
 
-        {/* STATS BAR */}
-        <div className="mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, i) => {
-            const Icon = stat.icon;
-            return (
-              <div
-                key={i}
-                className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/8 hover:border-cyan-500/30 transition-all duration-300 cursor-default overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/20 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-6 h-6 text-cyan-400" />
-                  </div>
-                  <div>
-                    <p className="text-white font-black text-2xl leading-none">
-                      {stat.value}<span className="text-cyan-400">{stat.suffix}</span>
-                    </p>
-                    <p className="text-slate-400 text-xs mt-1">{stat.label}</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* Stats - Softer */}
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {stats.map((stat, i) => (
+            <div key={i} className="bg-white/5 border border-white/10 p-6 rounded-3xl backdrop-blur-sm">
+              <p className="text-yellow-400 font-bold text-2xl mb-1">{stat.value}{stat.suffix}</p>
+              <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Brand Selector */}
+        <div className="mt-32">
+          <BrandSelector />
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-        <div className="w-6 h-10 border-2 border-slate-500 rounded-full flex justify-center pt-2">
-          <div className="w-1 h-2 bg-slate-400 rounded-full animate-bounce" />
-        </div>
-        <span className="text-slate-500 text-xs">Role para baixo</span>
-      </div>
-
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); opacity: 0.3; }
-          50% { transform: translateY(-20px); opacity: 0.7; }
-        }
-      `}</style>
     </section>
   );
 }

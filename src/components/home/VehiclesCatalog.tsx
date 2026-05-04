@@ -84,15 +84,15 @@ export function VehiclesCatalog() {
   return (
     <section className="py-20 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-100/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-50/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-green-100/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-50/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="font-heading text-4xl md:text-5xl font-bold mb-4 text-gray-900">
             Compatível com os principais
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-cyan-500">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-500">
               Modelos de Vans do Brasil
             </span>
           </h2>
@@ -121,7 +121,7 @@ export function VehiclesCatalog() {
               </div>
 
               {/* Image Container */}
-              <div className="relative h-64 overflow-hidden bg-gradient-to-b from-cyan-600 to-cyan-700">
+              <div className="relative h-64 overflow-hidden bg-gradient-to-b from-green-600 to-green-700">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
                 
                 {/* Placeholder for vehicle image */}
@@ -160,19 +160,19 @@ export function VehiclesCatalog() {
                   <a href={vehicle.link} className="flex-1">
                     <Button 
                       variant="default"
-                      className="w-full bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white group/btn rounded-xl font-semibold"
+                      className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-cyan-800 text-white group/btn rounded-xl font-semibold"
                     >
                       Ver Detalhes
                     </Button>
                   </a>
-                  <button className="p-3 rounded-xl border-2 border-gray-200 hover:bg-gray-50 hover:border-cyan-400 transition-all duration-300 flex items-center justify-center">
+                  <button className="p-3 rounded-xl border-2 border-gray-200 hover:bg-gray-50 hover:border-yellow-400 transition-all duration-300 flex items-center justify-center">
                     <Heart className="w-5 h-5 text-gray-400 group-hover:text-red-500 transition-colors" />
                   </button>
                 </div>
               </div>
 
               {/* Accent line */}
-              <div className="absolute top-0 left-0 w-0 h-1 bg-gradient-to-r from-cyan-400 to-cyan-600 group-hover:w-full transition-all duration-500" />
+              <div className="absolute top-0 left-0 w-0 h-1 bg-gradient-to-r from-yellow-400 to-green-600 group-hover:w-full transition-all duration-500" />
             </div>
           ))}
         </div>
@@ -185,7 +185,7 @@ export function VehiclesCatalog() {
           <a href="https://wa.me/5519989429972" target="_blank" rel="noopener noreferrer">
             <Button 
               size="lg"
-              className="bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white px-10 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-cyan-800 text-white px-10 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
             >
               Falar com Especialista
             </Button>

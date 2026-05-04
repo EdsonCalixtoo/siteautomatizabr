@@ -17,10 +17,10 @@ export function CartNotification({ isOpen, onClose, productName }: CartNotificat
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
       <div 
-        className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-300 border border-cyan-100"
+        className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-300 border border-green-100"
       >
         {/* Header */}
-        <div className="bg-gradient-to-br from-cyan-600 to-cyan-500 p-8 text-center relative">
+        <div className="bg-gradient-to-br from-green-600 to-green-500 p-8 text-center relative">
           <button 
             onClick={onClose}
             className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
@@ -35,7 +35,7 @@ export function CartNotification({ isOpen, onClose, productName }: CartNotificat
           <h2 className="text-2xl font-black text-white uppercase tracking-tight">
             Adicionado!
           </h2>
-          <p className="text-cyan-100 text-sm font-medium mt-1 italic">
+          <p className="text-green-100 text-sm font-medium mt-1 italic">
             {productName || "Produto"} agora está no seu carrinho
           </p>
         </div>
@@ -47,7 +47,7 @@ export function CartNotification({ isOpen, onClose, productName }: CartNotificat
               navigate("/checkout");
               onClose();
             }}
-            className="w-full h-16 bg-slate-900 hover:bg-cyan-600 text-white rounded-2xl font-black text-lg shadow-xl shadow-slate-900/20 flex items-center justify-center gap-3 transition-all active:scale-95 group"
+            className="w-full h-16 bg-slate-900 hover:bg-green-600 text-white rounded-2xl font-black text-lg shadow-xl shadow-slate-900/20 flex items-center justify-center gap-3 transition-all active:scale-95 group"
           >
             <ShoppingCart className="w-6 h-6" />
             FINALIZAR COMPRA
@@ -56,7 +56,7 @@ export function CartNotification({ isOpen, onClose, productName }: CartNotificat
 
           <button 
             onClick={onClose}
-            className="w-full h-14 border-2 border-slate-100 text-slate-500 hover:border-cyan-100 hover:text-cyan-600 hover:bg-cyan-50 font-bold rounded-2xl text-sm transition-all uppercase tracking-widest"
+            className="w-full h-14 border-2 border-slate-100 text-slate-500 hover:border-green-100 hover:text-green-600 hover:bg-green-50 font-bold rounded-2xl text-sm transition-all uppercase tracking-widest"
           >
             Continuar Comprando
           </button>
@@ -69,7 +69,7 @@ export function CartNotification({ isOpen, onClose, productName }: CartNotificat
             Compra Segura
           </div>
           <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
             Envio Imediato
           </div>
         </div>

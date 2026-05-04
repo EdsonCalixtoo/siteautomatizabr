@@ -27,7 +27,7 @@ export function AuthButton() {
       <Button 
         onClick={() => navigate("/login")} 
         size="icon"
-        className="rounded-full bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 w-10 h-10"
+        className="rounded-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-cyan-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 w-10 h-10"
       >
         <User className="w-5 h-5" />
       </Button>
@@ -37,7 +37,7 @@ export function AuthButton() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="rounded-full hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">
+        <button className="rounded-full hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
           <AvatarUser user={user} size="md" />
         </button>
       </DropdownMenuTrigger>

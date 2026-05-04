@@ -72,7 +72,7 @@ export default function TrackOrder() {
                 return { 
                     label: "Aguardando Pagamento", 
                     icon: CreditCard, 
-                    color: "text-amber-500", 
+                    color: "text-yellow-500", 
                     bg: "bg-amber-50", 
                     border: "border-amber-200",
                     step: 1,
@@ -137,7 +137,7 @@ export default function TrackOrder() {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-cyan-600 font-semibold mb-8 transition-all group">
+                        <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-green-600 font-semibold mb-8 transition-all group">
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                             Voltar para a loja
                         </Link>
@@ -153,8 +153,8 @@ export default function TrackOrder() {
                                 className="bg-white rounded-[2rem] p-10 md:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100"
                             >
                                 <div className="max-w-sm mx-auto text-center space-y-8">
-                                    <div className="w-20 h-20 bg-cyan-50 rounded-3xl flex items-center justify-center mx-auto ring-8 ring-cyan-50/50">
-                                        <Search className="w-10 h-10 text-cyan-600" />
+                                    <div className="w-20 h-20 bg-green-50 rounded-3xl flex items-center justify-center mx-auto ring-8 ring-green-50/50">
+                                        <Search className="w-10 h-10 text-green-600" />
                                     </div>
                                     <div className="space-y-2">
                                         <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Rastrear seu Pedido</h1>
@@ -163,11 +163,11 @@ export default function TrackOrder() {
                                     
                                     <form onSubmit={handleSubmit} className="space-y-4 pt-4">
                                         <div className="relative group">
-                                            <Receipt className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-cyan-500 transition-colors" />
+                                            <Receipt className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-green-500 transition-colors" />
                                             <input 
                                                 type="text" 
                                                 placeholder="ID do Pedido" 
-                                                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-cyan-500 focus:outline-none font-bold transition-all placeholder:text-slate-300"
+                                                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-green-500 focus:outline-none font-bold transition-all placeholder:text-slate-300"
                                                 value={orderId}
                                                 onChange={(e) => setOrderId(e.target.value.replace("#", ""))}
                                                 required
@@ -176,7 +176,7 @@ export default function TrackOrder() {
                                         <button 
                                             type="submit" 
                                             disabled={loading}
-                                            className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-slate-900/10 hover:bg-cyan-600 active:scale-[0.98] transition-all disabled:opacity-50"
+                                            className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-slate-900/10 hover:bg-green-600 active:scale-[0.98] transition-all disabled:opacity-50"
                                         >
                                             {loading ? "Buscando..." : "Consultar Status"}
                                         </button>
@@ -229,7 +229,7 @@ export default function TrackOrder() {
                                             <motion.div 
                                                 initial={{ width: 0 }}
                                                 animate={{ width: `${((getStatusInfo(order.status).step - 1) / 3) * 100}%` }}
-                                                className="h-full bg-cyan-500 rounded-full"
+                                                className="h-full bg-green-500 rounded-full"
                                                 transition={{ duration: 1.5, ease: "easeOut" }}
                                             />
                                         </div>
@@ -243,7 +243,7 @@ export default function TrackOrder() {
                                                 <div key={s.step} className="flex flex-col items-center gap-4">
                                                     <div className={`w-10 h-10 rounded-full flex items-center justify-center border-4 transition-all duration-700 z-10 ${
                                                         getStatusInfo(order.status).step >= s.step 
-                                                        ? "bg-white border-cyan-500 text-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.3)] scale-110" 
+                                                        ? "bg-white border-green-500 text-green-500 shadow-[0_0_20px_rgba(6,182,212,0.3)] scale-110" 
                                                         : "bg-slate-100 border-white text-slate-300"
                                                     }`}>
                                                         <s.icon className={`${getStatusInfo(order.status).step >= s.step ? "w-5 h-5" : "w-4 h-4"}`} />
@@ -261,7 +261,7 @@ export default function TrackOrder() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div className="bg-white rounded-[2rem] p-8 shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-slate-50">
                                         <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-3">
-                                            <Package className="w-5 h-5 text-cyan-500" />
+                                            <Package className="w-5 h-5 text-green-500" />
                                             Itens no Pedido
                                         </h3>
                                         <div className="space-y-4">
@@ -297,7 +297,7 @@ export default function TrackOrder() {
                                             </div>
                                             <div className="space-y-1">
                                                 <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Final</p>
-                                                <p className="font-black text-3xl text-cyan-400">{formatCurrency(order.total)}</p>
+                                                <p className="font-black text-3xl text-yellow-400">{formatCurrency(order.total)}</p>
                                             </div>
                                         </div>
                                         

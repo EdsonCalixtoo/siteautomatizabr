@@ -22,11 +22,11 @@ export function AvatarUser({ user, size = "md" }: AvatarUserProps) {
 
   // Gerar cor baseada no email
   const colors = [
-    "from-cyan-500 to-blue-500",
+    "from-green-500 to-blue-500",
     "from-blue-500 to-purple-500",
     "from-purple-500 to-pink-500",
     "from-pink-500 to-red-500",
-    "from-green-500 to-cyan-500",
+    "from-green-500 to-green-500",
   ];
 
   const colorIndex = (user.email || "").charCodeAt(0) % colors.length;

@@ -145,7 +145,7 @@ export default function PixPayment() {
                     <h1 className="text-2xl font-black text-gray-900 mb-2">Erro</h1>
                     <p className="text-gray-500 mb-6">{error}</p>
                     <button onClick={() => navigate("/checkout")}
-                        className="w-full py-3 bg-cyan-600 text-white font-bold rounded-xl">
+                        className="w-full py-3 bg-green-600 text-white font-bold rounded-xl">
                         Voltar ao Checkout
                     </button>
                 </div>
@@ -182,7 +182,7 @@ export default function PixPayment() {
                         {paymentStatus === "expired" ? "O código PIX expirou." : "Não identificamos o pagamento."}
                     </p>
                     <button onClick={() => navigate("/checkout")}
-                        className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-xl">
+                        className="w-full py-3 bg-gradient-to-r from-green-500 to-blue-600 text-white font-bold rounded-xl">
                         Tentar Novamente
                     </button>
                 </div>
@@ -269,7 +269,7 @@ export default function PixPayment() {
                     </div>
 
                     {/* Aguardando */}
-                    <div className="flex items-center gap-2 text-cyan-600 bg-cyan-50 rounded-xl p-3 border border-cyan-200 text-xs font-semibold">
+                    <div className="flex items-center gap-2 text-green-600 bg-green-50 rounded-xl p-3 border border-cyan-200 text-xs font-semibold">
                         <Loader className="w-4 h-4 animate-spin flex-shrink-0" />
                         Aguardando pagamento... A tela atualiza automaticamente a cada 10s.
                     </div>
