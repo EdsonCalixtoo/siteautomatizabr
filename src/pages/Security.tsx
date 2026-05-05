@@ -5,7 +5,7 @@ export default function Security() {
   return (
     <Layout>
       {/* Header */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-blue-50 via-blue-50 to-white relative overflow-hidden">
+      <section className="pt-44 pb-16 bg-gradient-to-b from-blue-50 via-blue-50 to-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
         
         <div className="container mx-auto px-4 relative z-10">

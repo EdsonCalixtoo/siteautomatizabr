@@ -76,7 +76,7 @@ export function ProductsPreview() {
                   <img 
                     src={product.image} 
                     alt={product.name}
-                    className="w-full h-full object-contain p-8 group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                 </div>
 

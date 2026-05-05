@@ -80,18 +80,8 @@ const ProductDetail = () => {
 
   return (
     <Layout>
-      {/* Hero Header - CLEANER VERSION */}
-      <div className="pt-24 pb-12 bg-slate-50 border-b border-slate-100 relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <Link to="/produtos" className="inline-flex items-center gap-2 text-slate-500 hover:text-green-600 transition-colors mb-4 text-sm font-semibold">
-            <ArrowLeft className="w-4 h-4" />
-            <span>Voltar para Produtos</span>
-          </Link>
-        </div>
-      </div>
-
       {/* Product Details Section */}
-      <section className="py-12 bg-white">
+      <section className="pt-44 pb-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             

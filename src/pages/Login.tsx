@@ -311,13 +311,7 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Botão Voltar */}
-          <button
-            onClick={() => navigate("/")}
-            className="mt-6 text-center text-gray-600 hover:text-gray-900 font-medium transition-colors hover:underline"
-          >
-            ← Voltar para a página inicial
-          </button>
+
         </div>
       </div>
     </div>

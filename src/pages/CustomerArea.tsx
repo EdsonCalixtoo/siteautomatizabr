@@ -537,17 +537,11 @@ export default function CustomerArea() {
 
   return (
     <Layout>
-      <section className="pt-28 pb-20 bg-gradient-to-br from-slate-50 to-white min-h-screen">
+      <section className="pt-44 pb-20 bg-gradient-to-br from-slate-50 to-white min-h-screen">
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="mb-8">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold mb-6 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Voltar
-            </Link>
+
             <div className="flex items-center justify-between">
               <h1 className="text-4xl font-bold text-gray-900">Minha Conta</h1>
               <Button
@@ -905,13 +899,7 @@ export default function CustomerArea() {
                   </div>
                 </button>
 
-                {/* Botão Cancelar */}
-                <button
-                  onClick={() => setShowDownloadModal(null)}
-                  className="w-full mt-4 px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium transition-all duration-300"
-                >
-                  ❌ Cancelar
-                </button>
+      
               </div>
 
               <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 text-center text-xs text-gray-600">
