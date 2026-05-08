@@ -7,7 +7,7 @@ export default function Shipping() {
       {/* Header */}
       <section className="pt-44 pb-16 bg-gradient-to-b from-orange-50 via-orange-50 to-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-orange-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto space-y-4 animate-slide-up">
             <div className="inline-flex items-center justify-center gap-2 text-orange-600 font-semibold text-sm uppercase tracking-wider bg-orange-100/50 px-4 py-2 rounded-full border border-orange-200">
@@ -38,7 +38,7 @@ export default function Shipping() {
                   Prazo de Envio
                 </h2>
               </div>
-              
+
               <div className="p-8 rounded-xl bg-orange-50 border border-orange-200 hover:border-orange-300 transition-colors">
                 <p className="text-lg text-orange-900 leading-relaxed">
                   Todos os produtos serão enviados de acordo com a forma escolhida pelo cliente, <span className="font-semibold">em até 5 dias úteis</span> da confirmação do pagamento.
@@ -61,7 +61,7 @@ export default function Shipping() {
                   Transportadoras Parceiras
                 </h2>
               </div>
-              
+
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="p-6 rounded-xl bg-blue-50 border border-blue-200 hover:border-blue-300 transition-all hover:shadow-md">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center mb-4 shadow-md">
@@ -129,7 +129,7 @@ export default function Shipping() {
                   Rastreamento
                 </h2>
               </div>
-              
+
               <div className="p-8 rounded-xl bg-green-50 border border-cyan-200 hover:border-cyan-300 transition-colors">
                 <p className="text-lg text-cyan-900 leading-relaxed mb-4">
                   Para obter informações e rastrear sua encomenda em tempo real, entre em contato:
@@ -140,7 +140,7 @@ export default function Shipping() {
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900">Suporte de Envios</p>
-                    <p className="text-2xl font-bold text-green-600">(19) 99661-0774</p>
+                    <p className="text-2xl font-bold text-green-600">(19) 98942-9972</p>
                   </div>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export default function Shipping() {
             {/* Aviso Importante */}
             <div className="bg-yellow-50 p-6 rounded-xl border-l-4 border-yellow-500">
               <p className="text-yellow-900">
-                <span className="font-semibold">⚠️ Importante:</span> O prazo para a entrega varia de acordo com a forma de envio escolhida 
+                <span className="font-semibold">⚠️ Importante:</span> O prazo para a entrega varia de acordo com a forma de envio escolhida
                 e localização de destino. A Automatiza não é responsável por atrasos causados pelas transportadoras. Todos os prazos são estimados.
               </p>
             </div>

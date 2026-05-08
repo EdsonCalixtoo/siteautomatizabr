@@ -7,7 +7,7 @@ export default function HowToBuy() {
       {/* Header */}
       <section className="pt-44 pb-16 bg-gradient-to-b from-green-50 via-green-50 to-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-green-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto space-y-4 animate-slide-up">
             <div className="inline-flex items-center justify-center gap-2 text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-100/50 px-4 py-2 rounded-full border border-cyan-200">
@@ -91,7 +91,7 @@ export default function HowToBuy() {
               ].map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div 
+                  <div
                     key={item.step}
                     className="group flex gap-6 p-6 rounded-xl bg-white border border-gray-200 hover:border-cyan-300 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
                   >
@@ -135,7 +135,7 @@ export default function HowToBuy() {
             {/* FAQ Section */}
             <div className="mt-12">
               <h2 className="font-heading text-3xl font-bold text-gray-900 mb-8">Perguntas Frequentes</h2>
-              
+
               <div className="space-y-4">
                 {[
                   {
@@ -152,7 +152,7 @@ export default function HowToBuy() {
                   },
                   {
                     q: "Posso rastrear meu pedido?",
-                    a: "Sim! Você receberá um código de rastreamento por email. Você também pode contato conosco pelo número (19) 99661-0774 para informações."
+                    a: "Sim! Você receberá um código de rastreamento por email. Você também pode contato conosco pelo número (19) 98942-9972 para informações."
                   }
                 ].map((faq, i) => (
                   <div key={i} className="p-6 rounded-xl bg-gray-50 border border-gray-200 hover:border-cyan-300 transition-colors">

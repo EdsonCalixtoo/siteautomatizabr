@@ -7,7 +7,7 @@ export default function Warranty() {
       {/* Header */}
       <section className="pt-44 pb-16 bg-gradient-to-b from-purple-50 via-purple-50 to-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-purple-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto space-y-4 animate-slide-up">
             <div className="inline-flex items-center justify-center gap-2 text-purple-600 font-semibold text-sm uppercase tracking-wider bg-purple-100/50 px-4 py-2 rounded-full border border-purple-200">
@@ -38,7 +38,7 @@ export default function Warranty() {
                   Cobertura de Garantia
                 </h2>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="p-6 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 hover:border-purple-300 transition-all hover:shadow-md">
                   <div className="flex items-start gap-4 mb-4">
@@ -104,7 +104,7 @@ export default function Warranty() {
                   Contagem do Prazo
                 </h2>
               </div>
-              
+
               <div className="p-6 rounded-xl bg-blue-50 border border-blue-200 hover:border-blue-300 transition-colors">
                 <div className="space-y-4">
                   <p className="text-lg text-blue-900 leading-relaxed">
@@ -127,7 +127,7 @@ export default function Warranty() {
                   Causas de Perda de Garantia
                 </h2>
               </div>
-              
+
               <div className="space-y-3">
                 {[
                   "Defeito ocasionado por uso indevido ou desacordo com as características",
@@ -149,7 +149,7 @@ export default function Warranty() {
               <h3 className="font-heading text-2xl font-bold text-gray-900 mb-6">
                 Exclusões de Garantia
               </h3>
-              
+
               <div className="space-y-3">
                 {[
                   "Defeitos causados por descargas elétricas atmosféricas",
@@ -176,7 +176,7 @@ export default function Warranty() {
                   Procedimento para Garantia
                 </h2>
               </div>
-              
+
               <div className="space-y-4">
                 {[
                   "Enviar laudo técnico com: nome, data da compra, número de série e descrição do problema",
