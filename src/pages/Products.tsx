@@ -320,9 +320,12 @@ const Products = () => {
                         </span>
                       </div>
                       <img 
-                        src={product.image}
+                        src={product.image || "/ftproduto.jpeg"}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/ftproduto.jpeg";
+                        }}
                       />
                     </Link>
 

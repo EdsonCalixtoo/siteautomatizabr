@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { User, LogOut, Home } from "lucide-react";
 
-const ADMIN_EMAIL = "gugaeduardo30@gmail.com";
+const ADMIN_EMAIL = "juninho.caxto@gmail.com";
 
 export function AuthButton() {
   const navigate = useNavigate();
@@ -41,25 +41,41 @@ export function AuthButton() {
           <AvatarUser user={user} size="md" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <div className="px-2 py-2">
-          <p className="text-sm font-semibold text-gray-900">{user.email}</p>
-          <p className="text-xs text-gray-500">✓ Autenticado</p>
+      <DropdownMenuContent 
+        align="end" 
+        className="w-56 bg-[#0a150a]/95 border border-green-500/20 backdrop-blur-xl rounded-2xl shadow-2xl p-2 z-[110]"
+      >
+        <div className="px-3 py-2.5">
+          <p className="text-[10px] font-black uppercase tracking-widest text-green-400">Usuário</p>
+          <p className="text-sm font-bold text-white truncate mt-0.5">{user.email}</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-yellow-400/80 mt-1 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+            Autenticado
+          </p>
         </div>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => navigate("/minha-conta")} className="cursor-pointer">
-          <User className="w-4 h-4 mr-2" />
+        <DropdownMenuSeparator className="bg-white/10 my-1" />
+        <DropdownMenuItem 
+          onClick={() => navigate("/minha-conta")} 
+          className="cursor-pointer flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-white/70 hover:bg-white/5 hover:text-yellow-400 rounded-xl transition-all focus:bg-white/5 focus:text-yellow-400"
+        >
+          <User className="w-4 h-4 text-green-400" />
           Meu Perfil
         </DropdownMenuItem>
         {user.email === ADMIN_EMAIL && (
-          <DropdownMenuItem onClick={() => navigate("/admin/dashboard")} className="cursor-pointer">
-            <Home className="w-4 h-4 mr-2" />
+          <DropdownMenuItem 
+            onClick={() => navigate("/admin/dashboard")} 
+            className="cursor-pointer flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-white/70 hover:bg-white/5 hover:text-yellow-400 rounded-xl transition-all focus:bg-white/5 focus:text-yellow-400"
+          >
+            <Home className="w-4 h-4 text-green-400" />
             Dashboard
           </DropdownMenuItem>
         )}
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout} className="text-red-600 cursor-pointer">
-          <LogOut className="w-4 h-4 mr-2" />
+        <DropdownMenuSeparator className="bg-white/10 my-1" />
+        <DropdownMenuItem 
+          onClick={handleLogout} 
+          className="cursor-pointer flex items-center gap-2 px-3 py-2.5 text-xs font-black uppercase tracking-wider text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-xl transition-all focus:bg-red-500/10 focus:text-red-300"
+        >
+          <LogOut className="w-4 h-4" />
           Sair
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -99,9 +99,16 @@ const ProductDetail = () => {
                 
                 <div className="aspect-square flex items-center justify-center p-8">
                    <img 
-                    src={product.images && product.images.length > 0 ? product.images[selectedImage] : product.image} 
+                    src={
+                      (product.images && product.images.length > 0 && product.images[selectedImage]) 
+                        ? product.images[selectedImage] 
+                        : (product.image || "/ftproduto.jpeg")
+                    } 
                     alt={product.name}
                     className="w-full h-full object-contain"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/ftproduto.jpeg";
+                    }}
                   />
                 </div>
               </div>
@@ -116,7 +123,14 @@ const ProductDetail = () => {
                         selectedImage === idx ? "border-green-600 shadow-md" : "border-slate-100 hover:border-slate-200"
                       }`}
                     >
-                      <img src={img} alt={`Thumb ${idx}`} className="w-full h-full object-cover" />
+                      <img 
+                        src={img || "/ftproduto.jpeg"} 
+                        alt={`Thumb ${idx}`} 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/ftproduto.jpeg";
+                        }}
+                      />
                     </button>
                   ))}
                 </div>
@@ -208,6 +222,56 @@ const ProductDetail = () => {
           </div>
         </div>
       </section>
+
+      {/* Video Demonstration Section */}
+      {product.videoUrl && (
+        <section ref={videoSectionRef} className="py-20 bg-slate-900 text-white relative overflow-hidden">
+          {/* Subtle grid background */}
+          <div className="absolute inset-0 bg-[radial-gradient(#22c55e_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <div className="inline-flex items-center gap-2 text-green-400 font-bold text-xs uppercase tracking-widest mb-3">
+                <Video className="w-4 h-4" />
+                Demonstração em Vídeo
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+                Veja o Kit em Funcionamento
+              </h2>
+              <p className="text-slate-400 mt-2 font-medium">
+                Assista ao vídeo explicativo e veja a facilidade da instalação e operação do sistema de automação.
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black/40 backdrop-blur-md p-2">
+              {getYouTubeId(product.videoUrl) ? (
+                <div className="aspect-video w-full rounded-2xl overflow-hidden">
+                  <iframe
+                    className="w-full h-full"
+                    src={`https://www.youtube.com/embed/${getYouTubeId(product.videoUrl)}`}
+                    title="Vídeo Demonstrativo"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ) : (
+                <div className="aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center relative group">
+                  <video
+                    className="w-full h-full object-cover"
+                    controls
+                    preload="metadata"
+                    playsInline
+                  >
+                    <source src={product.videoUrl} type="video/mp4" />
+                    Seu navegador não suporta a reprodução de vídeos.
+                  </video>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Comparative Table Softened */}
       <section className="py-20 bg-slate-50">

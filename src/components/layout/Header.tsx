@@ -7,7 +7,7 @@ import { AuthButton } from "@/components/AuthButton";
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
 
-const ADMIN_EMAIL = "gugaeduardo30@gmail.com";
+const ADMIN_EMAIL = "juninho.caxto@gmail.com";
 
 const navLinks = [
   { href: "/", label: "Início" },

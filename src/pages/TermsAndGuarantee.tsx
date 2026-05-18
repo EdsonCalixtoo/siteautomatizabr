@@ -151,7 +151,7 @@ export default function TermsAndGuarantee() {
                     Para obter informações do código para rastrear sua encomenda, entre em contato:
                   </p>
                   <p className="font-semibold text-orange-700 bg-white px-4 py-3 rounded-lg border border-orange-200">
-                    📱 (19) 99661-0774 - Suporte de envios
+                    📱 (19) 98942-9972 - Suporte de envios
                   </p>
                 </div>
 

@@ -74,9 +74,12 @@ export function ProductsPreview() {
                     </span>
                   </div>
                   <img 
-                    src={product.image} 
+                    src={product.image || "/ftproduto.jpeg"} 
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/ftproduto.jpeg";
+                    }}
                   />
                 </div>
 
@@ -101,7 +104,14 @@ export function ProductsPreview() {
                     <div className="space-y-2">
                       <Button 
                         onClick={() => {
-                          addToCart(product);
+                          addToCart({
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            image: product.image,
+                            quantity: 1,
+                            category: product.category || "",
+                          });
                           setAddedProduct({ id: product.id, name: product.name });
                         }}
                         className="w-full bg-slate-900 hover:bg-black text-white font-bold py-6 rounded-xl transition-all shadow-md"
