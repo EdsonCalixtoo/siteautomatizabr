@@ -118,6 +118,11 @@ const Products = () => {
     
     // Categorias fixas (Kits, etc)
     return p.category === selectedCategory;
+  }).sort((a, b) => {
+    // Ordenar para garantir que "Sem Sensor" venha antes de "Com Sensor"
+    // Como "Sem Sensor" é mais barato, ordenar por preço crescente já resolve perfeitamente
+    // e também é uma ótima prática de e-commerce!
+    return a.price - b.price;
   });
 
   return (
