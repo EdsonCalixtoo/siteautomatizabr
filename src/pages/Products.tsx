@@ -13,7 +13,7 @@ import { formatCurrency } from "@/lib/utils";
 const Products = () => {
   const [searchParams] = useSearchParams();
   const vehicleParam = searchParams.get("vehicle");
-  const { products } = useProducts();
+  const { products, categories, subcategories } = useProducts();
   const { addToCart } = useCart();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [addedToCart, setAddedToCart] = useState<{
@@ -31,93 +31,29 @@ const Products = () => {
     }
   }, [vehicleParam]);
 
-  // Define categories and subcategories structure
-  const categoryStructure: Record<string, { label: string; icon: string; subcategories: string[] }> = {
-    "citroen-jumper": { 
-      label: "Citroen - Jumper", 
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor", "ABNT"]
-    },
-    "citroen-jumpy": {
-      label: "Citroen - Jumpy",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor"]
-    },
-    "fiat-ducato": {
-      label: "Fiat - Ducato",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor", "ABNT"]
-    },
-    "fiat-scudo": {
-      label: "Fiat Scudo",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor"]
-    },
-    "ford-transit": {
-      label: "Ford - Transit",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor"]
-    },
-    "iveco-daily": {
-      label: "Iveco - Daily",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor", "ABNT"]
-    },
-    "kia-besta": {
-      label: "Kia - Besta",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor", "ABNT"]
-    },
-    "mercedes-sprinter": {
-      label: "Mercedes - Sprinter",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor"]
-    },
-    "peugeot-boxer": {
-      label: "Peugeot - Boxer",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor"]
-    },
-    "peugeot-expert": {
-      label: "Peugeot Expert",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor"]
-    },
-    "renault-master": {
-      label: "Renault - Master",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor"]
-    },
-    "vw-kombi": {
-      label: "Volkswagen - Kombi",
-      icon: "🚐",
-      subcategories: ["Com Sensor", "Sem Sensor", "ABNT"]
-    },
-  };
-
-  const otherCategories = [
-    { id: "completo", label: "Kit Completo", icon: "🏆" },
-    { id: "simples", label: "Kit Simples", icon: "⚡" },
-    { id: "consumivel", label: "Consumíveis & Peças", icon: "🔧" },
-  ];
+  // Categorias dinâmicas
+  const vehicleCategories = categories.filter(c => subcategories.some(s => s.categoryId === c.id)).sort((a, b) => a.name.localeCompare(b.name));
+  const otherCategoriesDynamic = categories.filter(c => !subcategories.some(s => s.categoryId === c.id));
 
   const filteredProducts = products.filter(p => {
     if (selectedCategory === "all") return true;
     
-    // Se a categoria selecionada for um veículo (do categoryStructure)
-    if (categoryStructure[selectedCategory]) {
-      const catData = categoryStructure[selectedCategory];
+    // Se a categoria selecionada for um veículo (dinâmica)
+    const isVehicleCategory = vehicleCategories.some(c => c.key === selectedCategory);
+    if (isVehicleCategory) {
+      const catData = categories.find(c => c.key === selectedCategory);
       const matchesCategory = p.category === selectedCategory || 
-                             p.category === catData.label ||
-                             (p.category === "Portas Automáticas" && p.subcategory === catData.label);
+                             p.category === catData?.name ||
+                             (p.category === "Portas Automáticas" && p.subcategory === catData?.name);
       
       if (!matchesCategory) return false;
       if (selectedSubcategory === "all") return true;
       return p.subcategory === selectedSubcategory;
     }
     
-    // Categorias fixas (Kits, etc)
-    return p.category === selectedCategory;
+    // Categorias fixas (Kits, etc) baseadas no DB
+    const catDataOther = categories.find(c => c.key === selectedCategory);
+    return p.category === selectedCategory || p.category === catDataOther?.name;
   }).sort((a, b) => {
     // Ordenar para garantir que "Sem Sensor" venha antes de "Com Sensor"
     // Como "Sem Sensor" é mais barato, ordenar por preço crescente já resolve perfeitamente
@@ -188,7 +124,7 @@ const Products = () => {
 
                 {/* Other Categories */}
                 <div className="mb-8 pb-8 border-b-2 border-gray-200">
-                  <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Produtos</h3>
+                  <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Kits & Acessórios</h3>
                   <div className="space-y-2">
                     <button
                       onClick={() => {
@@ -204,21 +140,21 @@ const Products = () => {
                     >
                       📦 Todos os Produtos
                     </button>
-                    {otherCategories.map((cat) => (
+                    {otherCategoriesDynamic.map((cat) => (
                       <button
                         key={cat.id}
                         onClick={() => {
-                          setSelectedCategory(cat.id);
+                          setSelectedCategory(cat.key);
                           setSelectedSubcategory("all");
                           setIsFilterOpen(false);
                         }}
                         className={`w-full text-left px-4 py-2 rounded-xl transition-all duration-300 font-medium ${
-                          selectedCategory === cat.id && selectedSubcategory === "all"
+                          selectedCategory === cat.key && selectedSubcategory === "all"
                             ? "bg-green-600 text-white"
                             : "text-gray-700 hover:bg-gray-100"
                         }`}
                       >
-                        {cat.icon} {cat.label}
+                        {cat.name.includes("Kit") ? "🏆" : "🔧"} {cat.name}
                       </button>
                     ))}
                   </div>
@@ -226,58 +162,58 @@ const Products = () => {
 
                 {/* Door Categories */}
                 <div>
-                  <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Portas Automáticas</h3>
+                  <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">PORTAS AUTOMÁTICAS</h3>
                   <div className="space-y-1">
-                    {Object.entries(categoryStructure).map(([key, catData]) => (
-                      <div key={key}>
+                    {vehicleCategories.map((catData) => (
+                      <div key={catData.key}>
                         <button
                           onClick={() => {
-                            setExpandedCategory(expandedCategory === key ? null : key);
-                            setSelectedCategory(key);
+                            setExpandedCategory(expandedCategory === catData.key ? null : catData.key);
+                            setSelectedCategory(catData.key);
                             setSelectedSubcategory("all");
                           }}
                           className={`w-full text-left px-4 py-2 rounded-xl transition-all duration-300 font-medium flex items-center justify-between gap-3 ${
-                            selectedCategory === key && selectedSubcategory === "all"
+                            selectedCategory === catData.key && selectedSubcategory === "all"
                               ? "bg-green-100 text-green-700"
                               : "text-gray-700 hover:bg-gray-100"
                           }`}
                         >
                           <div className="flex items-center gap-3">
-                            {CATEGORY_LOGOS[key] ? (
+                            {CATEGORY_LOGOS[catData.key] ? (
                               <img 
-                                src={CATEGORY_LOGOS[key]} 
-                                alt={catData.label}
+                                src={CATEGORY_LOGOS[catData.key]} 
+                                alt={catData.name}
                                 className="h-6 w-6 object-contain"
                               />
                             ) : (
-                              <span>{catData.icon}</span>
+                              <span>🚐</span>
                             )}
-                            <span>{catData.label}</span>
+                            <span>{catData.name}</span>
                           </div>
                           <ChevronDown 
                             className={`w-4 h-4 transition-transform flex-shrink-0 ${
-                              expandedCategory === key ? "rotate-180" : ""
+                              expandedCategory === catData.key ? "rotate-180" : ""
                             }`}
                           />
                         </button>
                         
-                        {expandedCategory === key && (
+                        {expandedCategory === catData.key && (
                           <div className="ml-4 mt-2 space-y-1 border-l-2 border-cyan-200 pl-0">
-                            {catData.subcategories.map((subcat) => (
+                            {subcategories.filter(s => s.categoryId === catData.id).map((subcat) => (
                               <button
-                                key={subcat}
+                                key={subcat.id}
                                 onClick={() => {
-                                  setSelectedCategory(key);
-                                  setSelectedSubcategory(subcat);
+                                  setSelectedCategory(catData.key);
+                                  setSelectedSubcategory(subcat.name);
                                   setIsFilterOpen(false);
                                 }}
                                 className={`w-full text-left px-4 py-2 rounded-xl transition-all duration-300 text-sm font-medium ${
-                                  selectedSubcategory === subcat
+                                  selectedSubcategory === subcat.name
                                     ? "bg-green-600 text-white"
                                     : "text-gray-600 hover:bg-gray-100"
                                 }`}
                               >
-                                {subcat}
+                                {subcat.name}
                               </button>
                             ))}
                           </div>
@@ -325,11 +261,11 @@ const Products = () => {
                         </span>
                       </div>
                       <img 
-                        src={product.image || "/ftproduto.jpeg"}
+                        src={product.image || (product.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg")}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = "/ftproduto.jpeg";
+                          (e.target as HTMLImageElement).src = product.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg";
                         }}
                       />
                     </Link>
@@ -343,7 +279,7 @@ const Products = () => {
                           </h3>
                         </Link>
                         <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mt-1">
-                          {product.category}
+                          {categories.find(c => c.key === product.category)?.name || product.category?.replace(/-/g, ' ')}
                         </p>
                       </div>
 

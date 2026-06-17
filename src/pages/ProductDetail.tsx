@@ -102,12 +102,12 @@ const ProductDetail = () => {
                     src={
                       (product.images && product.images.length > 0 && product.images[selectedImage]) 
                         ? product.images[selectedImage] 
-                        : (product.image || "/ftproduto.jpeg")
+                        : (product.image || (product.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg"))
                     } 
                     alt={product.name}
                     className="w-full h-full object-contain"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "/ftproduto.jpeg";
+                      (e.target as HTMLImageElement).src = product.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg";
                     }}
                   />
                 </div>
@@ -124,11 +124,11 @@ const ProductDetail = () => {
                       }`}
                     >
                       <img 
-                        src={img || "/ftproduto.jpeg"} 
+                        src={img || (product.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg")}
                         alt={`Thumb ${idx}`} 
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = "/ftproduto.jpeg";
+                          (e.target as HTMLImageElement).src = product.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg";
                         }}
                       />
                     </button>
@@ -202,13 +202,14 @@ const ProductDetail = () => {
               </div>
 
               {/* Specs Softened */}
+              {((product.features && product.features.length > 0) || product.category !== 'pecas') && (
               <div className="space-y-4">
                 <h3 className="text-lg font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
                   <div className="w-1 h-6 bg-green-600 rounded-full" />
                   Recursos do Sistema
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {(product.features || ["Kit completo de automação", "Sensor antiesmagamento", "Controle remoto", "Manual de instalação"]).map((f, i) => (
+                  {((product.features && product.features.length > 0) ? product.features : ["Kit completo de automação", "Sensor antiesmagamento", "Controle remoto", "Manual de instalação"]).map((f, i) => (
                     <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-100 shadow-sm">
                       <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
                         <Check className="w-3.5 h-3.5 text-green-600" />
@@ -218,6 +219,7 @@ const ProductDetail = () => {
                   ))}
                 </div>
               </div>
+              )}
             </div>
           </div>
         </div>
@@ -274,6 +276,7 @@ const ProductDetail = () => {
       )}
 
       {/* Comparative Table Softened */}
+      {product.category !== 'pecas' && (
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -308,6 +311,7 @@ const ProductDetail = () => {
           </div>
         </div>
       </section>
+      )}
 
       <CartNotification 
         productName={addedProduct?.name || ""} 

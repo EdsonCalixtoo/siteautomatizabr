@@ -448,12 +448,17 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                   >
                     {/* Incluir a categoria atual mesmo que não esteja na lista padrão para evitar erro */}
                     {!categories.some(c => c.key === formData.category) && formData.category && (
-                      <option value={formData.category} className="bg-slate-900 italic">
+                      <option value={formData.category} className="bg-slate-900 text-white italic">
                         {formData.category} (Personalizada)
                       </option>
                     )}
+                    {categories.length === 0 && (
+                      <option value="" disabled className="bg-slate-900 italic text-gray-400">
+                        Nenhuma categoria encontrada
+                      </option>
+                    )}
                     {categories.map((cat) => (
-                      <option key={cat.id} value={cat.key} className="bg-slate-900">
+                      <option key={cat.id} value={cat.key} className="bg-slate-900 text-white">
                         {cat.name}
                       </option>
                     ))}
@@ -469,10 +474,13 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                     }
                     className="w-full bg-white/10 border-2 border-green-500/30 text-white rounded-xl p-3 font-semibold hover:border-green-500/60 transition-all"
                   >
+                    <option value="" className="bg-slate-900 italic text-gray-400">
+                      Nenhuma ou Selecione...
+                    </option>
                     {subcategories
                       .filter(s => s.categoryId === categories.find(c => c.key === formData.category)?.id)
                       .map((sub) => (
-                        <option key={sub.id} value={sub.name} className="bg-slate-900">
+                        <option key={sub.id} value={sub.name} className="bg-slate-900 text-white">
                           {sub.name}
                         </option>
                       ))}
@@ -582,10 +590,10 @@ export function ProductForm({ onClose, product }: ProductFormProps) {
                     }
                     className="w-full bg-gradient-to-r from-blue-600/10 to-green-600/10 border-2 border-blue-500/30 text-white rounded-xl p-3 font-semibold hover:border-blue-500/60 transition-all cursor-pointer appearance-none"
                   >
-                    <option value="ativo" className="bg-slate-900">
+                    <option value="ativo" className="bg-slate-900 text-white">
                       ✓ Ativo
                     </option>
-                    <option value="inativo" className="bg-slate-900">
+                    <option value="inativo" className="bg-slate-900 text-white">
                       ✗ Inativo
                     </option>
                   </select>

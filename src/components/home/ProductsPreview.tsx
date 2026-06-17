@@ -9,7 +9,7 @@ import { CartNotification } from "@/components/cart/CartNotification";
 import { motion } from "framer-motion";
 
 export function ProductsPreview() {
-  const { products, loading } = useProducts();
+  const { products, categories, loading } = useProducts();
   const { addToCart } = useCart();
   const [addedProduct, setAddedProduct] = useState<{ id: string, name: string } | null>(null);
 
@@ -74,11 +74,11 @@ export function ProductsPreview() {
                     </span>
                   </div>
                   <img 
-                    src={product.image || "/ftproduto.jpeg"} 
+                    src={product.image || (product.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg")} 
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "/ftproduto.jpeg";
+                      (e.target as HTMLImageElement).src = product.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg";
                     }}
                   />
                 </div>
@@ -89,7 +89,7 @@ export function ProductsPreview() {
                       {product.name}
                     </h3>
                     <p className="text-slate-400 text-[10px] mt-1 font-bold uppercase tracking-widest">
-                      {product.category?.replace(/-/g, ' ')}
+                      {categories.find(c => c.key === product.category)?.name || product.category?.replace(/-/g, ' ')}
                     </p>
                   </div>
 
