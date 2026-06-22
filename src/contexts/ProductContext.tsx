@@ -358,8 +358,7 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
             video_url: product.videoUrl,
             audio_url: product.audioUrl,
           })
-          .eq("id", id)
-          .eq("user_id", user.id);
+          .eq("id", id);
 
         if (error) {
           console.error("❌ Erro ao atualizar produto no Supabase:", error);
@@ -385,8 +384,7 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
         const { error } = await supabase
           .from("products")
           .delete()
-          .eq("id", id)
-          .eq("user_id", user.id);
+          .eq("id", id);
 
         if (error) {
           console.error("❌ Erro ao deletar produto no Supabase:", error);
@@ -459,8 +457,7 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
             expiry_date: coupon.expiryDate,
             active: coupon.active,
           })
-          .eq("id", id)
-          .eq("user_id", user.id);
+          .eq("id", id);
 
         if (error) {
           console.error("❌ Erro ao atualizar cupom no Supabase:", error);
@@ -486,8 +483,7 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
         const { error } = await supabase
           .from("coupons")
           .delete()
-          .eq("id", id)
-          .eq("user_id", user.id);
+          .eq("id", id);
 
         if (error) {
           console.error("❌ Erro ao deletar cupom no Supabase:", error);

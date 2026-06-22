@@ -32,7 +32,7 @@ export default function TrackOrder() {
         setLoading(true);
         setError(null);
         try {
-            let query = supabase.from("pedidos").select("*").eq("id", id);
+            let query = supabase.from("orders").select("*").eq("id", id);
             
             if (emailStr) {
                 query = query.ilike("cliente_email", emailStr.trim());

@@ -21,7 +21,7 @@ export async function createOrder(payload: {
     cartao_final?: string;
 }) {
     const { data, error } = await supabase
-        .from("pedidos")
+        .from("orders")
         .insert({
             cliente_nome: payload.cliente_nome,
             cliente_email: payload.cliente_email,
@@ -65,7 +65,7 @@ export async function createOrder(payload: {
  */
 export async function getOrder(orderId: string) {
     const { data, error } = await supabase
-        .from("pedidos")
+        .from("orders")
         .select("*")
         .eq("id", orderId)
         .single();
@@ -90,7 +90,7 @@ export async function updateOrderStatus(
     if (status === "pago") updateData.data_pagamento = new Date().toISOString();
 
     const { data: order, error } = await supabase
-        .from("pedidos")
+        .from("orders")
         .update(updateData)
         .eq("id", orderId)
         .select()
@@ -120,7 +120,7 @@ export async function updateOrderStatus(
  */
 export async function listOrders() {
     const { data, error } = await supabase
-        .from("pedidos")
+        .from("orders")
         .select("*")
         .order("data_criacao", { ascending: false });
 
@@ -133,7 +133,7 @@ export async function listOrders() {
  */
 export async function deleteOrder(orderId: string) {
     const { error } = await supabase
-        .from("pedidos")
+        .from("orders")
         .delete()
         .eq("id", orderId);
 
