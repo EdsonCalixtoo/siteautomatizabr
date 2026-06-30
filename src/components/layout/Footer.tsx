@@ -6,10 +6,10 @@ export function Footer() {
   return (
     <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-white relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-green-600/10 rounded-full blur-3xl -translate-y-1/2" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl -translate-y-1/2" />
       
       {/* Top accent line */}
-      <div className="h-1 w-full bg-gradient-to-r from-green-500 via-green-600 to-green-500" />
+      <div className="h-1 w-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500" />
       
       <div className="container mx-auto px-4 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -23,8 +23,8 @@ export function Footer() {
             <div className="flex items-center gap-4">
               <MascotAnimation className="w-16 h-16 rounded-xl" />
               <p className="text-gray-400 text-xs font-bold leading-relaxed uppercase tracking-widest">
-                Automatiza & Copa 2026: <br />
-                A tecnologia que carrega o DNA dos campeões.
+                Automatiza & Férias Escolares: <br />
+                A tecnologia líder em automação de vans.
               </p>
             </div>
           </div>
@@ -74,18 +74,18 @@ export function Footer() {
                 href="https://wa.me/5519989429972" 
                 className="flex items-center gap-3 text-gray-400 hover:text-yellow-400 transition-colors text-sm"
               >
-                <Phone className="w-4 h-4 text-green-500" />
+                <Phone className="w-4 h-4 text-blue-500" />
                 (19) 98942-9972
               </a>
               <a 
                 href="mailto:contato@grupoautomatiza.com.br" 
                 className="flex items-center gap-3 text-gray-400 hover:text-yellow-400 transition-colors text-sm"
               >
-                <Mail className="w-4 h-4 text-green-500" />
+                <Mail className="w-4 h-4 text-blue-500" />
                 contato@grupoautomatiza.com.br
               </a>
               <div className="flex items-start gap-3 text-gray-400 text-sm">
-                <MapPin className="w-4 h-4 mt-0.5 text-green-500" />
+                <MapPin className="w-4 h-4 mt-0.5 text-blue-500" />
                 <span>R. Dr. Élton César, 910 - Campinas, SP</span>
               </div>
             </div>
@@ -97,19 +97,19 @@ export function Footer() {
             <div className="flex gap-3">
               <a 
                 href="https://www.instagram.com/automatiza_vans" 
-                className="w-10 h-10 rounded-lg bg-gray-800 hover:bg-green-600 flex items-center justify-center transition-colors text-gray-400 hover:text-white"
+                className="w-10 h-10 rounded-lg bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition-colors text-gray-400 hover:text-white"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a 
                 href="https://www.facebook.com/automatiza.portas.automatica?locale=pt_BR" 
-                className="w-10 h-10 rounded-lg bg-gray-800 hover:bg-green-600 flex items-center justify-center transition-colors text-gray-400 hover:text-white"
+                className="w-10 h-10 rounded-lg bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition-colors text-gray-400 hover:text-white"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a 
                 href="https://www.youtube.com/@Grupoautomatiza" 
-                className="w-10 h-10 rounded-lg bg-gray-800 hover:bg-green-600 flex items-center justify-center transition-colors text-gray-400 hover:text-white"
+                className="w-10 h-10 rounded-lg bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition-colors text-gray-400 hover:text-white"
               >
                 <Youtube className="w-5 h-5" />
               </a>

@@ -16,16 +16,16 @@ export function CTA() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 bg-green-50 text-green-700 border border-green-100 px-6 py-2 rounded-full mb-10"
+            className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 border border-blue-100 px-6 py-2 rounded-full mb-10"
           >
-            <Zap className="w-4 h-4 text-green-600 fill-green-600" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Atendimento de Seleção</span>
+            <Zap className="w-4 h-4 text-blue-600 fill-blue-600" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Atendimento Especializado</span>
           </motion.div>
 
           {/* Title */}
           <h2 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-8 leading-tight tracking-tight uppercase">
             PRONTO PARA <br />
-            <span className="text-green-600">CONQUISTAR?</span>
+            <span className="text-blue-600">AS FÉRIAS?</span>
           </h2>
 
           <p className="text-lg md:text-xl text-slate-500 mb-12 max-w-2xl mx-auto font-medium">
@@ -35,7 +35,7 @@ export function CTA() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <a href="https://wa.me/5519989429972" target="_blank" rel="noopener noreferrer" className="group">
-              <button className="w-full sm:w-auto px-10 py-6 bg-green-600 hover:bg-green-700 text-white font-bold text-lg rounded-2xl transition-all shadow-xl shadow-green-900/20 flex items-center justify-center gap-3">
+              <button className="w-full sm:w-auto px-10 py-6 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-2xl transition-all shadow-xl shadow-blue-900/20 flex items-center justify-center gap-3">
                 <MessageCircle className="w-6 h-6 fill-white" />
                 CONVERSAR NO WHATSAPP
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -55,10 +55,10 @@ export function CTA() {
               { icon: <Trophy className="w-4 h-4" />, text: "Garantia 12 meses" },
               { icon: "🚚", text: "Envio Nacional" },
               { icon: "🔒", text: "100% Seguro" },
-              { icon: "⚽", text: "Padrão FIFA" },
+              { icon: "🎒", text: "Volta às Aulas" },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-slate-400 font-bold text-[10px] uppercase tracking-widest">
-                <span className="text-green-600">{item.icon}</span>
+                <span className="text-blue-600">{item.icon}</span>
                 <span>{item.text}</span>
               </div>
             ))}

@@ -47,8 +47,8 @@ const Contact = () => {
   return (
     <Layout>
       {/* Header */}
-      <section className="pt-44 pb-16 bg-gradient-to-b from-green-50 to-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-green-100/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      <section className="pt-44 pb-16 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-6">

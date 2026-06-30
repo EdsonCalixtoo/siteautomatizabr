@@ -48,14 +48,14 @@ export function ReplacementParts() {
   return (
     <section className="py-20 bg-white relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-1/2 right-0 w-96 h-96 bg-green-50 rounded-full blur-3xl translate-x-1/3 -translate-y-1/2" />
+      <div className="absolute top-1/2 right-0 w-96 h-96 bg-blue-50 rounded-full blur-3xl translate-x-1/3 -translate-y-1/2" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="max-w-4xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 mb-6">
-            <span className="w-2 h-2 rounded-full bg-green-600" />
-            <span className="text-green-600 font-semibold text-sm uppercase tracking-wider">Componentes</span>
+            <span className="w-2 h-2 rounded-full bg-blue-600" />
+            <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">Componentes</span>
           </div>
           
           <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 text-gray-900">
@@ -75,10 +75,10 @@ export function ReplacementParts() {
             return (
               <div
                 key={part.id}
-                className="group relative bg-white rounded-xl p-8 border border-gray-200 hover:border-cyan-300 shadow-sm hover:shadow-lg transition-all duration-500"
+                className="group relative bg-white rounded-xl p-8 border border-gray-200 hover:border-blue-300 shadow-sm hover:shadow-lg transition-all duration-500"
               >
                 {/* Background gradient on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <div className="relative z-10">
                   {/* Icon */}
@@ -88,7 +88,7 @@ export function ReplacementParts() {
 
                   {/* Badge */}
                   {part.badge && (
-                    <Badge className="mb-4 bg-green-100 text-green-700 hover:bg-cyan-200">
+                    <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-yellow-200">
                       {part.badge}
                     </Badge>
                   )}
@@ -102,28 +102,28 @@ export function ReplacementParts() {
                   </p>
 
                   {/* Action */}
-                  <button className="inline-flex items-center gap-2 text-green-600 font-semibold text-sm hover:text-green-700 group/btn">
+                  <button className="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm hover:text-blue-700 group/btn">
                     Saiba mais
                     <span className="inline-block group-hover/btn:translate-x-1 transition-transform">→</span>
                   </button>
                 </div>
 
                 {/* Corner accent */}
-                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-yellow-400 to-green-600 rounded-bl-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-yellow-400 to-blue-600 rounded-bl-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
               </div>
             );
           })}
         </div>
 
         {/* Featured Product */}
-        <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-2xl overflow-hidden shadow-xl">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl overflow-hidden shadow-xl">
           <div className="grid md:grid-cols-2 gap-8 items-center p-8 md:p-12">
             {/* Content */}
             <div className="text-white">
               <h3 className="font-heading text-3xl md:text-4xl font-bold mb-4">
                 Kit Completo de Reposição
               </h3>
-              <p className="text-green-50 text-lg leading-relaxed mb-6">
+              <p className="text-blue-50 text-lg leading-relaxed mb-6">
                 Pacote com todos os componentes de reposição mais solicitados. 
                 Perfeito para manutenção preventiva ou reparos de urgência.
               </p>
@@ -145,7 +145,7 @@ export function ReplacementParts() {
 
               <Button 
                 size="lg"
-                className="bg-white text-green-700 hover:bg-gray-100 font-semibold gap-2"
+                className="bg-white text-blue-700 hover:bg-gray-100 font-semibold gap-2"
               >
                 <ShoppingCart className="w-5 h-5" />
                 Comprar Agora

@@ -50,7 +50,7 @@ export function Header() {
       <div className={cn(
         "max-w-7xl mx-auto rounded-[2rem] transition-all duration-300 border backdrop-blur-2xl",
         isScrolled 
-          ? "bg-[#061206]/90 border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.15)] px-6 py-2" 
+          ? "bg-[#061206]/90 border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.15)] px-6 py-2" 
           : "bg-[#0a150a]/60 border-white/10 shadow-sm px-8 py-4"
       )}>
         <div className="flex items-center justify-between">
@@ -87,16 +87,16 @@ export function Header() {
                 Informações
                 <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform text-yellow-400" />
               </button>
-              <div className="absolute top-full left-0 mt-3 w-64 bg-[#0a150a]/95 border border-green-500/20 backdrop-blur-xl rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-3 z-[110]">
+              <div className="absolute top-full left-0 mt-3 w-64 bg-[#0a150a]/95 border border-blue-500/20 backdrop-blur-xl rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 py-3 z-[110]">
                 {infoLinks.map((link) => {
                   const Icon = link.icon;
                   return (
                     <Link
                       key={link.href}
                       to={link.href}
-                      className="flex items-center gap-3 px-5 py-3 text-xs font-black uppercase tracking-wider text-white/70 hover:bg-green-500/10 hover:text-yellow-400 transition-all border-l-2 border-transparent hover:border-yellow-400"
+                      className="flex items-center gap-3 px-5 py-3 text-xs font-black uppercase tracking-wider text-white/70 hover:bg-blue-500/10 hover:text-yellow-400 transition-all border-l-2 border-transparent hover:border-yellow-400"
                     >
-                      <Icon className="w-4 h-4 text-green-400" />
+                      <Icon className="w-4 h-4 text-blue-400" />
                       {link.label}
                     </Link>
                   );
@@ -113,7 +113,7 @@ export function Header() {
             </div>
             
             <a href="https://wa.me/5519989429972" target="_blank" rel="noopener noreferrer">
-              <Button className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-black uppercase tracking-tighter rounded-full px-8 py-6 shadow-[0_4px_15px_rgba(34,197,94,0.3)] transition-all hover:scale-105 active:scale-95 border border-green-400/30 group">
+              <Button className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black uppercase tracking-tighter rounded-full px-8 py-6 shadow-[0_4px_15px_rgba(59,130,246,0.3)] transition-all hover:scale-105 active:scale-95 border border-blue-400/30 group">
                 <Zap className="w-4 h-4 mr-2 text-yellow-400 group-hover:animate-pulse" />
                 Fale Conosco
               </Button>
@@ -175,9 +175,9 @@ export function Header() {
               </div>
             </div>
             <a href="https://wa.me/5519989429972" target="_blank" rel="noopener noreferrer" className="block">
-              <Button className="w-full py-10 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-black text-xl rounded-3xl shadow-[0_10px_30px_rgba(34,197,94,0.3)] border border-green-400/30">
+              <Button className="w-full py-10 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black text-xl rounded-3xl shadow-[0_10px_30px_rgba(59,130,246,0.3)] border border-blue-400/30">
                 <Zap className="w-6 h-6 mr-3 text-yellow-400" />
-                CONVOCAR NO WHATSAPP
+                CHAMAR NO WHATSAPP
               </Button>
             </a>
           </div>

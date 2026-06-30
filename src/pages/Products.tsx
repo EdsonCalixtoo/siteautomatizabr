@@ -13,6 +13,7 @@ import { formatCurrency } from "@/lib/utils";
 const Products = () => {
   const [searchParams] = useSearchParams();
   const vehicleParam = searchParams.get("vehicle");
+  const searchParam = searchParams.get("search");
   const { products, categories, subcategories } = useProducts();
   const { addToCart } = useCart();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -36,6 +37,18 @@ const Products = () => {
   const otherCategoriesDynamic = categories.filter(c => !subcategories.some(s => s.categoryId === c.id));
 
   const filteredProducts = products.filter(p => {
+    // If a search parameter exists, enforce it
+    if (searchParam) {
+      const searchLower = searchParam.toLowerCase();
+      const matchesName = p.name.toLowerCase().includes(searchLower);
+      const matchesSubcat = p.subcategory?.toLowerCase().includes(searchLower);
+      const matchesCat = p.category?.toLowerCase().includes(searchLower);
+      
+      if (!matchesName && !matchesSubcat && !matchesCat) {
+        return false;
+      }
+    }
+
     if (selectedCategory === "all") return true;
     
     // Se a categoria selecionada for um veículo (dinâmica)
@@ -64,22 +77,22 @@ const Products = () => {
   return (
     <Layout>
       {/* Header */}
-      <section className="pt-40 pb-20 bg-[#0a0f0a] relative overflow-hidden">
+      <section className="pt-40 pb-20 bg-[#071936] relative overflow-hidden">
         {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-950/40 via-black to-blue-950/20" />
-        <div className="absolute top-1/4 -right-20 w-96 h-96 bg-green-500/10 rounded-full blur-[120px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/40 via-[#071936] to-yellow-900/20" />
+        <div className="absolute top-1/4 -right-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-[120px]" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 px-6 py-2 rounded-full">
               <Trophy className="w-5 h-5 text-yellow-400" />
-              <span className="text-green-400 font-bold uppercase tracking-[0.3em] text-xs">Convocação Oficial</span>
+              <span className="text-yellow-400 font-bold uppercase tracking-[0.3em] text-xs">Volta às Aulas</span>
             </div>
             <h1 className="font-heading text-6xl md:text-8xl font-black text-white tracking-tighter uppercase">
-              SELEÇÃO DE <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-yellow-400">PRODUTOS</span>
+              ESPECIAL DE <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">FÉRIAS</span>
             </h1>
             <p className="text-xl text-slate-400 leading-relaxed font-medium max-w-2xl mx-auto italic">
-              "A tecnologia de ponta que entra em campo para transformar o seu transporte."
+              "A tecnologia de ponta para garantir o conforto e a segurança no transporte escolar."
             </p>
           </div>
         </div>
@@ -253,11 +266,11 @@ const Products = () => {
                     {/* Image Area */}
                     <Link to={`/produto/${product.id}`} className="relative h-60 overflow-hidden bg-gray-50 flex items-center justify-center border-b border-gray-100">
                       <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
-                        <span className="bg-green-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
+                        <span className="bg-blue-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
                           {product.badge || 'Destaque'}
                         </span>
-                        <span className="bg-gradient-to-r from-yellow-400 to-yellow-300 text-green-950 px-3 py-1 rounded-lg text-center text-[9px] font-black uppercase tracking-tighter shadow-lg flex items-center gap-1 border border-yellow-400/50">
-                          <Star className="w-3 h-3 fill-green-950" /> RUMO AO HEXA
+                        <span className="bg-gradient-to-r from-yellow-400 to-yellow-300 text-blue-950 px-3 py-1 rounded-lg text-center text-[9px] font-black uppercase tracking-tighter shadow-lg flex items-center gap-1 border border-yellow-400/50">
+                          <Star className="w-3 h-3 fill-blue-950" /> FÉRIAS ESCOLAR
                         </span>
                       </div>
                       <img 
@@ -284,35 +297,57 @@ const Products = () => {
                       </div>
 
                       {/* Price */}
-                      <div className="mb-6">
-                        <div className="flex items-baseline gap-3">
-                          {(product.originalPrice ?? 0) > 0 && (
-                            <span className="text-gray-400 line-through text-xs">
-                              {formatCurrency(product.originalPrice!)}
-                            </span>
-                          )}
+                      {(() => {
+                        let displayPrice = product.price;
+                        let originalPrice = product.originalPrice;
+                        const nameLower = product.name.toLowerCase();
+                        if (nameLower.includes("sem sensor")) {
+                          originalPrice = 1680;
+                          displayPrice = 1430;
+                        } else if (nameLower.includes("com sensor")) {
+                          originalPrice = 1880;
+                          displayPrice = 1750;
+                        }
+                        
+                        return (
+                          <div className="mb-6">
                             <div className="flex flex-col">
-                             <span className="text-[9px] text-green-600 font-black uppercase tracking-widest mb-0.5 animate-pulse">⚽ Oferta da Copa</span>
-                             <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-500">
-                               {formatCurrency(product.price)}
-                             </span>
-                           </div>
-                        </div>
-                        {(product.originalPrice ?? 0) > 0 && (
-                          <span className="text-[10px] text-green-600 font-bold mt-1">
-                            ECONOMIZE {formatCurrency(product.originalPrice! - product.price)}
-                          </span>
-                        )}
-                      </div>
+                              <span className="text-[9px] text-yellow-500 font-black uppercase tracking-widest mb-0.5 animate-pulse">🎒 Oferta de Férias</span>
+                              {((originalPrice || 0) > displayPrice) && (
+                                <span className="text-gray-400 line-through text-xs font-medium mb-0.5">
+                                  De: {formatCurrency(originalPrice || 0)}
+                                </span>
+                              )}
+                              <div className="flex items-baseline gap-2">
+                                {((originalPrice || 0) > displayPrice) && (
+                                  <span className="text-sm font-bold text-gray-500">Por:</span>
+                                )}
+                                <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-500">
+                                  {formatCurrency(displayPrice)}
+                                </span>
+                              </div>
+                            </div>
+                            {((originalPrice || 0) > displayPrice) && (
+                              <span className="text-[10px] text-blue-600 font-bold mt-1 block">
+                                ECONOMIZE {formatCurrency((originalPrice || 0) - displayPrice)}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })()}
 
                       {/* Buttons */}
                       <div className="mt-auto space-y-2">
                         <button
                           onClick={() => {
+                            let finalPrice = product.price;
+                            if (product.name.toLowerCase().includes("sem sensor")) finalPrice = 1430;
+                            else if (product.name.toLowerCase().includes("com sensor")) finalPrice = 1750;
+                            
                             addToCart({
                               id: product.id,
                               name: product.name,
-                              price: product.price,
+                              price: finalPrice,
                               image: product.image,
                               quantity: 1,
                               category: product.category || "",
@@ -321,15 +356,15 @@ const Products = () => {
                           }}
                           className={`w-full h-12 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm shadow-md ${
                             addedToCart[product.id]
-                              ? "bg-green-600 text-white"
-                              : "bg-slate-900 text-white hover:bg-green-600"
+                              ? "bg-blue-600 text-white"
+                              : "bg-slate-900 text-white hover:bg-blue-600"
                           }`}
                         >
                           <ShoppingCart className="w-4 h-4" />
                           {addedToCart[product.id] ? "ADICIONADO" : "COMPRAR AGORA"}
                         </button>
                         <Link to={`/produto/${product.id}`} className="block">
-                          <button className="w-full h-11 border-2 border-slate-100 text-slate-500 hover:border-green-100 hover:text-green-600 hover:bg-green-50 font-bold rounded-xl text-xs transition-all duration-300 uppercase tracking-widest">
+                          <button className="w-full h-11 border-2 border-slate-100 text-slate-500 hover:border-blue-100 hover:text-blue-600 hover:bg-blue-50 font-bold rounded-xl text-xs transition-all duration-300 uppercase tracking-widest">
                             Ver detalhes
                           </button>
                         </Link>

@@ -22,14 +22,14 @@ export function MascotAnimation({ className }: MascotAnimationProps) {
         <img
           src="/mascote automatiza.png"
           alt="Mascote Automatiza"
-          className="w-full h-full object-contain rounded-[2.5rem] drop-shadow-[0_20px_50px_rgba(34,197,94,0.3)]"
+          className="w-full h-full object-contain rounded-[2.5rem] drop-shadow-[0_20px_50px_rgba(59,130,246,0.3)]"
         />
         
 
       </div>
       
       {/* Subtle Aura */}
-      <div className="absolute inset-0 bg-green-500/10 blur-[60px] -z-10 rounded-full" />
+      <div className="absolute inset-0 bg-blue-500/10 blur-[60px] -z-10 rounded-full" />
     </motion.div>
   );
 }
