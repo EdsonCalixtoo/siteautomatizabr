@@ -70,11 +70,14 @@ export function ShoppingCart() {
                 className="flex gap-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
               >
                 {/* Product Image */}
-                <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0 flex items-center justify-center">
                   <img
-                    src={item.image}
+                    src={item.image || (item.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg")}
                     alt={item.name}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = item.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg";
+                    }}
                   />
                 </div>
 

@@ -496,9 +496,12 @@ export default function Checkout() {
                           {/* Imagem */}
                           <div className="w-full sm:w-28 h-40 sm:h-28 rounded-2xl overflow-hidden bg-white border-2 border-gray-200 flex-shrink-0 shadow-md relative">
                             <img
-                              src={item.image}
+                              src={item.image || (item.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg")}
                               alt={item.name}
                               className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-500"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = item.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg";
+                              }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-br from-green-500/0 to-green-500/10 opacity-0 group-hover/item:opacity-100 transition-opacity" />
                           </div>
