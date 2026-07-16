@@ -63,6 +63,12 @@ export function Footer() {
               <Link to="/videos-instalacao" className="text-gray-400 hover:text-yellow-400 transition-colors text-sm">
                 Vídeos de Instalação
               </Link>
+              <Link to="/politica-de-privacidade" className="text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+                Política de Privacidade
+              </Link>
+              <Link to="/termos-de-uso" className="text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+                Termos de Uso
+              </Link>
             </nav>
           </div>
 
@@ -120,11 +126,25 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-sm">
+        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4">
+          <p className="text-gray-400 text-sm text-center md:text-left">
             © 2026 Automatiza. Todos os direitos reservados.
           </p>
-          <p className="text-gray-400 text-sm">
+
+          <a 
+            href="https://www.sslshopper.com/ssl-checker.html#hostname=https://grupoautomatiza.com.br/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="hover:opacity-80 transition-opacity"
+          >
+            <img 
+              src="/roda pé.jpeg" 
+              alt="Certificado SSL" 
+              className="h-12 w-auto object-contain rounded-md"
+            />
+          </a>
+
+          <p className="text-gray-400 text-sm text-center md:text-right">
             Automatiza - Especialista em Automação de Vans
           </p>
         </div>

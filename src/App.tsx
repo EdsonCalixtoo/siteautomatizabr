@@ -29,6 +29,8 @@ import PixPayment from "./pages/PixPayment";
 import Dashboard from "./pages/Dashboard";
 import TrackOrder from "./pages/TrackOrder";
 import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 
 const queryClient = new QueryClient();
 
@@ -77,6 +79,8 @@ const App = () => (
                   <Route path="/trocas-devolucoes" element={<Returns />} />
                   <Route path="/videos-instalacao" element={<InstallationVideos />} />
                   <Route path="/termos-garantia" element={<TermsAndGuarantee />} />
+                  <Route path="/politica-de-privacidade" element={<PrivacyPolicy />} />
+                  <Route path="/termos-de-uso" element={<TermsOfService />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </BrowserRouter>
