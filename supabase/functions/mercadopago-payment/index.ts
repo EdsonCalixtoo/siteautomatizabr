@@ -157,7 +157,12 @@ serve(async (req: Request) => {
         if (finalType === 'pix') {
             payload.payment_method_id = 'pix';
             // Configura a expiração do PIX para 5 minutos
-            payload.date_of_expiration = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+            // O Mercado Pago tem bugs com o 'Z' do UTC, então formatamos explicitamente com o fuso -03:00
+            const expDate = new Date(Date.now() + 5 * 60 * 1000);
+            expDate.setHours(expDate.getHours() - 3); // Ajusta para o horário de Brasília
+            const isoString = expDate.toISOString();
+            // Troca o final Z por -03:00
+            payload.date_of_expiration = isoString.replace('Z', '-03:00');
         } else if (finalType === 'credit_card') {
             if (!cardToken) return json({ error: 'Token do cartão é obrigatório' })
             payload.token = cardToken
