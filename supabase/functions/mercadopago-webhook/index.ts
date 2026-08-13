@@ -94,14 +94,27 @@ serve(async (req: Request) => {
                 }).catch(() => null);
 
                 // Atualizar Pedido
-                await supabase.from('orders').update({
+                const { data: updatedOrder, error: updateError } = await supabase.from('orders').update({
                     status: novoStatus,
                     mp_payment_id: String(mpPaymentId),
                     cartao_final: mpData.card?.last_four_digits || null,
                     ...(novoStatus === 'pago' ? { data_pagamento: new Date().toISOString() } : {})
-                }).eq('id', orderId);
+                }).eq('id', orderId).select().single();
 
                 console.log(`✅ Sucesso no banco para pedido ${orderId}`);
+
+                // Enviar email automático dependendo do novo status
+                if (updatedOrder) {
+                    if (novoStatus === 'pago') {
+                        await supabase.functions.invoke('send-order-email', {
+                            body: { order: updatedOrder, type: 'pagamento_aprovado' }
+                        }).catch((e: any) => console.error('Erro ao enviar email de aprovação:', e));
+                    } else if (novoStatus === 'cancelado' || novoStatus === 'recusado') {
+                        await supabase.functions.invoke('send-order-email', {
+                            body: { order: updatedOrder, type: 'pedido_cancelado' }
+                        }).catch((e: any) => console.error('Erro ao enviar email de cancelamento:', e));
+                    }
+                }
 
             } catch (dbErr: any) {
                 console.error('Erro de Banco:', dbErr.message);

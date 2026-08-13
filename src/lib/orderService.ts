@@ -79,7 +79,7 @@ export async function getOrder(orderId: string) {
  */
 export async function updateOrderStatus(
     orderId: string,
-    status: "aguardando_pagamento" | "pago" | "cancelado",
+    status: "aguardando_pagamento" | "pago" | "cancelado" | "recusado",
     extra?: { pix_code?: string; pix_qrcode?: string; mp_payment_id?: string; cartao_final?: string }
 ) {
     const updateData: any = { status };
@@ -110,6 +110,17 @@ export async function updateOrderStatus(
         } catch (e) {
             console.warn('Erro ao disparar e-mail de pagamento:', e);
         }
+    } else if (status === "cancelado" || status === "recusado") {
+        try {
+            await supabase.functions.invoke('send-order-email', {
+                body: {
+                    order: order,
+                    type: 'pedido_cancelado'
+                }
+            });
+        } catch (e) {
+            console.warn('Erro ao disparar e-mail de cancelamento:', e);
+        }
     }
 
     return order;
@@ -122,7 +133,7 @@ export async function listOrders() {
     const { data, error } = await supabase
         .from("orders")
         .select("*")
-        .order("data_criacao", { ascending: false });
+        .order("created_at", { ascending: false });
 
     if (error) throw new Error(`Erro ao buscar pedidos: ${error.message}`);
     return data;

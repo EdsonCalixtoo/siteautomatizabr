@@ -25,7 +25,7 @@ serve(async (req: Request) => {
         // Configuração OFICIAL de domínios
         const siteUrl = "https://grupoautomatiza.com.br";
         const adminUrl = "https://grupoautomatiza.com.br/admin/dashboard";
-        const logoUrl = `${siteUrl}/logo.jpg`;
+        const logoUrl = `${siteUrl}/logonovo.jpeg`;
         const primaryColor = "#0891b2"; 
         const primeironome = order.cliente_nome ? order.cliente_nome.split(' ')[0] : 'Cliente';
         const itemsHtml = (order.itens || []).map((item: any) => `
@@ -142,6 +142,24 @@ serve(async (req: Request) => {
                     <div style="text-align: center;">
                         <a href="${siteUrl}/rastreio?id=${order.id}" style="display: inline-block; background: #166534; color: white; padding: 20px 45px; border-radius: 18px; text-decoration: none; font-weight: 800; font-size: 16px; box-shadow: 0 10px 25px rgba(22, 101, 52, 0.2);">
                             📊 Acompanhar Status em Tempo Real
+                        </a>
+                    </div>
+                `;
+                break;
+            case 'pedido_cancelado':
+                subject = `Pedido Cancelado #${order.id.slice(0, 8)} ❌`;
+                contentHtml = `
+                    <div style="text-align: center; padding-bottom: 40px;">
+                        <div style="width: 80px; height: 80px; background: #fef2f2; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 40px; line-height: 80px; border: 2px solid #fecaca;">❌</div>
+                        <h1 style="margin: 0; font-size: 32px; color: #0f172a; letter-spacing: -1px; font-weight: 800;">Pedido Cancelado</h1>
+                        <p style="margin: 12px 0 0; color: #64748b; font-size: 16px;">Olá, <strong>${primeironome}</strong>. Seu pedido foi cancelado ou o pagamento expirou.</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border: 1px solid #fecaca; border-radius: 24px; padding: 32px; margin-bottom: 32px; text-align: center;">
+                        <p style="margin: 0; color: #991b1b; font-weight: 700; font-size: 16px; line-height: 1.5;">Se foi um engano ou se precisar de ajuda para tentar novamente, estamos à disposição no WhatsApp!</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <a href="${siteUrl}/produtos" style="display: inline-block; background: #991b1b; color: white; padding: 20px 45px; border-radius: 18px; text-decoration: none; font-weight: 800; font-size: 16px; box-shadow: 0 10px 25px rgba(153, 27, 27, 0.2);">
+                            🛒 Voltar para a Loja
                         </a>
                     </div>
                 `;

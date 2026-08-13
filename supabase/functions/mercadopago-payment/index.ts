@@ -41,6 +41,7 @@ serve(async (req: Request) => {
 
         const supabaseMaster = createClient(supabaseUrl, serviceKey);
         // Usamos a anon key como fallback para leitura se a service_role estiver falhando
+        // @ts-ignore: Deno global
         const anonKey = Deno.env.get('SUPABASE_ANON_KEY') || '';
         const supabasePublic = createClient(supabaseUrl, anonKey);
 
@@ -52,7 +53,7 @@ serve(async (req: Request) => {
 
         // Tentamos ler com o cliente master primeiro, se falhar usamos o public
         let { data: orderExists, error: checkError } = await supabaseMaster
-            .from('pedidos')
+            .from('orders')
             .select('id')
             .eq('id', targetId)
             .single();
@@ -60,7 +61,7 @@ serve(async (req: Request) => {
         if (checkError) {
             console.warn('Master key falhou no SELECT, tentando Public Key...');
             const { data: publicData, error: publicError } = await supabasePublic
-                .from('pedidos')
+                .from('orders')
                 .select('id')
                 .eq('id', targetId)
                 .single();
@@ -72,7 +73,7 @@ serve(async (req: Request) => {
         }
 
         if (checkError || !orderExists) {
-            const { data: lastOrders } = await supabaseMaster.from('pedidos').select('id').order('data_criacao', { ascending: false }).limit(3);
+            const { data: lastOrders } = await supabaseMaster.from('orders').select('id').order('created_at', { ascending: false }).limit(3);
             return json({ 
                 error: checkError?.message || 'Pedido não encontrado.', 
                 receivedId: targetId,
@@ -154,7 +155,9 @@ serve(async (req: Request) => {
         }
 
         if (finalType === 'pix') {
-            payload.payment_method_id = 'pix'
+            payload.payment_method_id = 'pix';
+            // Configura a expiração do PIX para 5 minutos
+            payload.date_of_expiration = new Date(Date.now() + 5 * 60 * 1000).toISOString();
         } else if (finalType === 'credit_card') {
             if (!cardToken) return json({ error: 'Token do cartão é obrigatório' })
             payload.token = cardToken
@@ -203,7 +206,7 @@ serve(async (req: Request) => {
             const novoStatus = orderStatusMap[data.status] || 'aguardando_pagamento'
 
             const { data: updateRes, error: paymentError } = await supabase
-                .from('pedidos')
+                .from('orders')
                 .update({
                     mp_payment_id: String(data.id),
                     status: novoStatus,
