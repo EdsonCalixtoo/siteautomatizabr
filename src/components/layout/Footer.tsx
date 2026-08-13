@@ -23,7 +23,7 @@ export function Footer() {
             <div className="flex items-center gap-4">
               <MascotAnimation className="w-16 h-16 rounded-xl" />
               <p className="text-gray-400 text-xs font-bold leading-relaxed uppercase tracking-widest">
-                Automatiza & Férias Escolares: <br />
+                Automatiza VANS: <br />
                 A tecnologia líder em automação de vans.
               </p>
             </div>

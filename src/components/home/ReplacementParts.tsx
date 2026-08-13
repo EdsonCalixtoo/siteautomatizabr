@@ -1,169 +1,226 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Zap, Package, Wrench } from "lucide-react";
+import { ShoppingCart, Package, Wrench, ArrowRight } from "lucide-react";
+import { useProducts } from "@/contexts/ProductContext";
+import { formatCurrency } from "@/lib/utils";
+import { useCart } from "@/contexts/CartContext";
+import { useState } from "react";
+import { CartNotification } from "@/components/cart/CartNotification";
+import { motion } from "framer-motion";
 
-interface Part {
-  id: string;
-  name: string;
-  description: string;
-  icon: React.ComponentType<{ className?: string }>;
-  badge?: string;
-  color: string;
-}
-
-const parts: Part[] = [
-  {
-    id: "motor",
-    name: "Motor Automático",
-    description: "Motor de alta potência com 80W de potência nominal",
-    icon: Zap,
-    badge: "Essencial",
-    color: "from-blue-500 to-blue-600"
-  },
-  {
-    id: "cremalheira",
-    name: "Cremalheira de Aço",
-    description: "Cremalheira reforçada para máxima durabilidade",
-    icon: Wrench,
-    color: "from-gray-500 to-gray-600"
-  },
-  {
-    id: "botao",
-    name: "Botão do Painel",
-    description: "Botão de controle integrado ao painel",
-    icon: Package,
-    color: "from-green-500 to-green-600"
-  },
-  {
-    id: "controle",
-    name: "Controle Remoto",
-    description: "Controle remoto wireless de longo alcance",
-    icon: Zap,
-    badge: "Popular",
-    color: "from-purple-500 to-purple-600"
-  },
-];
+const partIcons = [Package, Wrench, ShoppingCart, Package];
 
 export function ReplacementParts() {
+  const { products, loading } = useProducts();
+  const { addToCart } = useCart();
+  const [addedProduct, setAddedProduct] = useState<{ id: string, name: string } | null>(null);
+
+  const parts = products.filter(p => p.category === "pecas").slice(0, 8);
+  const hasParts = !loading && parts.length > 0;
+
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-1/2 right-0 w-96 h-96 bg-blue-50 rounded-full blur-3xl translate-x-1/3 -translate-y-1/2" />
+    <section className="py-20 md:py-28 bg-slate-50 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 mb-6">
-            <span className="w-2 h-2 rounded-full bg-blue-600" />
-            <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">Componentes</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-2 mb-3"
+            >
+              <div className="w-2 h-2 rounded-full bg-blue-600" />
+              <span className="text-blue-600 font-bold text-xs uppercase tracking-widest">Peças & Consumíveis</span>
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight"
+            >
+              Peças de Reposição
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-slate-500 mt-2 max-w-lg font-medium"
+            >
+              Componentes originais com garantia para manter seu sistema sempre funcionando.
+            </motion.p>
           </div>
-          
-          <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-            Peças de Reposição e Componentes
-          </h2>
-          
-          <p className="text-lg text-gray-600 leading-relaxed">
-            Todos os componentes disponíveis para manutenção e reposição, com garantia 
-            e procedência 100% certificada. Qualidade garantida para sua segurança.
-          </p>
+          <Link to="/produtos?categoria=pecas" className="flex-shrink-0">
+            <Button variant="outline" className="gap-2 rounded-xl border-slate-200 text-slate-700 hover:bg-slate-100 font-semibold">
+              Ver Todas as Peças <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
         </div>
 
         {/* Parts Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {parts.map((part) => {
-            const Icon = part.icon;
-            return (
-              <div
-                key={part.id}
-                className="group relative bg-white rounded-xl p-8 border border-gray-200 hover:border-blue-300 shadow-sm hover:shadow-lg transition-all duration-500"
-              >
-                {/* Background gradient on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${part.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                    <Icon className="w-8 h-8 text-white" />
+        {loading ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl h-44 animate-pulse" />
+            ))}
+          </div>
+        ) : hasParts ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {parts.map((part, index) => {
+              const Icon = partIcons[index % partIcons.length];
+              return (
+                <motion.div
+                  key={part.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.06 }}
+                  className="group bg-white rounded-2xl p-5 border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col gap-3"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                    <Icon className="w-5 h-5 text-blue-600" />
                   </div>
-
-                  {/* Badge */}
-                  {part.badge && (
-                    <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-yellow-200">
-                      {part.badge}
-                    </Badge>
+                  {part.image && (
+                    <img
+                      src={part.image}
+                      alt={part.name}
+                      className="w-full h-24 object-contain rounded-lg"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                    />
                   )}
-
-                  {/* Title and Description */}
-                  <h3 className="font-heading text-lg font-bold text-gray-900 mb-2">
-                    {part.name}
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                    {part.description}
-                  </p>
-
-                  {/* Action */}
-                  <button className="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm hover:text-blue-700 group/btn">
-                    Saiba mais
-                    <span className="inline-block group-hover/btn:translate-x-1 transition-transform">→</span>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-black text-slate-900 leading-tight">{part.name}</h3>
+                    {part.description && (
+                      <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{part.description}</p>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-lg font-black text-slate-900">{formatCurrency(part.price)}</p>
+                    <button
+                      onClick={() => {
+                        addToCart({
+                          id: part.id,
+                          name: part.name,
+                          price: part.price,
+                          image: part.image,
+                          quantity: 1,
+                          category: part.category || "",
+                        });
+                        setAddedProduct({ id: part.id, name: part.name });
+                      }}
+                      className="mt-2 w-full py-2 rounded-xl text-xs font-bold text-blue-600 border border-blue-200 hover:bg-blue-50 hover:border-blue-400 transition-all"
+                    >
+                      Adicionar
+                    </button>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        ) : (
+          /* Static components when no DB parts */
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: "Motor Automático 80W", desc: "Alta potência e durabilidade", price: null, badge: "Essencial" },
+              { name: "Cremalheira de Aço", desc: "Reforçada para máxima resistência", price: null, badge: null },
+              { name: "Botão do Painel", desc: "Controle integrado ao painel", price: null, badge: null },
+              { name: "Controle Remoto", desc: "Wireless de longo alcance", price: null, badge: "Popular" },
+            ].map((item, index) => {
+              const Icon = partIcons[index];
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.08 }}
+                  className="group bg-white rounded-2xl p-5 border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all duration-300"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-3 group-hover:bg-blue-100 transition-colors">
+                    <Icon className="w-5 h-5 text-blue-600" />
+                  </div>
+                  {item.badge && (
+                    <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700 mb-2">
+                      {item.badge}
+                    </span>
+                  )}
+                  <h3 className="text-sm font-black text-slate-900 leading-tight mb-1">{item.name}</h3>
+                  <p className="text-xs text-slate-400">{item.desc}</p>
+                  <button className="mt-3 w-full py-2 rounded-xl text-xs font-bold text-blue-600 border border-blue-200 hover:bg-blue-50 transition-all">
+                    Consultar
                   </button>
-                </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
 
-                {/* Corner accent */}
-                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-yellow-400 to-blue-600 rounded-bl-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Featured Product */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl overflow-hidden shadow-xl">
-          <div className="grid md:grid-cols-2 gap-8 items-center p-8 md:p-12">
-            {/* Content */}
-            <div className="text-white">
-              <h3 className="font-heading text-3xl md:text-4xl font-bold mb-4">
+        {/* Featured Kit Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-10 rounded-3xl overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #0f172a, #1e3a8a)",
+            boxShadow: "0 20px 60px rgba(29,78,216,0.2)"
+          }}
+        >
+          <div className="grid md:grid-cols-2 items-center">
+            <div className="p-8 md:p-10">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-blue-300 border border-blue-500/30 mb-5"
+                style={{ background: "rgba(59,130,246,0.1)" }}>
+                ⚡ Kit Completo
+              </span>
+              <h3 className="text-2xl md:text-3xl font-black text-white leading-tight mb-3">
                 Kit Completo de Reposição
               </h3>
-              <p className="text-blue-50 text-lg leading-relaxed mb-6">
-                Pacote com todos os componentes de reposição mais solicitados. 
-                Perfeito para manutenção preventiva ou reparos de urgência.
+              <p className="text-blue-200 leading-relaxed mb-6 font-medium text-sm">
+                Pacote com todos os componentes mais solicitados. Perfeito para manutenção preventiva ou reparos de urgência.
               </p>
-              
-              <div className="space-y-3 mb-8">
-                <div className="flex items-center gap-3">
-                  <span className="w-2 h-2 rounded-full bg-cyan-300" />
-                  <span>Motor + Cremalheira + Botão + Controle</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="w-2 h-2 rounded-full bg-cyan-300" />
-                  <span>Frete grátis para compras acima de R$ 1.000</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="w-2 h-2 rounded-full bg-cyan-300" />
-                  <span>Garantia de 12 meses em todos os itens</span>
-                </div>
-              </div>
-
-              <Button 
-                size="lg"
-                className="bg-white text-blue-700 hover:bg-gray-100 font-semibold gap-2"
-              >
-                <ShoppingCart className="w-5 h-5" />
-                Comprar Agora
-              </Button>
+              <ul className="space-y-2 mb-7">
+                {["Motor + Cremalheira + Botão + Controle", "Frete grátis acima de R$ 1.000", "Garantia de 12 meses em tudo"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2.5 text-sm text-blue-100 font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <a href="https://wa.me/5519989429972" target="_blank" rel="noopener noreferrer">
+                <button className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-slate-900 bg-white hover:bg-slate-100 transition-colors">
+                  <ShoppingCart className="w-4 h-4" />
+                  Solicitar Orçamento
+                </button>
+              </a>
             </div>
-
-            <div className="hidden md:flex items-center justify-center">
-              <div className="relative w-full max-w-sm aspect-square flex items-center justify-center">
-                <img 
-                  src="/ftproduto.jpeg" 
-                  alt="Kit Completo de Reposição" 
-                  className="w-full h-full object-cover rounded-2xl shadow-2xl border-2 border-white/20"
+            <div className="hidden md:flex items-center justify-center p-8">
+              <div className="w-64 h-64 relative">
+                <div className="absolute inset-0 rounded-3xl opacity-30"
+                  style={{ background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)", filter: "blur(20px)" }} />
+                <img
+                  src="/ftproduto.jpeg"
+                  alt="Kit Completo"
+                  className="relative z-10 w-full h-full object-contain rounded-2xl"
+                  style={{ filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.5))" }}
                 />
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
+
+      <CartNotification
+        productName={addedProduct?.name || ""}
+        isOpen={!!addedProduct}
+        onClose={() => setAddedProduct(null)}
+      />
     </section>
   );
 }

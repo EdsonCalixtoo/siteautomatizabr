@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { formatCurrency } from "@/lib/utils";
 
+const cleanName = (name: string) => name ? name.replace(/^[\p{Emoji}\s]+/gu, '') : '';
+
 const Products = () => {
   const [searchParams] = useSearchParams();
   const vehicleParam = searchParams.get("vehicle");
@@ -33,8 +35,9 @@ const Products = () => {
   }, [vehicleParam]);
 
   // Categorias dinâmicas
-  const vehicleCategories = categories.filter(c => subcategories.some(s => s.categoryId === c.id)).sort((a, b) => a.name.localeCompare(b.name));
+  const vehicleCategories = categories.filter(c => subcategories.some(s => s.categoryId === c.id) && !c.name.includes("Peças")).sort((a, b) => a.name.localeCompare(b.name));
   const otherCategoriesDynamic = categories.filter(c => !subcategories.some(s => s.categoryId === c.id));
+  const pecasCategory = categories.find(c => c.name.includes("Peças"));
 
   const filteredProducts = products.filter(p => {
     // If a search parameter exists, enforce it
@@ -76,23 +79,17 @@ const Products = () => {
 
   return (
     <Layout>
-      {/* Header */}
-      <section className="pt-40 pb-20 bg-[#071936] relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/40 via-[#071936] to-yellow-900/20" />
-        <div className="absolute top-1/4 -right-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-[120px]" />
+      {/* Page Header */}
+      <section className="relative bg-[#0a192f] pt-32 pb-20 overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-[#071936] to-slate-900" />
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 px-6 py-2 rounded-full">
-              <Trophy className="w-5 h-5 text-yellow-400" />
-              <span className="text-yellow-400 font-bold uppercase tracking-[0.3em] text-xs">Volta às Aulas</span>
-            </div>
-            <h1 className="font-heading text-6xl md:text-8xl font-black text-white tracking-tighter uppercase">
-              ESPECIAL DE <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">FÉRIAS</span>
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            <h1 className="font-heading text-5xl md:text-7xl font-black text-white tracking-tighter uppercase">
+              Nossos <span className="text-blue-500">Produtos</span>
             </h1>
-            <p className="text-xl text-slate-400 leading-relaxed font-medium max-w-2xl mx-auto italic">
-              "A tecnologia de ponta para garantir o conforto e a segurança no transporte escolar."
+            <p className="text-xl text-slate-400 leading-relaxed font-medium max-w-2xl mx-auto">
+              Tecnologia e segurança para o transporte escolar.
             </p>
           </div>
         </div>
@@ -153,6 +150,57 @@ const Products = () => {
                     >
                       📦 Todos os Produtos
                     </button>
+                    
+                    {/* Peças & Consumíveis (Movido para cá) */}
+                    {pecasCategory && (
+                      <div key={pecasCategory.key}>
+                        <button
+                          onClick={() => {
+                            setExpandedCategory(expandedCategory === pecasCategory.key ? null : pecasCategory.key);
+                            setSelectedCategory(pecasCategory.key);
+                            setSelectedSubcategory("all");
+                          }}
+                          className={`w-full text-left px-4 py-2 rounded-xl transition-all duration-300 font-medium flex items-center justify-between gap-3 ${
+                            selectedCategory === pecasCategory.key && selectedSubcategory === "all"
+                              ? "bg-green-100 text-green-700"
+                              : "text-gray-700 hover:bg-gray-100"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <span>📦</span>
+                            <span>{cleanName(pecasCategory.name)}</span>
+                          </div>
+                          <ChevronDown 
+                            className={`w-4 h-4 transition-transform flex-shrink-0 ${
+                              expandedCategory === pecasCategory.key ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+                        
+                        {expandedCategory === pecasCategory.key && (
+                          <div className="ml-4 mt-2 space-y-1 border-l-2 border-cyan-200 pl-0">
+                            {subcategories.filter(s => s.categoryId === pecasCategory.id).map((subcat) => (
+                              <button
+                                key={subcat.id}
+                                onClick={() => {
+                                  setSelectedCategory(pecasCategory.key);
+                                  setSelectedSubcategory(subcat.name);
+                                  setIsFilterOpen(false);
+                                }}
+                                className={`w-full text-left px-4 py-2 rounded-xl transition-all duration-300 text-sm font-medium ${
+                                  selectedSubcategory === subcat.name
+                                    ? "bg-green-600 text-white"
+                                    : "text-gray-600 hover:bg-gray-100"
+                                }`}
+                              >
+                                {subcat.name}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     {otherCategoriesDynamic.map((cat) => (
                       <button
                         key={cat.id}
@@ -167,7 +215,7 @@ const Products = () => {
                             : "text-gray-700 hover:bg-gray-100"
                         }`}
                       >
-                        {cat.name.includes("Kit") ? "🏆" : "🔧"} {cat.name}
+                        {cat.name.includes("Kit") ? "🏆" : "🔧"} {cleanName(cat.name)}
                       </button>
                     ))}
                   </div>
@@ -201,7 +249,7 @@ const Products = () => {
                             ) : (
                               <span>🚐</span>
                             )}
-                            <span>{catData.name}</span>
+                            <span>{cleanName(catData.name)}</span>
                           </div>
                           <ChevronDown 
                             className={`w-4 h-4 transition-transform flex-shrink-0 ${
@@ -266,12 +314,11 @@ const Products = () => {
                     {/* Image Area */}
                     <Link to={`/produto/${product.id}`} className="relative h-60 overflow-hidden bg-gray-50 flex items-center justify-center border-b border-gray-100">
                       <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
-                        <span className="bg-blue-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
-                          {product.badge || 'Destaque'}
-                        </span>
-                        <span className="bg-gradient-to-r from-yellow-400 to-yellow-300 text-blue-950 px-3 py-1 rounded-lg text-center text-[9px] font-black uppercase tracking-tighter shadow-lg flex items-center gap-1 border border-yellow-400/50">
-                          <Star className="w-3 h-3 fill-blue-950" /> FÉRIAS ESCOLAR
-                        </span>
+                        {product.badge && (
+                          <span className="bg-blue-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter shadow-lg">
+                            {product.badge}
+                          </span>
+                        )}
                       </div>
                       <img 
                         src={product.image || (product.category === 'pecas' ? "https://placehold.co/600x600/f8fafc/94a3b8?text=Sem+Foto" : "/ftproduto.jpeg")}
@@ -297,44 +344,23 @@ const Products = () => {
                       </div>
 
                       {/* Price */}
-                      {(() => {
-                        let displayPrice = product.price;
-                        let originalPrice = product.originalPrice;
-                        const nameLower = product.name.toLowerCase();
-                        if (nameLower.includes("sem sensor")) {
-                          originalPrice = 1680;
-                          displayPrice = 1430;
-                        } else if (nameLower.includes("com sensor")) {
-                          originalPrice = 1880;
-                          displayPrice = 1750;
-                        }
-                        
-                        return (
-                          <div className="mb-6">
-                            <div className="flex flex-col">
-                              <span className="text-[9px] text-yellow-500 font-black uppercase tracking-widest mb-0.5 animate-pulse">🎒 Oferta de Férias</span>
-                              {((originalPrice || 0) > displayPrice) && (
-                                <span className="text-gray-400 line-through text-xs font-medium mb-0.5">
-                                  De: {formatCurrency(originalPrice || 0)}
-                                </span>
-                              )}
-                              <div className="flex items-baseline gap-2">
-                                {((originalPrice || 0) > displayPrice) && (
-                                  <span className="text-sm font-bold text-gray-500">Por:</span>
-                                )}
-                                <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-500">
-                                  {formatCurrency(displayPrice)}
-                                </span>
-                              </div>
-                            </div>
-                            {((originalPrice || 0) > displayPrice) && (
-                              <span className="text-[10px] text-blue-600 font-bold mt-1 block">
-                                ECONOMIZE {formatCurrency((originalPrice || 0) - displayPrice)}
-                              </span>
+                      <div className="mb-6">
+                        <div className="flex flex-col">
+                          {(product.originalPrice || 0) > product.price && (
+                            <span className="text-gray-400 line-through text-xs font-medium mb-0.5">
+                              De: {formatCurrency(product.originalPrice || 0)}
+                            </span>
+                          )}
+                          <div className="flex items-baseline gap-2">
+                            {(product.originalPrice || 0) > product.price && (
+                              <span className="text-sm font-bold text-gray-500">Por:</span>
                             )}
+                            <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-500">
+                              {formatCurrency(product.price)}
+                            </span>
                           </div>
-                        );
-                      })()}
+                        </div>
+                      </div>
 
                       {/* Buttons */}
                       <div className="mt-auto space-y-2">

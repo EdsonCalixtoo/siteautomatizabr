@@ -845,57 +845,60 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Alerta de Conexão */}
+    <div className="flex h-screen bg-slate-900 overflow-hidden font-sans text-slate-200">
       <SupabaseConnectionAlert />
 
-      {/* Header Moderno */}
-      <div className="bg-gradient-to-r from-green-900 to-slate-900 text-white border-b border-green-500/20 backdrop-blur-xl sticky top-0 z-40 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20 overflow-hidden shadow-inner">
-                <img src="/mascote automatiza.png" alt="Mascote" className="w-full h-full object-cover scale-125 transform" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-black tracking-tighter">Dashboard Admin</h1>
-                <p className="text-green-100 text-xs font-bold uppercase tracking-widest opacity-80">Seleção Automatiza Vans</p>
-              </div>
-            </div>
-            <Link to="/" className="p-2 hover:bg-white/20 rounded-xl transition-all duration-300 backdrop-blur-sm border border-white/10">
-              <ArrowLeft className="w-6 h-6" />
-            </Link>
+      {/* Sidebar Navigation */}
+      <div className="w-72 bg-slate-950 border-r border-slate-800 flex flex-col flex-shrink-0 z-40 shadow-2xl">
+        <div className="p-6 flex items-center gap-4 border-b border-slate-800 bg-slate-900/50">
+          <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/10 overflow-hidden shadow-inner flex-shrink-0">
+            <img src="/mascote automatiza.png" alt="Mascote" className="w-full h-full object-cover scale-125 transform" />
+          </div>
+          <div className="overflow-hidden">
+            <h1 className="text-xl font-black text-white truncate">Dashboard</h1>
+            <p className="text-cyan-400 text-[10px] font-bold uppercase tracking-wider truncate">Admin Panel</p>
           </div>
         </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Navigation Tabs */}
-        <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
+        
+        <div className="flex-1 overflow-y-auto py-6 px-4 space-y-2 custom-scrollbar">
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 px-2">Menu Principal</p>
           {[
             { id: "overview", label: "Visão Geral", icon: BarChart3 },
             { id: "orders", label: "Pedidos", icon: ShoppingCart },
             { id: "products", label: "Produtos", icon: Package },
-            { id: "sellers", label: "Vendedores", icon: Users },
+            { id: "categories", label: "Categorias", icon: Filter }, 
             { id: "coupons", label: "Cupons", icon: Ticket },
-            { id: "categories", label: "Categorias", icon: Ticket }, // Usando Ticket como ícone provisório ou Package
+            { id: "sellers", label: "Vendedores", icon: Users },
             { id: "financeiro", label: "Financeiro", icon: DollarSign },
             { id: "diagnostico", label: "Diagnóstico", icon: Zap },
           ].map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id as any)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 whitespace-nowrap border backdrop-blur-sm ${
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
                 activeTab === id
-                  ? "bg-green-600 text-white shadow-lg border-green-500/50"
-                  : "bg-white/10 text-gray-200 hover:bg-white/20 border-white/10 hover:border-white/30"
+                  ? "bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-900/20"
+                  : "text-slate-400 hover:text-white hover:bg-white/5"
               }`}
             >
-              <Icon className="w-5 h-5" />
+              <Icon className={`w-5 h-5 ${activeTab === id ? "text-white" : "text-slate-500"}`} />
               {label}
             </button>
           ))}
         </div>
+
+        <div className="p-6 border-t border-slate-800 bg-slate-900/50">
+          <Link to="/" className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition-all duration-300 font-medium border border-slate-700">
+            <ArrowLeft className="w-4 h-4" />
+            Voltar para Loja
+          </Link>
+        </div>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 overflow-y-auto bg-slate-900 custom-scrollbar relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/5 via-slate-900 to-blue-900/10 pointer-events-none" />
+        <div className="p-8 max-w-7xl mx-auto relative z-10">
 
         {/* Overview Tab */}
         {activeTab === "overview" && (
@@ -983,7 +986,10 @@ const Dashboard = () => {
                   <ShoppingCart className="w-6 h-6" />
                   Últimos Pedidos
                 </h3>
-                <button className="text-yellow-400 hover:text-cyan-300 flex items-center gap-2 transition-colors">
+                <button 
+                  onClick={() => setActiveTab("orders")}
+                  className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2 transition-colors"
+                >
                   <Eye className="w-4 h-4" />
                   Ver Todos
                 </button>
@@ -1570,94 +1576,101 @@ const Dashboard = () => {
 
         {/* Categories Tab */}
         {activeTab === "categories" && (
-          <div className="space-y-6">
+          <div className="space-y-6 animate-in fade-in duration-500">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                <Ticket className="w-6 h-6" />
-                Gerenciar Categorias & Subcategorias
-              </h2>
+              <div>
+                <h2 className="text-3xl font-black text-white flex items-center gap-3">
+                  <Filter className="w-8 h-8 text-cyan-400" />
+                  Categorias e Subcategorias
+                </h2>
+                <p className="text-slate-400 mt-2">Gerencie a árvore de categorias da sua loja.</p>
+              </div>
+              <div className="flex gap-3">
+                <Button 
+                  onClick={() => {
+                    const name = prompt("Nome da Categoria (Ex: 🏆 Kit Completo)");
+                    const key = prompt("Chave/ID da Categoria (Ex: completo)");
+                    if (name && key) {
+                      addCategory({ name, key });
+                    }
+                  }}
+                  className="bg-cyan-600 hover:bg-cyan-700 text-white shadow-lg shadow-cyan-900/50"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Nova Categoria Pai
+                </Button>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Categorias */}
-              <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-lg">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-white font-bold">Categorias ({categories.length})</h3>
-                  <Button 
-                    onClick={() => {
-                      const name = prompt("Nome da Categoria (Ex: 🏆 Kit Completo)");
-                      const key = prompt("Chave/ID da Categoria (Ex: completo)");
-                      if (name && key) {
-                        addCategory({ name, key });
-                      }
-                    }}
-                    className="bg-green-600 hover:bg-green-700 text-white text-xs"
-                  >
-                    + Categoria
-                  </Button>
-                </div>
-                <div className="space-y-2 overflow-y-auto max-h-[400px]">
+            <div className="bg-slate-800/50 rounded-2xl border border-slate-700/50 overflow-hidden">
+              <div className="p-6">
+                <div className="space-y-4">
                   {categories.map((cat) => (
-                    <div key={cat.id} className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
-                      <div className="flex flex-col">
-                        <span className="text-white font-semibold">{cat.name}</span>
-                        <span className="text-gray-500 text-xs">key: {cat.key}</span>
+                    <div key={cat.id} className="bg-slate-900/50 border border-slate-700/50 rounded-xl overflow-hidden">
+                      <div className="p-4 flex flex-wrap items-center justify-between gap-4 bg-slate-800/20">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 bg-cyan-900/30 rounded-lg flex items-center justify-center border border-cyan-500/20 text-cyan-400 font-bold">
+                            {cat.name.charAt(0)}
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">{cat.name}</h3>
+                            <p className="text-slate-500 text-xs font-mono">key: {cat.key}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Button 
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              const name = prompt(`Nova Subcategoria para ${cat.name}:`);
+                              if (name) {
+                                addSubcategory({ name, categoryId: cat.id });
+                              }
+                            }}
+                            className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10"
+                          >
+                            + Subcategoria
+                          </Button>
+                          <button 
+                            onClick={() => deleteCategory(cat.id)}
+                            className="p-2 hover:bg-red-500/20 rounded-lg text-red-400 transition-colors"
+                            title="Deletar Categoria Pai"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex gap-2">
-                        <button 
-                          onClick={() => deleteCategory(cat.id)}
-                          className="p-1 hover:bg-red-500/20 rounded text-red-400"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                      
+                      {/* Subcategorias Relacionadas */}
+                      <div className="p-4 bg-slate-900/50 border-t border-slate-800">
+                        {subcategories.filter(s => s.categoryId === cat.id).length === 0 ? (
+                          <p className="text-slate-500 text-sm italic">Nenhuma subcategoria vinculada.</p>
+                        ) : (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                            {subcategories.filter(s => s.categoryId === cat.id).map(sub => (
+                              <div key={sub.id} className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700">
+                                <span className="text-slate-300 text-sm font-medium">{sub.name}</span>
+                                <button 
+                                  onClick={() => deleteSubcategory(sub.id)}
+                                  className="p-1 hover:bg-red-500/20 rounded text-red-400 transition-colors"
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-
-              {/* Subcategorias */}
-              <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-lg">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-white font-bold">Subcategorias ({subcategories.length})</h3>
-                  <Button 
-                    onClick={() => {
-                      const name = prompt("Nome da Subcategoria");
-                      const categoryId = prompt("ID da Categoria Pai (Copie de uma categoria acima)");
-                      if (name && categoryId) {
-                        addSubcategory({ name, categoryId });
-                      }
-                    }}
-                    className="bg-green-600 hover:bg-green-700 text-white text-xs"
-                  >
-                    + Subcategoria
-                  </Button>
-                </div>
-                <div className="space-y-2 overflow-y-auto max-h-[400px]">
-                  {subcategories.map((sub) => {
-                    const cat = categories.find(c => c.id === sub.categoryId);
-                    return (
-                      <div key={sub.id} className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
-                        <div className="flex flex-col">
-                          <span className="text-white font-semibold">{sub.name}</span>
-                          <span className="text-yellow-400 text-xs">{cat?.name || "Sem categoria"}</span>
-                        </div>
-                        <button 
-                          onClick={() => deleteSubcategory(sub.id)}
-                          className="p-1 hover:bg-red-500/20 rounded text-red-400"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
             </div>
 
-            <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
-              <p className="text-blue-300 text-xs">
-                💡 <strong>Dica:</strong> As chaves (key) são usadas internamente para organizar as categorias. Certifique-se de usar nomes sem espaços ou acentos para a Chave (ex: `kits-completos`).
+            <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4 flex gap-3 items-start">
+              <Info className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+              <p className="text-cyan-300 text-sm">
+                <strong>Dica:</strong> As categorias e subcategorias são usadas dinamicamente para gerar o menu de filtros da loja. Use nomes curtos e amigáveis (Ex: "Kit Completo").
               </p>
             </div>
           </div>
@@ -2032,6 +2045,7 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

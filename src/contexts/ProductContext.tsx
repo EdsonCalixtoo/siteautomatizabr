@@ -554,12 +554,16 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
 
   const updateCategory = async (id: string, category: Omit<Category, "id" | "createdAt">) => {
     try {
-      const { error } = await supabase.from("categories").update({
+      const { data, error } = await supabase.from("categories").update({
         name: category.name,
         key: category.key
-      }).eq("id", id);
+      }).eq("id", id).select();
 
       if (error) throw error;
+      if (!data || data.length === 0) {
+        alert("Erro: Categoria não atualizada. Verifique suas permissões.");
+        return;
+      }
       setCategories(categories.map(c => c.id === id ? { ...c, ...category } : c));
     } catch (error) {
       console.error("❌ Erro ao atualizar categoria:", error);
@@ -569,8 +573,12 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
 
   const deleteCategory = async (id: string) => {
     try {
-      const { error } = await supabase.from("categories").delete().eq("id", id);
+      const { data, error } = await supabase.from("categories").delete().eq("id", id).select();
       if (error) throw error;
+      if (!data || data.length === 0) {
+        alert("Erro: Categoria não deletada. Você não tem permissão para remover itens criados por outro usuário.");
+        return;
+      }
       setCategories(categories.filter(c => c.id !== id));
     } catch (error) {
       console.error("❌ Erro ao deletar categoria:", error);
@@ -598,12 +606,16 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
 
   const updateSubcategory = async (id: string, subcategory: Omit<Subcategory, "id" | "createdAt">) => {
     try {
-      const { error } = await supabase.from("subcategories").update({
+      const { data, error } = await supabase.from("subcategories").update({
         name: subcategory.name,
         category_id: subcategory.categoryId
-      }).eq("id", id);
+      }).eq("id", id).select();
 
       if (error) throw error;
+      if (!data || data.length === 0) {
+        alert("Erro: Subcategoria não atualizada. Verifique suas permissões.");
+        return;
+      }
       setSubcategories(subcategories.map(s => s.id === id ? { ...s, ...subcategory } : s));
     } catch (error) {
       console.error("❌ Erro ao atualizar subcategoria:", error);
@@ -613,8 +625,12 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
 
   const deleteSubcategory = async (id: string) => {
     try {
-      const { error } = await supabase.from("subcategories").delete().eq("id", id);
+      const { data, error } = await supabase.from("subcategories").delete().eq("id", id).select();
       if (error) throw error;
+      if (!data || data.length === 0) {
+        alert("Erro: Subcategoria não deletada. Você não tem permissão para remover itens criados por outro usuário.");
+        return;
+      }
       setSubcategories(subcategories.filter(s => s.id !== id));
     } catch (error) {
       console.error("❌ Erro ao deletar subcategoria:", error);

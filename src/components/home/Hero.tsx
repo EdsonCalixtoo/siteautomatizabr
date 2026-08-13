@@ -1,367 +1,311 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { ArrowRight, Shield, Truck, CalendarDays, CheckCircle2, Zap, Star, Sparkles } from "lucide-react";
+import { ArrowRight, Shield, Truck, CheckCircle2, Zap, ChevronDown, MessageCircle } from "lucide-react";
 import { BrandSelector } from "./BrandSelector";
 
-/* ─── Floating Particle ─── */
-function Particle({ x, y, size, color, delay }: { x: string; y: string; size: number; color: string; delay: number }) {
-  return (
-    <motion.div
-      className="absolute rounded-full pointer-events-none"
-      style={{ left: x, top: y, width: size, height: size, background: color, zIndex: 1 }}
-      animate={{ y: [0, -20, 0], opacity: [0.4, 1, 0.4] }}
-      transition={{ duration: 3 + delay, repeat: Infinity, ease: "easeInOut", delay }}
-    />
-  );
-}
+const stats = [
+  { value: "1.000+", label: "Vans Automatizadas" },
+  { value: "12 meses", label: "Garantia" },
+  { value: "98%", label: "Satisfação" },
+  { value: "Todo BR", label: "Entrega" },
+];
+
+const features = [
+  { icon: Shield, text: "Anti-esmagamento" },
+  { icon: Truck, text: "Frete Grátis" },
+  { icon: Zap, text: "Instalação Fácil" },
+  { icon: CheckCircle2, text: "Garantia 1 ano" },
+];
 
 export function Hero() {
-  const navigate = useNavigate();
-
   return (
-    <section
-      className="relative w-full overflow-hidden"
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(145deg, #0a1f6e 0%, #1240b8 40%, #1a5cd8 65%, #0d3aa8 100%)",
-      }}
-    >
-      {/* ── Background ── */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 65% 55% at 22% 42%, rgba(99,179,255,0.18) 0%, transparent 70%)" }} />
-        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "30px 30px" }} />
+    <section className="relative w-full overflow-hidden bg-[#03090f]" style={{ minHeight: "100vh" }}>
 
-        {/* Blobs */}
-        <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 9, repeat: Infinity }}
-          className="absolute rounded-full" style={{ top: "-15%", left: "-10%", width: "40vw", height: "40vw", background: "radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%)" }} />
-        <motion.div animate={{ scale: [1, 1.15, 1] }} transition={{ duration: 11, repeat: Infinity, delay: 2 }}
-          className="absolute rounded-full" style={{ bottom: "-20%", right: "-8%", width: "45vw", height: "45vw", background: "radial-gradient(circle, rgba(29,78,216,0.25) 0%, transparent 70%)" }} />
-
-        {/* Stars */}
-        {[
-          { top: "8%", left: "3%", size: 30 }, { bottom: "25%", left: "10%", size: 44 },
-          { top: "12%", right: "8%", size: 26 }, { bottom: "18%", right: "18%", size: 20 },
-        ].map((s, i) => (
-          <motion.div key={i} className="absolute" style={s as React.CSSProperties}
-            animate={{ rotate: 360, scale: [1, 1.25, 1] }}
-            transition={{ duration: 7 + i * 2, repeat: Infinity, ease: "linear" }}
-          >
-            <Star size={s.size} fill="currentColor" style={{ color: "#fde047", opacity: 0.65, filter: "drop-shadow(0 0 8px rgba(255,215,0,0.8))" }} />
-          </motion.div>
-        ))}
-
-        {/* Particles */}
-        {[
-          { x: "4%", y: "15%", size: 7, color: "#FFD700", delay: 0 },
-          { x: "7%", y: "70%", size: 9, color: "#FFD700", delay: 1.5 },
-          { x: "1.5%", y: "42%", size: 5, color: "#93c5fd", delay: 0.8 },
-          { x: "90%", y: "12%", size: 7, color: "#FFD700", delay: 1.2 },
-          { x: "94%", y: "72%", size: 8, color: "#fff", delay: 2 },
-          { x: "97%", y: "48%", size: 5, color: "#93c5fd", delay: 0.4 },
-        ].map((p, i) => <Particle key={i} {...p} />)}
-
-        {/* Confetti rods */}
-        {[
-          { top: "38%", left: "3%", color: "#f87171", rot: 20, w: 3, h: 16 },
-          { top: "62%", left: "7%", color: "#4ade80", rot: -15, w: 3, h: 13 },
-          { top: "30%", right: "14%", color: "#fb923c", rot: 30, w: 3, h: 15 },
-          { bottom: "24%", right: "7%", color: "#c084fc", rot: -25, w: 3, h: 18 },
-        ].map((c, i) => (
-          <motion.div key={i} className="absolute rounded-full"
-            style={{ ...(c as any), width: c.w, height: c.h, transform: `rotate(${c.rot}deg)`, opacity: 0.6 }}
-            animate={{ y: [0, -16, 0] }}
-            transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut" }}
-          />
-        ))}
+      {/* ── Atmospheric Background ── */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Dark blue gradient base */}
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse 80% 70% at 50% -10%, rgba(30,80,200,0.45) 0%, transparent 65%)"
+        }} />
+        {/* Subtle grid */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage: "linear-gradient(rgba(100,160,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(100,160,255,1) 1px, transparent 1px)",
+          backgroundSize: "60px 60px"
+        }} />
+        {/* Side glow accents */}
+        <div className="absolute top-1/3 -left-32 w-[500px] h-[500px] rounded-full opacity-20"
+          style={{ background: "radial-gradient(circle, #1e50c8 0%, transparent 70%)" }} />
+        <div className="absolute bottom-0 -right-32 w-[600px] h-[600px] rounded-full opacity-10"
+          style={{ background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)" }} />
+        {/* Top golden line */}
+        <div className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{ background: "linear-gradient(90deg, transparent, #f59e0b, #fbbf24, #f59e0b, transparent)" }} />
       </div>
 
-      {/* ── Content wrapper ── */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center" style={{ minHeight: "100vh", paddingTop: "7rem", paddingBottom: "2rem" }}>
+      {/* ── Main Content ── */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col"
+        style={{ minHeight: "100vh", paddingTop: "6rem" }}>
 
-        {/* 2-column grid: single on mobile, two-col at lg */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10 items-center w-full">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center py-12 lg:py-20">
 
-          {/* ─── LEFT: copy ─── */}
-          <div className="flex flex-col items-center lg:items-start gap-3 lg:gap-5 text-center lg:text-left min-w-0">
+          {/* ─── LEFT: Copy ─── */}
+          <div className="flex flex-col gap-6 lg:gap-8">
 
-            {/* Date pill */}
-            <motion.div initial={{ opacity: 0, y: -14 }} animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider text-white self-center lg:self-start"
-              style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.22)" }}
-            >
-              <CalendarDays className="w-4 h-4 text-yellow-300 shrink-0" />
-              Oferta válida até <strong className="text-yellow-300">15/07</strong>
-            </motion.div>
-
-            {/* 3D Title
-              Font sizes per breakpoint:
-              - Mobile  (<640px): text-6xl  = 60px  (single col, full width)
-              - sm     (≥640px): text-7xl  = 72px  (single col)
-              - md     (≥768px): text-8xl  = 96px  (single col)
-              - lg     (≥1024px): text-5xl = 48px  (2-col, ~480px column)
-              - xl     (≥1280px): text-6xl = 60px  (2-col, ~580px column)
-              - 2xl    (≥1536px): text-7xl = 72px  (2-col, ~700px column)
-            */}
-            <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1, type: "spring", stiffness: 70 }}
-              className="relative w-full min-w-0"
-            >
-              <div className="relative inline-block w-full">
-                <h1
-                  className="text-5xl sm:text-6xl md:text-7xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-black uppercase tracking-tight leading-[0.85] w-full break-words"
-                  style={{
-                    fontFamily: "'Arial Black', 'Impact', sans-serif",
-                    color: "#FFE135",
-                    textShadow: "0 2px 0 #cdb700, 0 4px 0 #9a8700, 0 6px 0 #685800, 0 8px 0 #362b00, 0 12px 20px rgba(0,0,0,0.45)",
-                  }}
-                >
-                  FÉRIAS
-                </h1>
-                <h1
-                  className="text-5xl sm:text-6xl md:text-7xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-black uppercase tracking-tight leading-[0.85] w-full break-words -mt-1"
-                  style={{
-                    fontFamily: "'Arial Black', 'Impact', sans-serif",
-                    color: "#FFFFFF",
-                    textShadow: "0 2px 0 #9fb3ee, 0 4px 0 #3e65cc, 0 6px 0 #002eaa, 0 8px 0 #001270, 0 12px 20px rgba(0,0,0,0.45)",
-                  }}
-                >
-                  ESCOLAR
-                </h1>
-                {/* Sparkle — only visible, not layout-affecting */}
-                <motion.div
-                  className="hidden sm:block absolute -top-2 right-0 lg:-right-2 pointer-events-none"
-                  animate={{ scale: [1, 1.3, 1], rotate: [0, 15, 0], opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <Sparkles className="w-8 h-8 xl:w-10 xl:h-10 text-yellow-300" style={{ filter: "drop-shadow(0 0 10px rgba(255,220,0,0.9))" }} />
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* Promo badge */}
-            <motion.div initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, type: "spring" }}
-              className="inline-flex flex-row flex-wrap justify-center items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 max-w-full -rotate-1 self-center lg:self-start"
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: -16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex self-start items-center gap-2.5 px-4 py-2 rounded-full border text-sm font-semibold"
               style={{
-                background: "linear-gradient(135deg, #1a3ccc 0%, #0f27a8 100%)",
-                borderRadius: "1rem",
-                border: "2px solid white",
-                boxShadow: "0 4px 0 rgba(0,0,60,0.4), 0 6px 20px rgba(0,0,80,0.3)",
+                background: "rgba(251,191,36,0.08)",
+                border: "1px solid rgba(251,191,36,0.3)",
+                color: "#fbbf24"
               }}
             >
-              <span className="text-xs sm:text-sm font-black uppercase tracking-wide text-yellow-300 whitespace-nowrap">TEM PROMOÇÃO NA</span>
-              <span className="text-xs sm:text-sm font-black uppercase tracking-wide text-white whitespace-nowrap flex items-center gap-1">AUTOMATIZA VANS 🚌</span>
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              Líder em Automação de Vans no Brasil
             </motion.div>
 
-            {/* Body */}
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-              className="text-xs sm:text-sm font-semibold text-blue-100 max-w-sm leading-relaxed uppercase tracking-wide"
+            {/* Headline */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
             >
-              Prepare sua van para a volta às aulas com mais conforto e segurança.{" "}
-              <span className="text-yellow-300 font-black">PREÇOS IMPERDÍVEIS!</span>
+              <h1 className="text-5xl sm:text-6xl xl:text-7xl font-black leading-[0.9] tracking-tight">
+                <span className="block text-white">Portas</span>
+                <span className="block text-white">Automáticas</span>
+                <span className="block mt-2" style={{
+                  background: "linear-gradient(135deg, #3b82f6, #60a5fa, #93c5fd)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent"
+                }}>Para Vans</span>
+              </h1>
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.25, duration: 0.6 }}
+              className="text-slate-400 text-lg leading-relaxed max-w-lg font-medium"
+            >
+              Transforme a porta manual da sua van em automática com o sistema mais confiável do mercado.
+              Kit completo com instalação simples e garantia de 12 meses.
             </motion.p>
 
-            {/* CTAs */}
-            <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.38 }}
-              className="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start self-center lg:self-start"
+            {/* Feature pills */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.5 }}
+              className="flex flex-wrap gap-2.5"
             >
+              {features.map(({ icon: Icon, text }, i) => (
+                <div key={i} className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-300 border"
+                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                  <Icon className="w-3.5 h-3.5 text-blue-400" />
+                  {text}
+                </div>
+              ))}
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45, duration: 0.5 }}
+              className="flex flex-wrap gap-3"
+            >
+              {/* Primary CTA */}
               <a href="https://wa.me/5519989429972" target="_blank" rel="noopener noreferrer">
-                <motion.button whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}
-                  className="relative overflow-hidden flex items-center gap-2 px-4 sm:px-5 py-3 sm:py-3.5 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl"
-                  style={{ background: "linear-gradient(135deg, #FFE135 0%, #FFB800 100%)", color: "#1a1a00", border: "2px solid #CC9200", boxShadow: "0 5px 0 #9A6E00, 0 6px 22px rgba(255,180,0,0.3)" }}
+                <motion.button
+                  whileHover={{ scale: 1.04, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="relative flex items-center gap-2.5 px-7 py-4 font-bold text-sm rounded-2xl overflow-hidden text-white"
+                  style={{
+                    background: "linear-gradient(135deg, #1d4ed8, #2563eb, #3b82f6)",
+                    boxShadow: "0 0 30px rgba(59,130,246,0.35), 0 4px 15px rgba(0,0,0,0.3)"
+                  }}
                 >
-                  <motion.div className="absolute inset-0 pointer-events-none"
-                    style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.5) 50%, transparent 65%)" }}
-                    animate={{ x: ["-120%", "220%"] }} transition={{ duration: 2, repeat: Infinity, repeatDelay: 3, ease: "linear" }}
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.15) 50%, transparent 65%)" }}
+                    animate={{ x: ["-120%", "220%"] }}
+                    transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3, ease: "linear" }}
                   />
-                  <span className="relative z-10">GARANTIR PROMOÇÃO</span>
-                  <ArrowRight className="relative z-10 w-4 h-4 shrink-0" />
+                  <MessageCircle className="w-4 h-4 relative z-10" />
+                  <span className="relative z-10">Fale no WhatsApp</span>
                 </motion.button>
               </a>
+
+              {/* Secondary CTA */}
               <Link to="/produtos">
-                <motion.button whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-2 px-4 sm:px-5 py-3 sm:py-3.5 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl text-white"
-                  style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(12px)", border: "2px solid rgba(255,255,255,0.28)", boxShadow: "0 4px 18px rgba(0,0,0,0.2)" }}
+                <motion.button
+                  whileHover={{ scale: 1.04, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 px-7 py-4 font-bold text-sm rounded-2xl text-white border"
+                  style={{
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    backdropFilter: "blur(12px)"
+                  }}
                 >
-                  VER PRODUTOS
+                  Ver Produtos
+                  <ArrowRight className="w-4 h-4" />
                 </motion.button>
               </Link>
             </motion.div>
+
+            {/* Stats Row */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+              className="flex flex-wrap gap-x-8 gap-y-4 pt-4 border-t"
+              style={{ borderColor: "rgba(255,255,255,0.08)" }}
+            >
+              {stats.map((s, i) => (
+                <div key={i} className="flex flex-col">
+                  <span className="text-2xl font-black text-white">{s.value}</span>
+                  <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">{s.label}</span>
+                </div>
+              ))}
+            </motion.div>
           </div>
 
-          {/* ─── RIGHT: cards ─── */}
-          <div className="flex flex-col gap-3 sm:gap-4 w-full min-w-0">
+          {/* ─── RIGHT: Product Cards ─── */}
+          <div className="flex flex-col gap-4">
 
-            {/* ── CARD 1 – SEM SENSOR ── */}
+            {/* Card: Com Sensor */}
             <motion.div
-              onClick={() => navigate("/produtos?search=sem+sensor")}
-              initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.25, type: "spring", stiffness: 75 }}
-              whileHover={{ y: -5, scale: 1.01 }}
-              className="relative cursor-pointer w-full min-w-0"
-              style={{ borderRadius: "1.25rem" }}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.25, duration: 0.6, type: "spring", stiffness: 70 }}
+              className="relative rounded-3xl overflow-hidden"
+              style={{
+                background: "linear-gradient(145deg, rgba(30,58,138,0.5), rgba(15,23,42,0.85))",
+                border: "1px solid rgba(59,130,246,0.2)",
+                boxShadow: "0 4px 40px rgba(29,78,216,0.15)"
+              }}
             >
-              {/* Neon ring */}
-              <div className="absolute -inset-[2px] rounded-[1.35rem] z-0" style={{ background: "linear-gradient(135deg, #FFB800, #FFE135, #FF8C00)", filter: "blur(4px)", opacity: 0.75 }} />
-              <div className="absolute -inset-[1.5px] rounded-[1.35rem] z-0" style={{ background: "linear-gradient(135deg, #FFB800, #FFE135, #FF8C00)" }} />
-
-              <div className="relative z-10 rounded-[1.15rem] overflow-hidden" style={{ background: "linear-gradient(155deg, #fffdf0 0%, #fff8e0 60%, #fffbf0 100%)" }}>
-                {/* Shimmer */}
-                <motion.div className="absolute inset-0 pointer-events-none z-40"
-                  style={{ background: "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%)" }}
-                  animate={{ x: ["-120%", "220%"] }} transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "linear" }}
-                />
-
-                {/* Badge */}
-                <motion.div animate={{ rotate: [-2, 2, -2] }} transition={{ duration: 2.5, repeat: Infinity }}
-                  className="absolute top-0 right-4 z-30 flex items-center gap-1 text-white font-black px-3 py-1.5 rounded-b-xl text-[10px] uppercase"
-                  style={{ background: "linear-gradient(180deg, #FF8C00 0%, #E05000 100%)", boxShadow: "0 3px 12px rgba(220,100,0,0.45)", border: "1.5px solid rgba(255,200,100,0.35)", borderTop: "none" }}
-                >
-                  🔥 MAIS VENDIDO
-                </motion.div>
-
-                <div className="flex items-center gap-3 p-4 sm:p-5 pt-8 min-w-0">
-                  {/* Text — takes all remaining space */}
-                  <div className="flex-1 min-w-0 overflow-hidden">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-0.5 truncate">Porta Automática</p>
-                    <h3 className="text-base sm:text-lg lg:text-base xl:text-lg font-black uppercase text-orange-600 leading-tight mb-1.5">SEM SENSOR</h3>
-                    <p className="text-xs font-bold line-through text-gray-400 mb-1">De: R$ 1.680,00</p>
-
-                    {/* Price row */}
-                    <div className="flex items-end gap-1.5 mb-2 min-w-0">
-                      <div className="flex flex-col gap-0.5 mb-0.5 shrink-0">
-                        <span className="text-[8px] font-black text-white bg-gray-900 px-1 py-0.5 rounded block text-center">POR</span>
-                        <span className="text-[8px] font-black text-white bg-gray-900 px-1 py-0.5 rounded block text-center">R$</span>
-                      </div>
-                      <motion.span
-                        animate={{ scale: [1, 1.022, 1] }} transition={{ duration: 2.5, repeat: Infinity }}
-                        className="text-4xl sm:text-5xl lg:text-4xl xl:text-5xl font-black leading-none tracking-tighter shrink-0"
-                        style={{ background: "linear-gradient(135deg, #FF8C00 0%, #FF4400 60%, #FF8C00 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 5px rgba(255,100,0,0.35))", fontFamily: "'Arial Black', sans-serif" }}
-                      >1.430</motion.span>
-                      <span className="text-base font-black text-orange-600 mb-0.5 shrink-0">,00</span>
-                    </div>
-
-                    <span className="inline-flex items-center text-white font-black uppercase rounded-full px-3 py-1 mb-2.5 text-[9px] sm:text-[10px]"
-                      style={{ background: "linear-gradient(135deg, #1a3ccc, #0d24a8)", boxShadow: "0 2px 8px rgba(20,40,200,0.3)" }}
-                    >💳 EM ATÉ 10X SEM JUROS</span>
-
-                    <div className="space-y-1">
-                      {[{ i: "✅", t: "Garantia de 1 ano" }, { i: "🚚", t: "Frete Grátis Brasil" }].map((b, i) => (
-                        <div key={i} className="flex items-center gap-1.5">
-                          <span className="text-xs shrink-0">{b.i}</span>
-                          <span className="text-[10px] font-bold text-gray-600 uppercase tracking-wide truncate">{b.t}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Product image — fixed width, won't push layout */}
-                  <div className="relative shrink-0 flex items-center justify-center" style={{ width: "110px", height: "130px" }}>
-                    <div className="absolute inset-0" style={{ background: "radial-gradient(circle, rgba(255,160,0,0.28) 0%, transparent 70%)", filter: "blur(6px)" }} />
-                    <div className="absolute w-full h-full" style={{ background: "linear-gradient(135deg, #FFD700, #FF8C00)", clipPath: "polygon(50% 0%,58% 32%,90% 15%,75% 45%,100% 50%,75% 55%,90% 85%,58% 68%,50% 100%,42% 68%,10% 85%,25% 55%,0% 50%,25% 45%,10% 15%,42% 32%)", opacity: 0.5 }} />
-                    <motion.img src="/ftproduto.jpeg" alt="Porta Sem Sensor"
-                      className="relative z-10 object-contain"
-                      style={{ width: "85px", maxHeight: "120px", transform: "rotate(7deg) translateY(-6%)", filter: "drop-shadow(0 8px 16px rgba(0,0,0,0.4))" }}
-                      whileHover={{ rotate: 2, scale: 1.07 }} transition={{ type: "spring" }}
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                    />
-                    <Zap className="absolute top-1 right-1 w-4 h-4 text-yellow-400 fill-yellow-400" style={{ filter: "drop-shadow(0 0 5px #FFD700)" }} />
-                    <Zap className="absolute bottom-3 left-1 w-3.5 h-3.5 text-orange-400 fill-orange-400 -rotate-12" style={{ filter: "drop-shadow(0 0 4px #FF8C00)" }} />
-                  </div>
+              <div className="h-[2px]" style={{ background: "linear-gradient(90deg, #1d4ed8, #60a5fa)" }} />
+              <div className="flex items-center gap-5 p-5">
+                <div className="flex-shrink-0 w-28 h-28 rounded-2xl overflow-hidden"
+                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <img
+                    src="/ftproduto.jpeg"
+                    alt="Kit com Sensor"
+                    className="w-full h-full object-cover"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
                 </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full"
+                      style={{ background: "rgba(59,130,246,0.2)", color: "#93c5fd", border: "1px solid rgba(59,130,246,0.3)" }}>
+                      🔥 Mais Vendido
+                    </span>
+                  </div>
+                  <h3 className="text-white font-black text-xl leading-tight">Kit com Sensor</h3>
+                  <p className="text-slate-400 text-xs font-medium mt-0.5 mb-3">Sensor anti-esmagamento incluso</p>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-slate-500 text-xs">R$</span>
+                    <span className="text-3xl font-black text-white tracking-tight">1.880</span>
+                    <span className="text-slate-400 text-sm">,00</span>
+                  </div>
+                  <p className="text-blue-400 text-[11px] font-semibold mt-0.5">10x sem juros no cartão</p>
+                </div>
+              </div>
+              <div className="px-5 pb-5">
+                <Link to="/produtos">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                    className="w-full py-3 rounded-xl font-bold text-sm text-white transition-all"
+                    style={{ background: "linear-gradient(135deg, #1d4ed8, #2563eb)", boxShadow: "0 4px 15px rgba(29,78,216,0.35)" }}
+                  >
+                    Ver Detalhes →
+                  </motion.button>
+                </Link>
               </div>
             </motion.div>
 
-            {/* ── CARD 2 – COM SENSOR ── */}
+            {/* Card: Sem Sensor */}
             <motion.div
-              onClick={() => navigate("/produtos?search=com+sensor")}
-              initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, type: "spring", stiffness: 75 }}
-              whileHover={{ y: -5, scale: 1.01 }}
-              className="relative cursor-pointer w-full min-w-0"
-              style={{ borderRadius: "1.25rem" }}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.6, type: "spring", stiffness: 70 }}
+              className="rounded-2xl overflow-hidden flex items-center gap-4 p-4"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.07)"
+              }}
             >
-              {/* Neon ring */}
-              <div className="absolute -inset-[2px] rounded-[1.35rem] z-0" style={{ background: "linear-gradient(135deg, #00DD44, #00FF88, #00AA33)", filter: "blur(4px)", opacity: 0.75 }} />
-              <div className="absolute -inset-[1.5px] rounded-[1.35rem] z-0" style={{ background: "linear-gradient(135deg, #00DD44, #00FF88, #00AA33)" }} />
-
-              <div className="relative z-10 rounded-[1.15rem] overflow-hidden" style={{ background: "linear-gradient(155deg, #f0fff4 0%, #e6ffe6 60%, #f0fff4 100%)" }}>
-                {/* Shimmer */}
-                <motion.div className="absolute inset-0 pointer-events-none z-40"
-                  style={{ background: "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%)" }}
-                  animate={{ x: ["-120%", "220%"] }} transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "linear", delay: 1.8 }}
+              <div className="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden"
+                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                <img
+                  src="/ftproduto.jpeg"
+                  alt="Kit sem Sensor"
+                  className="w-full h-full object-cover"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                 />
-
-                {/* Badge */}
-                <motion.div animate={{ rotate: [-2, 2, -2] }} transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
-                  className="absolute top-0 right-4 z-30 flex items-center gap-1 text-white font-black px-3 py-1.5 rounded-b-xl text-[10px] uppercase"
-                  style={{ background: "linear-gradient(180deg, #00AA00 0%, #007700 100%)", boxShadow: "0 3px 12px rgba(0,160,0,0.45)", border: "1.5px solid rgba(100,255,100,0.35)", borderTop: "none" }}
-                >
-                  ⭐ PREMIUM
-                </motion.div>
-
-                <div className="flex items-center gap-3 p-4 sm:p-5 pt-8 min-w-0">
-                  {/* Text */}
-                  <div className="flex-1 min-w-0 overflow-hidden">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-0.5 truncate">Porta Automática</p>
-                    <h3 className="text-base sm:text-lg lg:text-base xl:text-lg font-black uppercase text-green-700 leading-tight mb-1.5">COM SENSOR</h3>
-                    <p className="text-xs font-bold line-through text-gray-400 mb-1">De: R$ 1.880,00</p>
-
-                    {/* Price row */}
-                    <div className="flex items-end gap-1.5 mb-2 min-w-0">
-                      <div className="flex flex-col gap-0.5 mb-0.5 shrink-0">
-                        <span className="text-[8px] font-black text-white bg-gray-900 px-1 py-0.5 rounded block text-center">POR</span>
-                        <span className="text-[8px] font-black text-white bg-gray-900 px-1 py-0.5 rounded block text-center">R$</span>
-                      </div>
-                      <motion.span
-                        animate={{ scale: [1, 1.022, 1] }} transition={{ duration: 2.5, repeat: Infinity, delay: 0.4 }}
-                        className="text-4xl sm:text-5xl lg:text-4xl xl:text-5xl font-black leading-none tracking-tighter shrink-0"
-                        style={{ background: "linear-gradient(135deg, #00CC44 0%, #008800 60%, #00CC44 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 5px rgba(0,180,0,0.35))", fontFamily: "'Arial Black', sans-serif" }}
-                      >1.750</motion.span>
-                      <span className="text-base font-black text-green-700 mb-0.5 shrink-0">,00</span>
-                    </div>
-
-                    <span className="inline-flex items-center text-white font-black uppercase rounded-full px-3 py-1 mb-2.5 text-[9px] sm:text-[10px]"
-                      style={{ background: "linear-gradient(135deg, #1a3ccc, #0d24a8)", boxShadow: "0 2px 8px rgba(20,40,200,0.3)" }}
-                    >💳 EM ATÉ 10X SEM JUROS</span>
-
-                    <div className="space-y-1">
-                      {[{ i: "🛡️", t: "Anti-esmagamento" }, { i: "✅", t: "Garantia de 1 ano" }].map((b, i) => (
-                        <div key={i} className="flex items-center gap-1.5">
-                          <span className="text-xs shrink-0">{b.i}</span>
-                          <span className="text-[10px] font-bold text-gray-600 uppercase tracking-wide truncate">{b.t}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Product image */}
-                  <div className="relative shrink-0 flex items-center justify-center" style={{ width: "110px", height: "130px" }}>
-                    <div className="absolute inset-0" style={{ background: "radial-gradient(circle, rgba(0,200,80,0.28) 0%, transparent 70%)", filter: "blur(6px)" }} />
-                    <div className="absolute w-full h-full" style={{ background: "linear-gradient(135deg, #00DD55, #00AA33)", clipPath: "polygon(50% 0%,58% 32%,90% 15%,75% 45%,100% 50%,75% 55%,90% 85%,58% 68%,50% 100%,42% 68%,10% 85%,25% 55%,0% 50%,25% 45%,10% 15%,42% 32%)", opacity: 0.45 }} />
-                    <motion.div className="absolute inset-6 rounded-full border-4 border-green-400"
-                      animate={{ scale: [1, 1.5, 1], opacity: [0.7, 0, 0.7] }} transition={{ duration: 2, repeat: Infinity }} />
-                    <motion.img src="/ftproduto.jpeg" alt="Porta Com Sensor"
-                      className="relative z-10 object-contain"
-                      style={{ width: "85px", maxHeight: "120px", transform: "rotate(-6deg) translateY(-6%)", filter: "drop-shadow(0 8px 16px rgba(0,0,0,0.4))" }}
-                      whileHover={{ rotate: -1, scale: 1.07 }} transition={{ type: "spring" }}
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                    />
-                    <Zap className="absolute top-1 right-1 w-4 h-4 text-green-400 fill-green-400" style={{ filter: "drop-shadow(0 0 5px #00FF44)" }} />
-                    <Zap className="absolute bottom-3 left-1 w-3.5 h-3.5 text-emerald-300 fill-emerald-300 rotate-12" style={{ filter: "drop-shadow(0 0 4px #00DD44)" }} />
-                  </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-0.5">Kit Básico</p>
+                <h3 className="text-white font-black text-base">Sem Sensor</h3>
+                <div className="flex items-baseline gap-1 mt-1">
+                  <span className="text-slate-500 text-xs">R$</span>
+                  <span className="text-xl font-black text-white">1.680</span>
+                  <span className="text-slate-500 text-xs">,00</span>
                 </div>
               </div>
+              <Link to="/produtos" className="flex-shrink-0">
+                <div className="px-4 py-2 rounded-xl text-sm font-bold text-blue-400 border border-blue-500/25 hover:bg-blue-500/10 transition-colors whitespace-nowrap">
+                  Ver →
+                </div>
+              </Link>
             </motion.div>
 
+            {/* Trust strip */}
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }}
+              className="flex items-center justify-around py-3.5 px-4 rounded-2xl"
+              style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+            >
+              <div className="flex items-center gap-1.5 text-slate-400 text-xs font-semibold">
+                <Shield className="w-3.5 h-3.5 text-green-400" /> Pag. Seguro
+              </div>
+              <div className="w-px h-4 bg-white/10" />
+              <div className="flex items-center gap-1.5 text-slate-400 text-xs font-semibold">
+                <Truck className="w-3.5 h-3.5 text-blue-400" /> Envio Nacional
+              </div>
+              <div className="w-px h-4 bg-white/10" />
+              <div className="flex items-center gap-1.5 text-slate-400 text-xs font-semibold">
+                <CheckCircle2 className="w-3.5 h-3.5 text-yellow-400" /> 12 meses
+              </div>
+            </motion.div>
           </div>
         </div>
 
         {/* Brand Selector */}
-        <div className="mt-8 sm:mt-12 xl:mt-20 relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.6 }}
+          className="pb-10"
+        >
           <BrandSelector />
-        </div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-6 left-1/2 -translate-x-1/2"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown className="w-5 h-5 text-slate-600" />
+        </motion.div>
       </div>
     </section>
   );

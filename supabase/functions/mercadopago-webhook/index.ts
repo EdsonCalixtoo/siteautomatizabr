@@ -94,7 +94,7 @@ serve(async (req: Request) => {
                 }).catch(() => null);
 
                 // Atualizar Pedido
-                await supabase.from('pedidos').update({
+                await supabase.from('orders').update({
                     status: novoStatus,
                     mp_payment_id: String(mpPaymentId),
                     cartao_final: mpData.card?.last_four_digits || null,

@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { CATEGORY_LOGOS } from "@/data/brandLogos";
-import { ChevronRight, Trophy } from "lucide-react";
 import { motion } from "framer-motion";
 
 const brands = [
@@ -17,18 +16,13 @@ export function BrandSelector() {
 
   return (
     <div className="w-full relative py-12 px-4 md:px-8 bg-gradient-to-b from-white/10 to-transparent backdrop-blur-3xl rounded-[2.5rem] md:rounded-[4rem] border border-white/10 shadow-[0_20px_100px_rgba(0,0,0,0.5)] overflow-hidden">
-      {/* Field Line Decoration */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[150%] border-2 border-white rounded-full scale-125" />
-      </div>
-
       <div className="flex flex-col md:flex-row items-center justify-between mb-12 md:mb-16 gap-8 relative z-10">
         <div className="space-y-4 text-center md:text-left">
-          <div className="inline-flex items-center gap-3 bg-green-500 text-white px-4 py-1.5 rounded-full font-black text-[10px] uppercase tracking-[0.3em] shadow-xl">
-            Convocação Oficial
+          <div className="inline-flex items-center gap-3 bg-blue-600 text-white px-4 py-1.5 rounded-full font-black text-[10px] uppercase tracking-[0.3em] shadow-xl">
+            Compatibilidade
           </div>
           <h2 className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter">
-            SUA <span className="text-yellow-400">ESCALAÇÃO</span>
+            SUA <span className="text-yellow-400">VAN</span>
           </h2>
         </div>
       </div>
@@ -47,8 +41,8 @@ export function BrandSelector() {
             <div className="relative">
               <div className="absolute inset-0 bg-yellow-400/20 blur-2xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-700" />
               <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-white flex items-center justify-center shadow-2xl p-6 transition-all duration-500 group-hover:rotate-[360deg] group-hover:scale-110">
-                <img 
-                  src={CATEGORY_LOGOS[brand.id]} 
+                <img
+                  src={CATEGORY_LOGOS[brand.id]}
                   alt={brand.name}
                   className="w-full h-full object-contain"
                 />
