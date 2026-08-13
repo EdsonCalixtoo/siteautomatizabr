@@ -73,7 +73,7 @@ serve(async (req: Request) => {
         }
 
         if (checkError || !orderExists) {
-            const { data: lastOrders } = await supabaseMaster.from('orders').select('id').order('created_at', { ascending: false }).limit(3);
+            const { data: lastOrders } = await supabaseMaster.from('orders').select('id').order('data_criacao', { ascending: false }).limit(3);
             return json({ 
                 error: checkError?.message || 'Pedido não encontrado.', 
                 receivedId: targetId,

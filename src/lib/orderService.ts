@@ -133,7 +133,7 @@ export async function listOrders() {
     const { data, error } = await supabase
         .from("orders")
         .select("*")
-        .order("created_at", { ascending: false });
+        .order("data_criacao", { ascending: false });
 
     if (error) throw new Error(`Erro ao buscar pedidos: ${error.message}`);
     return data;
