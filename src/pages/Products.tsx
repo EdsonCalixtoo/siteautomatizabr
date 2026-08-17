@@ -366,14 +366,10 @@ const Products = () => {
                       <div className="mt-auto space-y-2">
                         <button
                           onClick={() => {
-                            let finalPrice = product.price;
-                            if (product.name.toLowerCase().includes("sem sensor")) finalPrice = 1430;
-                            else if (product.name.toLowerCase().includes("com sensor")) finalPrice = 1750;
-                            
                             addToCart({
                               id: product.id,
                               name: product.name,
-                              price: finalPrice,
+                              price: product.price,
                               image: product.image,
                               quantity: 1,
                               category: product.category || "",
